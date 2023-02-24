@@ -1,0 +1,26 @@
+config MTK_COMPUTERVISION
+	tristate "MediaTek Computer Vision driver"
+	help
+	  Computer vision related hardware drivers.
+	  This is an option to enable computer vision
+	  including feature extraction and feature
+	  matching for pose estimation.
+
+config MTK_FE
+	tristate "MediaTek FE driver"
+	depends on MTK_COMPUTERVISION
+	help
+	  Feature Extraction hardware driver.
+	  Divide picture into blocks, then calculate
+	  Corner Response, find feature point with
+	  MAX CR value in each block.
+
+config MTK_FM
+	tristate "MediaTek FM driver"
+	depends on MTK_COMPUTERVISION
+	help
+	  Feature Matching hardware driver.
+	  Using feature points extracted by fe,
+	  define search range and search center,
+	  calculate ZNCC value, and find a matching point
+	  with max ZNCC value.

@@ -1,0 +1,16 @@
+MediaTek LPDDR
+===============
+
+The driver assign LPDDR register range.
+LPDDR is SDRAM.
+
+Required properties:
+- compatible: Should be one of:
+	- "mediatek,mt3612-lpddr"
+
+Example:
+
+	lpddr {
+		compatible = "mediatek,mt3612-lpddr";
+	};
+

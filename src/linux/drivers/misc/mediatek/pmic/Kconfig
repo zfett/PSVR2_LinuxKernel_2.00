@@ -1,0 +1,64 @@
+#
+# MTK PMIC configuration
+#
+
+config MTK_PMIC_NEW_ARCH
+	tristate "MediaTek Power Management New Arch driver"
+	default n
+	---help---
+	  This selects for MediaTek(R) PMIC New Arch driver.
+	  Separate pmic feature form Power folder that also have battery and charging feature.
+	  Select y to support MTK PMIC NEW ARCH.
+	  If so, you should choose the corresponding main chip to follow.
+
+	  Select n to support MTK PMIC LEGACY ARCH.
+
+config MTK_PMIC_COMMON
+	tristate "MediaTek Power Management Common driver"
+	default n
+	---help---
+	  This selects for MediaTek(R) PMIC common driver.
+	  This feature is mainly to separate to common and platform part from driver layer.
+	  Select y to support MTK PMIC COMMON feature.
+	  Set n and choose other chip.
+
+config MTK_PMIC_CHIP_MT3615
+	tristate "MediaTek PMIC MT3615 Driver"
+	default n
+	---help---
+	  This selects for MediaTek(R) PMIC MT3615 driver.
+	  It's main chip type and providing power features like auxadc,
+	  buck/ldo, interrupt-controller..etc
+	  Set y to support this driver.
+	  Set n and choose other chip.
+
+
+config MTK_PMIC_PWM_INTF
+	bool "MediaTek PMIC PWM interface"
+	depends on MTK_PMIC_NEW_ARCH
+	default n
+	---help---
+	  MediaTek PMIC PWM interface Driver
+	  only for MTK_PMIC_NEW_ARCH
+	  Set y to enable it.
+	  Set n to disable it.
+
+config MTK_PMIC_CHIP_MT6355
+	tristate "MediaTek PMIC MT6355 Driver"
+	default n
+	---help---
+	  This selects for MediaTek(R) PMIC MT6355 driver.
+	  It's main chip type and providing power features like auxadc,
+	  buck/ldo, interrupt-controller..etc
+	  Set y to support this driver.
+	  Set n and choose other chip.
+
+config MTK_AUXADC_INTF
+	bool "MediaTek PMIC Auxadc interface"
+	depends on MTK_PMIC_NEW_ARCH
+	default n
+	---help---
+	  MediaTek PMIC Auxadc interface Driver
+	  only for MTK_PMIC_NEW_ARCH
+	  Set y to enable it.
+	  Set n to disable it.

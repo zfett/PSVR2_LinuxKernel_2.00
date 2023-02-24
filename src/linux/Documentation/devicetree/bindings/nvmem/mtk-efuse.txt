@@ -1,0 +1,32 @@
+MediaTek nvmem driver
+===============
+
+The driver implements for nvmem framework in soc.
+
+Required properties:
+- compatible: Should be one of:
+	- "mediatek,mt3612-efuse"
+
+Example:
+
+	efuse: efuse@11e40000 {
+		compatible 	= "mediatek,mt3612-efuse";
+		reg		= <0 0x11e40000 0 0x800>;
+		...
+		/* Data cells */
+		phy_csi: phy_csi@180 {
+			reg = <0x180 0x18>;
+		};
+	};
+
+
+= Data consumers =
+Are device nodes which consume nvmem data cells.
+
+For example:
+
+	tsens {
+		...
+		nvmem-cells = <&phy_csi>;
+		nvmem-cell-names = "phy-csi";
+	};

@@ -1,0 +1,18 @@
+MediaTek Clock-top-on
+===============
+
+The driver enable fundamental clocks for top cksys,infra,peri in soc.
+This clock's hardware default setting is all clock turn on.
+
+Required properties:
+- compatible: Should be one of:
+	- "mediatek,infra-peri-cksys-clkon"
+
+Example:
+
+	top_clock {
+		compatible = "mediatek,infra-peri-cksys-clkon";
+		clocks = <&apmixedsys CLK_APMIXED_ARMPLL>;
+		clock-names = "1";
+	};
+

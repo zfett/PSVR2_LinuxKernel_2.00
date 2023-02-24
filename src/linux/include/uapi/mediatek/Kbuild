@@ -1,0 +1,5 @@
+# UAPI Header export list
+header-y += mtk_resizer_ioctl.h
+header-y += ivp_ioctl.h
+header-y += cinematic_para.h
+header-y += mtk_vr_tracking_common.h

@@ -1,0 +1,165 @@
+/*
+ * Copyright (c) 2015 MediaTek Inc.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+/**
+ * @file mtk_mipi_tx_reg.h
+ * Register definition header of mtk_mipi_tx.c
+ */
+
+#ifndef __MTK_MIPI_TX_REG_H__
+#define __MTK_MIPI_TX_REG_H__
+
+/* ----------------- Register Definitions ------------------- */
+#define DSI_IMPENDANCE_0				0x00000000
+	#define RG_DSI0_D2P_RT_CODE			GENMASK(4, 0)
+	#define RG_DSI0_D2N_RT_CODE			GENMASK(12, 8)
+	#define RG_DSI0_D0P_RT_CODE			GENMASK(20, 16)
+	#define RG_DSI0_D0N_RT_CODE			GENMASK(28, 24)
+#define DSI_IMPENDANCE_1				0x00000004
+	#define RG_DSI0_CKP_RT_CODE			GENMASK(4, 0)
+	#define RG_DSI0_CKN_RT_CODE			GENMASK(12, 8)
+	#define RG_DSI0_D1P_RT_CODE			GENMASK(20, 16)
+	#define RG_DSI0_D1N_RT_CODE			GENMASK(28, 24)
+#define DSI_IMPENDANCE_2				0x00000008
+	#define RG_DSI0_D3P_RT_CODE			GENMASK(4, 0)
+	#define RG_DSI0_D3N_RT_CODE			GENMASK(12, 8)
+	#define RG_DSI0_D2_CKMODE_EN			BIT(16)
+	#define RG_DSI0_D0_CKMODE_EN			BIT(17)
+	#define RG_DSI0_CK_CKMODE_EN			BIT(18)
+	#define RG_DSI0_D1_CKMODE_EN			BIT(19)
+	#define RG_DSI0_D3_CKMODE_EN			BIT(20)
+	#define RG_DSI0_D2_PN_SWAP_EN			BIT(24)
+	#define RG_DSI0_D0_PN_SWAP_EN			BIT(25)
+	#define RG_DSI0_CK_PN_SWAP_EN			BIT(26)
+	#define RG_DSI0_D1_PN_SWAP_EN			BIT(27)
+	#define RG_DSI0_D3_PN_SWAP_EN			BIT(28)
+#define DSI_LANE_CON					0x0000000c
+	#define RG_DSI0_CPHY_T1DRV_EN			BIT(0)
+	#define RG_DSI0_CPHY_EN				BIT(3)
+	#define RG_DSI0_PHYCK_INV_EN			BIT(4)
+	#define RG_DSI0_BG_LPF_EN			BIT(6)
+	#define RG_DSI0_BG_CORE_EN			BIT(7)
+	#define RG_DSI0_PAD_TIEL_SEL			BIT(8)
+	#define RG_DSI0_PAD_D2P_T0A_TIEL_EN		BIT(20)
+	#define RG_DSI0_PAD_D2N_T0B_TIEL_EN		BIT(21)
+	#define RG_DSI0_PAD_D0P_T0C_TIEL_EN		BIT(22)
+	#define RG_DSI0_PAD_D0N_T1A_TIEL_EN		BIT(23)
+	#define RG_DSI0_PAD_CKP_T1B_TIEL_EN		BIT(24)
+	#define RG_DSI0_PAD_CKN_T1C_TIEL_EN		BIT(25)
+	#define RG_DSI0_PAD_D1P_T2A_TIEL_EN		BIT(26)
+	#define RG_DSI0_PAD_D1N_T2B_TIEL_EN		BIT(27)
+	#define RG_DSI0_PAD_D3P_T2C_TIEL_EN		BIT(28)
+	#define RG_DSI0_PAD_D3N_XXX_TIEL_EN		BIT(29)
+#define DSI_VOLTAGE_SEL					0x00000010
+	#define RG_DSI0_HSTX_LDO_REF_SEL		GENMASK(9, 6)
+#define DSI_PLL_PWR					0x00000028
+	#define DA_DSI0_PLL_SDM_PWR_ON			BIT(0)
+	#define DA_DSI0_PLL_SDM_ISO_EN			BIT(1)
+	#define AD_DSI0_PLL_SDM_PWR_ACK			BIT(8)
+#define DSI_PLL_CON0					0x0000002c
+	#define RG_DSI0_PLL_SDM_PCW			GENMASK(31, 0)
+#define DSI_PLL_CON1					0x00000030
+	#define RG_DSI0_PLL_SDM_PCW_CHG			BIT(0)
+	#define RG_DSI0_PLL_EN				BIT(4)
+	#define RG_DSI0_PLL_POSDIV			GENMASK(10, 8)
+	#define RG_DSI0_PLL_SDM_FRA_EN			BIT(13)
+	#define RG_DSI0_PLL_SDM_HREN			BIT(14)
+	#define RG_DSI0_PLL_LVROD_EN			BIT(15)
+#define DSI_PLL_CON2					0x00000034
+	#define RG_DSI0_PLL_SDM_SSC_EN			BIT(1)
+	#define RG_DSI0_PLL_SDM_SSC_PRD			GENMASK(31, 16)
+#define DSI_PLL_CON3					0x00000038
+	#define RG_DSI0_PLL_SDM_SSC_DELTA1		GENMASK(15, 0)
+	#define RG_DSI0_PLL_SDM_SSC_DELTA		GENMASK(31, 16)
+#define DSI_PLL_CON4					0x0000003c
+#define DSI_PHY_SEL0					0x00000040
+	#define MIPI_TX_CPHY_EN				BIT(0)
+	#define MIPI_TX_PHY2_SEL			GENMASK(7, 4)
+	#define MIPI_TX_CPHY0BC_SEL			GENMASK(11, 8)
+	#define MIPI_TX_PHY0_SEL			GENMASK(15, 12)
+	#define MIPI_TX_PHY1AB_SEL			GENMASK(19, 16)
+	#define MIPI_TX_PHYC_SEL			GENMASK(23, 20)
+	#define MIPI_TX_CPHY1CA_SEL			GENMASK(27, 24)
+	#define MIPI_TX_PHY1_SEL			GENMASK(31, 28)
+#define DSI_PHY_SEL1					0x00000044
+	#define MIPI_TX_PHY2BC_SEL			GENMASK(3, 0)
+	#define MIPI_TX_PHY3_SEL			GENMASK(7, 4)
+	#define MIPI_TX_CPHYXXX_SEL			GENMASK(11, 8)
+	#define MIPI_TX_LPRX0AB_SEL			GENMASK(15, 12)
+	#define MIPI_TX_LPRX0BC_SEL			GENMASK(19, 16)
+	#define MIPI_TX_LPRX0CA_SEL			GENMASK(23, 20)
+	#define MIPI_TX_CPHY0_HS_SEL			GENMASK(25, 24)
+	#define MIPI_TX_CPHY1_HS_SEL			GENMASK(27, 26)
+	#define MIPI_TX_CPHY2_HS_SEL			GENMASK(29, 28)
+#define DSI_PHY_SEL2					0x00000048
+	#define MIPI_TX_PHY2_HSDATA_SEL			GENMASK(3, 0)
+	#define MIPI_TX_CPHY0BC_HSDATA_SEL		GENMASK(7, 4)
+	#define MIPI_TX_PHY0_HSDATA_SEL			GENMASK(11, 8)
+	#define MIPI_TX_PHY1AB_HSDATA_SEL		GENMASK(15, 12)
+	#define MIPI_TX_PHYC_HSDATA_SEL			GENMASK(19, 16)
+	#define MIPI_TX_CPHY1CA_HSDATA_SEL		GENMASK(23, 20)
+	#define MIPI_TX_PHY1_HSDATA_SEL			GENMASK(27, 24)
+	#define MIPI_TX_PHY2BC_HSDATA_SEL		GENMASK(31, 28)
+#define DSI_PHY_SEL3					0x0000004c
+	#define MIPI_TX_PHY3_HSDATA_SEL			GENMASK(3, 0)
+	#define MIPI_TX_PN_SWAP				GENMASK(12, 8)
+#define DSI_CD_CON					0x00000068
+	#define MIPI_TX_CD_CON				GENMASK(9, 0)
+#define DSI_DBG_CON					0x00000070
+	#define MIPI_TX_DBG_SEL				GENMASK(3, 0)
+	#define MIPI_TX_DBG_OUT_EN			BIT(4)
+	#define MIPI_TX_GPIO_MODE_EN			BIT(5)
+	#define MIPI_TX_APB_ASYNC_CNT_EN		BIT(6)
+	#define MIPI_TX_TST_CK_OUT_EN			BIT(7)
+	#define MIPI_TX_TST_CK_OUT_SEL			BIT(8)
+	#define PHY_CHKSUM_EN				BIT(9)
+#define DSI_DBG_OUT					0x00000074
+	#define MIPI_TX_DBG_OUT				GENMASK(31, 0)
+#define DSI_APB_ASYNC_STA				0x00000078
+	#define MIPI_TX_APB_ASYNC_ERR			BIT(0)
+	#define MIPI_TX_APB_ASYNC_ERR_ADDR		GENMASK(10, 1)
+	#define PHY_CHECKSUM				GENMASK(31, 16)
+#define DSI_BIST_CON					0x00000080
+	#define DPHY_BIST_MODE				BIT(0)
+	#define DPHY_BIST_ENABLE			BIT(1)
+	#define DPHY_BIST_FIX_PATTERN			BIT(2)
+	#define DPHY_BIST_SPECIFIED_PATTERN		BIT(3)
+	#define DPHY_BIST_HS_FREE			BIT(4)
+	#define DPHY_BIST_DESKEW_MODE			BIT(7)
+	#define DPHY_BIST_LANE_NUM			GENMASK(11, 8)
+	#define DPHY_BIST_TIMIING			GENMASK(23, 16)
+	#define DPHY_BIST_CK_HS_PATTERN			GENMASK(31, 24)
+#define DSI_BIST_PAT					0x00000084
+	#define DPHY_BIST_PATTERN			GENMASK(31, 0)
+#define CPHY_BIST_CON0					0x00000090
+	#define CPHY_BIST_MODE				BIT(0)
+	#define CPHY_BIST_PROGSEQ_EN			BIT(1)
+	#define CPHY_BIST_ESCAPE_EN			BIT(2)
+	#define CPHY_BIST_START				BIT(3)
+	#define CPHY_BIST_PACKET_TEST_MODE		BIT(4)
+	#define CPHY_BIST_PACKET_TEST_MODE_OUT_EN	BIT(5)
+	#define CPHY_BIST_SETTLE_SKIP_EN		BIT(6)
+	#define CPHY_BIST_PREBEGIN_CNT			GENMASK(15, 8)
+	#define CPHY_BIST_POST_CNT			GENMASK(23, 16)
+#define CPHY_BIST_CON1					0x00000094
+	#define CPHY_BIST_PROGSEQ_SYMBOL_LSB		GENMASK(31, 0)
+#define CPHY_BIST_CON2					0x00000098
+	#define CPHY_BIST_PROGSEQ_SYMBOL_MSB		GENMASK(9, 0)
+	#define CPHY_BIST_PRB_SEED			GENMASK(29, 12)
+#define CPHY_BIST_CON3					0x0000009c
+	#define CPHY_BIST_PRB_SEL			GENMASK(2, 0)
+	#define CPHY_BIST_PRB_FIX			BIT(3)
+	#define CPHY_BIST_INIT_WIRE_STATE		GENMASK(6, 4)
+	#define CPHY_BIST_WIRE_STATE_FIX		BIT(7)
+
+#endif /*__MTK_MIPI_TX_REG_H__*/

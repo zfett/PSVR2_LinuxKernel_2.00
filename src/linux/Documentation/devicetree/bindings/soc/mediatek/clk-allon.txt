@@ -1,0 +1,19 @@
+MediaTek Clock-all-on
+===============
+
+The driver implements for bringup stage to turn on all clock in soc.
+It provides the clock node defined in
+include/dt-bindings/clock/mt3612-clk.h, mt3612-ep-clk.h.
+
+Required properties:
+- compatible: Should be one of:
+	- "mediatek,clk-bring-up"
+
+Example:
+
+	bring-up {
+		compatible = "mediatek,clk-bring-up";
+		clocks = <&topckgen TOPCKGEN_SENINF_CG>;
+		clock-names = "seninf_cg";
+	};
+

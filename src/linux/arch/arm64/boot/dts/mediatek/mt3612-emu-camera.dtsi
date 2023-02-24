@@ -1,0 +1,884 @@
+/*
+* Copyright (C) 2017 MediaTek Inc.
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License version 2 as
+* published by the Free Software Foundation.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+* See http://www.gnu.org/licenses/gpl-2.0.html for more details.
+*/
+
+#include <dt-bindings/camera.h>
+#include <dt-bindings/gce/mt3612-gce.h>
+
+/ {
+	/* Side Camera */
+	mtkisp0: mtk,isp0 {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		compatible = "mediatek,isp", "simple-bus";
+		ranges;
+		id = <MTK_ISP_ISP0>;
+
+		isp_camsys_side_ll {
+			compatible = "mediatek,isp-camsys";
+			num-items = <1>;
+			/* SIDE0_CAMSYS_BASE (0x18000000) */
+			reg = <0 0x18000000 0 0x1000>;
+			module_id = <MTK_ISP_ISP_CAMSYS_SIDE0>;
+		};
+
+		isp_imgsys_side_ll {
+			compatible = "mediatek,isp-imgsys";
+			num-items = <1>;
+			/* SIDE0_IMGSYS_BASE (0x15000000) */
+			reg = <0 0x15000000 0 0x1000>;
+			module_id = <MTK_ISP_ISP_IMGSYS_SIDE0>;
+		};
+
+		isp_uni {
+			compatible = "mediatek,isp-uni";
+			num-items = <1>;
+			/* SIDE0_CAM0_BASE (0x18004000) UNI */
+			reg = <0 0x18004000 0 0x1000>;
+			/* interrupts = <GIC_SPI 525 IRQ_TYPE_LEVEL_LOW>; */
+			module_id = <MTK_ISP_ISP_UNI>;
+		};
+
+		isp_cam {
+			compatible = "mediatek,isp-cam";
+			num-items = <2>;
+			/* SIDE0_CAM0_A_BASE (0x18005000) */
+			/* SIDE0_CAM0_B_BASE (0x18006000) */
+			reg = <0 0x18005000 0 0x1000>,
+				<0 0x18006000 0 0x1000>;
+			interrupts =
+				<GIC_SPI 526 IRQ_TYPE_LEVEL_LOW>,
+				<GIC_SPI 527 IRQ_TYPE_LEVEL_LOW>;
+			module_id = <MTK_ISP_ISP_CAM1>,
+					<MTK_ISP_ISP_CAM2>;
+		};
+
+		isp_dip {
+			compatible = "mediatek,isp-dip";
+			num-items = <1>;
+			/* SIDE0_DIP0_BASE (0x15002000) DIP_A */
+			reg = <0 0x15002000 0 0x3000>;
+			interrupts = <GIC_SPI 576 IRQ_TYPE_LEVEL_LOW>;
+			module_id = <MTK_ISP_ISP_DIPA>;
+		};
+
+		isp_camsv {
+			compatible = "mediatek,isp-camsv";
+			num-items = <1>;
+			/* SIDE0_CAMSV0_BASE (0x18030000) */
+			reg = <0 0x18030000 0 0x1000>;
+			/* SIDE0_CAMSV0 irq */
+			interrupts = <GIC_SPI 531 IRQ_TYPE_LEVEL_LOW>;
+			module_id = <MTK_ISP_ISP_CAMSV0>;
+		};
+
+		isp_rbfc_side_ll {
+			compatible = "mediatek,isp-rbfc";
+			num-items = <3>;
+			/* SIDE0_RBFC_RRZO_A_BASE (0x1802b000) */
+			/* SIDE0_RBFC_REN_A_BASE (0x15008000) */
+			/* SIDE0_RBFC_WEN_A_BASE (0x1500c000) */
+			reg = <0 0x1802b000 0 0x1000>,
+				<0 0x15008000 0 0x1000>,
+				<0 0x1500C000 0 0x1000>;
+			module_id = <MTK_ISP_ISP_RBFC_RRZO_A>,
+					<MTK_ISP_ISP_RBFC_REN_A>,
+					<MTK_ISP_ISP_RBFC_WEN_A>;
+		};
+
+		isp_seninf {
+			compatible = "mediatek,isp-seninf";
+			num-items = <3>;
+			reg =
+			/* SIDE0_SENINF1_BASE */
+			/* SIDE0_SENINF1_MUX_BASE */
+			/* SIDE0_CSI0_BASE */
+				<0 0x18040000 0 0x2000>,
+				<0 0x18040000 0 0x8000>,
+				<0 0x11D10000 0 0x2000>;
+			/*interrupts = <GIC_SPI 552 IRQ_TYPE_LEVEL_LOW>;*/
+			module_id =
+				<MTK_ISP_ISP_SENINF1>,
+				<MTK_ISP_ISP_SENINF_MUX1>,
+				<MTK_ISP_ISP_CSI0>; /*SIDE-LL*/
+			/* nvmem-cells = <&phy_csi>; */
+			/* nvmem-cell-names = "phy-csi"; */
+			/* num-lanes = <2>; */
+		};
+
+		isp_be {
+			compatible = "mediatek,isp-be";
+			num-items = <1>;
+			/* BE0_BASE (0x18072000) */
+			reg = <0 0x18072000 0 0x1000>;
+			interrupts = <GIC_SPI 537 IRQ_TYPE_LEVEL_LOW>;
+			module_id = <MTK_ISP_ISP_BE0>;
+
+		};
+	};
+	/* Side Camera */
+	mtkisp1: mtk,isp1 {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		compatible = "mediatek,isp", "simple-bus";
+		ranges;
+		id = <MTK_ISP_ISP1>;
+
+		isp_camsys_side_lr {
+			compatible = "mediatek,isp-camsys";
+			num-items = <1>;
+			/* SIDE1_CAMSYS_BASE (0x23000000) */
+			reg = <0 0x23000000 0 0x1000>;
+			module_id = <MTK_ISP_ISP_CAMSYS_SIDE1>;
+		};
+
+		isp_imgsys_side_lr {
+			compatible = "mediatek,isp-imgsys";
+			num-items = <1>;
+			/* SIDE1_IMGSYS_BASE (0x21000000) */
+			reg = <0 0x21000000 0 0x1000>;
+			module_id = <MTK_ISP_ISP_IMGSYS_SIDE1>;
+		};
+
+		isp_uni {
+			compatible = "mediatek,isp-uni";
+			num-items = <1>;
+			/* SIDE1_CAM0_BASE (0x23004000) UNI */
+			reg = <0 0x23004000 0 0x1000>;
+			/* interrupts = <GIC_SPI 548 IRQ_TYPE_LEVEL_LOW>; */
+			module_id = <MTK_ISP_ISP_UNI>;
+		};
+
+		isp_cam {
+			compatible = "mediatek,isp-cam";
+			num-items = <2>;
+			/* SIDE1_CAM0_A_BASE (0x23005000) */
+			/* SIDE1_CAM0_B_BASE (0x23006000) */
+			reg = <0 0x23005000 0 0x1000>,
+				<0 0x23006000 0 0x1000>;
+			interrupts =
+				<GIC_SPI 549 IRQ_TYPE_LEVEL_LOW>,
+				<GIC_SPI 550 IRQ_TYPE_LEVEL_LOW>;
+			module_id = <MTK_ISP_ISP_CAM1>,
+					<MTK_ISP_ISP_CAM2>;
+		};
+
+		isp_dip {
+			compatible = "mediatek,isp-dip";
+			num-items = <1>;
+			/* SIDE1_DIP0_BASE (0x21002000) DIP_A */
+			reg = <0 0x21002000 0 0x3000>;
+			interrupts = <GIC_SPI 590 IRQ_TYPE_LEVEL_LOW>;
+			module_id = <MTK_ISP_ISP_DIPA>;
+		};
+
+		isp_camsv {
+			compatible = "mediatek,isp-camsv";
+			num-items = <1>;
+			 /* SIDE1_CAMSV0_BASE (0x23030000) */
+			reg = <0 0x23030000 0 0x1000>;
+			/* SIDE1_CAMSV0 irq */
+			interrupts = <GIC_SPI 554 IRQ_TYPE_LEVEL_LOW>;
+			module_id = <MTK_ISP_ISP_CAMSV0>;
+		};
+
+		isp_rbfc_side_lr {
+			compatible = "mediatek,isp-rbfc";
+			num-items = <3>;
+			/* SIDE1_RBFC_RRZO_A_BASE (0x2302b000) */
+			/* SIDE1_RBFC_REN_A_BASE (0x21008000) */
+			/* SIDE1_RBFC_WEN_A_BASE (0x2100c000) */
+			reg = <0 0x2302b000 0 0x1000>,
+				  <0 0x21008000 0 0x1000>,
+				  <0 0x2100C000 0 0x1000>;
+			module_id = <MTK_ISP_ISP_RBFC_RRZO_A>,
+						<MTK_ISP_ISP_RBFC_REN_A>,
+						<MTK_ISP_ISP_RBFC_WEN_A>;
+		};
+
+		isp_seninf {
+			compatible = "mediatek,isp-seninf";
+			num-items = <3>;
+			reg =
+			/* SIDE1_SENINF1_BASE */
+			/* SIDE1_SENINF1_MUX_BASE */
+			/* SIDE1_CSI0_BASE */
+				<0 0x23040000 0 0x2000>,
+				<0 0x23040000 0 0x8000>,
+				<0 0x11C90000 0 0x2000>;
+			/*interrupts = <GIC_SPI 552 IRQ_TYPE_LEVEL_LOW>;*/
+			module_id =
+				<MTK_ISP_ISP_SENINF1>,
+				<MTK_ISP_ISP_SENINF_MUX1>,
+				<MTK_ISP_ISP_CSI2>; /*SIDE-LR*/
+			/* nvmem-cells = <&phy_csi>; */
+			/* nvmem-cell-names = "phy-csi"; */
+			/* num-lanes = <2>; */
+		};
+
+		isp_be {
+			compatible = "mediatek,isp-be";
+			num-items = <1>;
+			/* BE2_BASE (0x23072000) */
+			reg = <0 0x23072000 0 0x1000>;
+			interrupts = <GIC_SPI 560 IRQ_TYPE_LEVEL_LOW>;
+			module_id = <MTK_ISP_ISP_BE0>;
+
+		};
+	};
+	/* Side Camera */
+	mtkisp2: mtk,isp2 {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		compatible = "mediatek,isp", "simple-bus";
+		ranges;
+		id = <MTK_ISP_ISP2>;
+
+		isp_camsys_side_rl {
+			compatible = "mediatek,isp-camsys";
+			num-items = <1>;
+			/* SIDE0_CAMSYS_BASE (0x18000000) */
+			reg =<0 0x18000000 0 0x1000>;
+			module_id = <MTK_ISP_ISP_CAMSYS_SIDE0>;
+		};
+
+		isp_imgsys_side_rl {
+			compatible = "mediatek,isp-imgsys";
+			num-items = <1>;
+			/* SIDE0_IMGSYS_BASE (0x15000000) */
+			reg = <0 0x15000000 0 0x1000>;
+			module_id = <MTK_ISP_ISP_IMGSYS_SIDE0>;
+		};
+
+		isp_uni {
+			compatible = "mediatek,isp-uni";
+			num-items = <1>;
+			/* SIDE0_CAM1_BASE (0x18007000) UNI */
+			reg = <0 0x18007000 0 0x1000>;
+			/* interrupts = <GIC_SPI 528 IRQ_TYPE_LEVEL_LOW>; */
+			module_id = <MTK_ISP_ISP_UNI>;
+		};
+
+		isp_cam {
+			compatible = "mediatek,isp-cam";
+			num-items = <2>;
+			/* SIDE0_CAM1_A_BASE (0x18008000) */
+			/* SIDE0_CAM1_B_BASE (0x18009000) */
+			reg = <0 0x18008000 0 0x1000>,
+				<0 0x18009000 0 0x1000>;
+			interrupts =
+				<GIC_SPI 529 IRQ_TYPE_LEVEL_LOW>,
+				<GIC_SPI 530 IRQ_TYPE_LEVEL_LOW>;
+			module_id = <MTK_ISP_ISP_CAM1>,
+						<MTK_ISP_ISP_CAM2>;
+		};
+
+		isp_dip {
+			compatible = "mediatek,isp-dip";
+			num-items = <1>;
+			/* SIDE0_DIP1_BASE (0x15012000) DIP_B */
+			reg = <0 0x15012000 0 0x3000>;
+			interrupts = <GIC_SPI 577 IRQ_TYPE_LEVEL_LOW>;
+			module_id = <MTK_ISP_ISP_DIPA>;
+		};
+
+		isp_camsv {
+			compatible = "mediatek,isp-camsv";
+			num-items = <1>;
+			/* SIDE0_CAMSV1_BASE (0x18031000) */
+			reg = <0 0x18031000 0 0x1000>;
+			/* SIDE0_CAMSV1 irq */
+			interrupts = <GIC_SPI 532 IRQ_TYPE_LEVEL_LOW>;
+			module_id = <MTK_ISP_ISP_CAMSV0>;
+		};
+
+		isp_rbfc_side_rl {
+			compatible = "mediatek,isp-rbfc";
+			num-items = <3>;
+			/* SIDE0_RBFC_RRZO_B_BASE (0x1802c000) */
+			/* SIDE0_RBFC_REN_B_BASE (0x15009000) */
+			/* SIDE0_RBFC_WEN_B_BASE (0x1500d000) */
+			reg = <0 0x1802C000 0 0x1000>,
+				<0 0x15009000 0 0x1000>,
+				<0 0x1500D000 0 0x1000>;
+			module_id = <MTK_ISP_ISP_RBFC_RRZO_B>,
+					<MTK_ISP_ISP_RBFC_REN_B>,
+					<MTK_ISP_ISP_RBFC_WEN_B>;
+		};
+
+		isp_seninf {
+			compatible = "mediatek,isp-seninf";
+			num-items = <3>;
+			reg =
+			/* SIDE0_SENINF3_BASE */
+			/* SIDE0_SENINF3_MUX_BASE */
+			/* SIDE0_CSI1_BASE */
+				<0 0x18042000 0 0x2000>,
+				<0 0x18042000 0 0x8000>,
+				<0 0x11D12000 0 0x2000>;
+			/* interrupts = <GIC_SPI 552 IRQ_TYPE_LEVEL_LOW>; */
+			module_id =
+				<MTK_ISP_ISP_SENINF3>,
+				<MTK_ISP_ISP_SENINF_MUX1>,
+				<MTK_ISP_ISP_CSI1>; /*SIDE-RL*/
+			/* nvmem-cells = <&phy_csi>; */
+			/* nvmem-cell-names = "phy-csi"; */
+			/* num-lanes = <2>; */
+		};
+
+		isp_be {
+			compatible = "mediatek,isp-be";
+			num-items = <1>;
+			/* BE1_BASE (0x18073000) */
+			reg = <0 0x18073000 0 0x1000>;
+			interrupts = <GIC_SPI 538 IRQ_TYPE_LEVEL_LOW>;
+			module_id = <MTK_ISP_ISP_BE0>;
+
+		};
+	};
+	/* Side Camera */
+	mtkisp3: mtk,isp3 {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		compatible = "mediatek,isp", "simple-bus";
+		ranges;
+		id = <MTK_ISP_ISP3>;
+
+		isp_camsys_side_rr {
+			compatible = "mediatek,isp-camsys";
+			num-items = <1>;
+			/* SIDE1_CAMSYS_BASE (0x23000000) */
+			reg = <0 0x23000000 0 0x1000>;
+			module_id = <MTK_ISP_ISP_CAMSYS_SIDE1>;
+		};
+
+		isp_imgsys_side_rr {
+			compatible = "mediatek,isp-imgsys";
+			num-items = <1>;
+			/* SIDE1_IMGSYS_BASE (0x21000000) */
+			reg = <0 0x21000000 0 0x1000>;
+			module_id = <MTK_ISP_ISP_IMGSYS_SIDE1>;
+		};
+
+		isp_uni {
+			compatible = "mediatek,isp-uni";
+			num-items = <1>;
+			/* SIDE1_CAM1_BASE (0x23007000) UNI */
+			reg = <0 0x23007000 0 0x1000>;
+			/* interrupts = <GIC_SPI 551 IRQ_TYPE_LEVEL_LOW>; */
+			module_id = <MTK_ISP_ISP_UNI>;
+		};
+
+		isp_cam {
+			compatible = "mediatek,isp-cam";
+			num-items = <2>;
+			/* SIDE1_CAM1_A_BASE (0x23008000) */
+			/* SIDE1_CAM1_B_BASE (0x23009000) */
+			reg = <0 0x23008000 0 0x1000>,
+				<0 0x23009000 0 0x1000>;
+			interrupts =
+				<GIC_SPI 552 IRQ_TYPE_LEVEL_LOW>,
+				<GIC_SPI 553 IRQ_TYPE_LEVEL_LOW>;
+			module_id = <MTK_ISP_ISP_CAM1>,
+						<MTK_ISP_ISP_CAM2>;
+		};
+
+		isp_dip {
+			compatible = "mediatek,isp-dip";
+			num-items = <1>;
+			/* SIDE1_DIP1_BASE (0x21012000) DIP_B */
+			reg = <0 0x21012000 0 0x3000>;
+			interrupts = <GIC_SPI 591 IRQ_TYPE_LEVEL_LOW>;
+			module_id = <MTK_ISP_ISP_DIPA>;
+		};
+
+		isp_camsv {
+			compatible = "mediatek,isp-camsv";
+			num-items = <1>;
+			/* SIDE1_CAMSV1_BASE (0x23031000) */
+			reg = <0 0x23031000 0 0x1000>;
+			/* SIDE1_CAMSV1 irq */
+			interrupts = <GIC_SPI 555 IRQ_TYPE_LEVEL_LOW>;
+			module_id = <MTK_ISP_ISP_CAMSV0>;
+		};
+
+		isp_rbfc_side_rr {
+			compatible = "mediatek,isp-rbfc";
+			num-items = <3>;
+			/* SIDE1_RBFC_RRZO_B_BASE (0x2302c000) */
+			/* SIDE1_RBFC_REN_B_BASE (0x21009000) */
+			/* SIDE1_RBFC_WEN_B_BASE (0x2100d000) */
+			reg = <0 0x2302C000 0 0x1000>,
+				<0 0x21009000 0 0x1000>,
+				<0 0x2100D000 0 0x1000>;
+			module_id = <MTK_ISP_ISP_RBFC_RRZO_B>,
+						<MTK_ISP_ISP_RBFC_REN_B>,
+						<MTK_ISP_ISP_RBFC_WEN_B>;
+		};
+
+		isp_seninf {
+			compatible = "mediatek,isp-seninf";
+			num-items = <3>;
+			reg =
+			/* SIDE1_SENINF3_BASE */
+			/* SIDE1_SENINF3_MUX_BASE */
+			/* SIDE1_CSI1_BASE */
+			    <0 0x23042000 0 0x2000>,
+			    <0 0x23042000 0 0x8000>,
+			    <0 0x11C92000 0 0x2000>;
+			/*interrupts = <GIC_SPI 552 IRQ_TYPE_LEVEL_LOW>;*/
+			module_id =
+			    <MTK_ISP_ISP_SENINF3>,
+			    <MTK_ISP_ISP_SENINF_MUX1>,
+			    <MTK_ISP_ISP_CSI3>; /*SIDE-RR*/
+			/* nvmem-cells = <&phy_csi>; */
+			/* nvmem-cell-names = "phy-csi"; */
+			/* num-lanes = <2>; */
+		};
+
+		isp_be {
+			compatible = "mediatek,isp-be";
+			num-items = <1>;
+			/* BE2_BASE (0x23073000) */
+			reg = <0 0x23073000 0 0x1000>;
+			interrupts = <GIC_SPI 561 IRQ_TYPE_LEVEL_LOW>;
+			module_id = <MTK_ISP_ISP_BE0>;
+
+		};
+	};
+	/* Gaze Camera */
+	mtkisp4: mtk,isp4 {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		compatible = "mediatek,isp", "simple-bus";
+		ranges;
+		id = <MTK_ISP_ISP4>;
+
+		isp_camsys_gaze_l {
+			compatible = "mediatek,isp-camsys";
+			num-items = <1>;
+			/* GAZE0_CAMSYS_BASE (0x22000000) */
+			reg = <0 0x22000000 0 0x1000>;
+			module_id = <MTK_ISP_ISP_CAMSYS_GAZE0>;
+		};
+
+		isp_imgsys_gaze_l {
+			compatible = "mediatek,isp-imgsys";
+			num-items = <1>;
+			/* GAZE1_IMGSYS_BASE (0x22080000) */
+			reg = <0 0x22080000 0 0x1000>;
+			module_id = <MTK_ISP_ISP_IMGSYS_GAZE0>;
+		};
+
+		isp_uni {
+			compatible = "mediatek,isp-uni";
+			num-items = <1>;
+			/* GAZE0_CAM_BASE (0x22004000) UNI */
+			reg = <0 0x22004000 0 0x1000>;
+			/* interrupts = <GIC_SPI 605 IRQ_TYPE_LEVEL_LOW>; */
+			module_id = <MTK_ISP_ISP_UNI>;
+		};
+
+		isp_cam {
+			compatible = "mediatek,isp-cam";
+			num-items = <1>;
+			/* GAZE0_CAM_BASE (0x22005000) */
+			reg = <0 0x22005000 0 0x1000>;
+			interrupts = <GIC_SPI 606 IRQ_TYPE_LEVEL_LOW>;
+			module_id = <MTK_ISP_ISP_CAM1>;
+		};
+
+		isp_dip {
+			compatible = "mediatek,isp-dip";
+			num-items = <1>;
+			/* GAZE0_DIP_BASE (0x22082000) DIP_A */
+			reg = <0 0x22082000 0 0x3000>;
+			interrupts = <GIC_SPI 612 IRQ_TYPE_LEVEL_LOW>;
+			module_id = <MTK_ISP_ISP_DIPA>;
+		};
+
+		isp_camsv {
+			compatible = "mediatek,isp-camsv";
+			num-items = <1>;
+			/* GAZE0_CAMSV_BASE (0x22030000) */
+			reg = <0 0x22030000 0 0x1000>;
+			/* GAZE0_CAMSV0 irq */
+			interrupts = <GIC_SPI 608 IRQ_TYPE_LEVEL_LOW>;
+			module_id = <MTK_ISP_ISP_CAMSV0>;
+		};
+
+		isp_rbfc_gaze_l {
+			compatible = "mediatek,isp-rbfc";
+			num-items = <3>;
+			/* GAZE0_RBFC_RRZO_A_BASE (0x2202B000) */
+			/* GAZE0_RBFC_REN_A_BASE (0x22088000) */
+			/* GAZE0_RBFC_WEN_A_BASE (0x2208C000) */
+			reg = <0 0x2202b000 0 0x1000>,
+				<0 0x22088000 0 0x1000>,
+				<0 0x2208c000 0 0x1000>;
+			module_id = <MTK_ISP_ISP_RBFC_RRZO_A>,
+						<MTK_ISP_ISP_RBFC_REN_A>,
+						<MTK_ISP_ISP_RBFC_WEN_A>;
+		};
+
+		isp_seninf {
+			compatible = "mediatek,isp-seninf";
+			num-items = <3>;
+			reg =
+			/* GAZE0_SENINF1_BASE */
+			/* GAZE0_SENINF1_MUX_BASE */
+			/* GAZE0_CSI0_BASE */
+			    <0 0x22040000 0 0x1000>,
+			    <0 0x22040000 0 0x8000>,
+			    <0 0x11D00000 0 0x2000>;
+			/* interrupts = <GIC_SPI 552 IRQ_TYPE_LEVEL_LOW>; */
+			module_id =
+			    <MTK_ISP_ISP_SENINF1>,
+			    <MTK_ISP_ISP_SENINF_MUX1>,
+			    <MTK_ISP_ISP_CSI4>; /*GAZE-L*/
+			/* nvmem-cells = <&phy_csi>; */
+			/* nvmem-cell-names = "phy-csi"; */
+			/* num-lanes = <1>; */
+		};
+	};
+	/* Gaze Camera */
+	mtkisp5: mtk,isp5 {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		compatible = "mediatek,isp", "simple-bus";
+		ranges;
+		id = <MTK_ISP_ISP5>;
+
+		isp_camsys_gaze_r {
+			compatible = "mediatek,isp-camsys";
+			num-items = <1>;
+			/* GAZE1_CAMSYS_BASE (0x17000000) */
+			reg = <0 0x17000000 0 0x1000>;
+			module_id = <MTK_ISP_ISP_CAMSYS_GAZE1>;
+		};
+
+		isp_imgsys_gaze_r {
+			compatible = "mediatek,isp-imgsys";
+			num-items = <1>;
+			/* GAZE1_IMGSYS_BASE (0x17080000) */
+			reg = <0 0x17080000 0 0x1000>;
+			module_id = <MTK_ISP_ISP_IMGSYS_GAZE1>;
+		};
+
+		isp_uni {
+			compatible = "mediatek,isp-uni";
+			num-items = <1>;
+			/* GAZE1_CAM_BASE (0x17004000) UNI */
+			reg = <0 0x17004000 0 0x1000>;
+			/* interrupts = <GIC_SPI 629 IRQ_TYPE_LEVEL_LOW>; */
+			module_id = <MTK_ISP_ISP_UNI>;
+		};
+
+		isp_cam {
+			compatible = "mediatek,isp-cam";
+			num-items = <1>;
+			/* GAZE1_CAM_BASE (0x17005000) */
+			reg = <0 0x17005000 0 0x1000>;
+			interrupts = <GIC_SPI 630 IRQ_TYPE_LEVEL_LOW>;
+			module_id = <MTK_ISP_ISP_CAM1>;
+		};
+
+		isp_dip {
+			compatible = "mediatek,isp-dip";
+			num-items = <1>;
+			/* GAZE1_DIP_BASE (0x17082000) DIP_A */
+			reg = <0 0x17082000 0 0x3000>;
+			interrupts = <GIC_SPI 636 IRQ_TYPE_LEVEL_LOW>;
+			module_id = <MTK_ISP_ISP_DIPA>;
+		};
+
+		isp_camsv {
+			compatible = "mediatek,isp-camsv";
+			num-items = <1>;
+			/* GAZE1_CAMSV_BASE (0x17030000) */
+			reg = <0 0x17030000 0 0x1000>;
+			/* GAZE1_CAMSV0 irq */
+			interrupts = <GIC_SPI 632 IRQ_TYPE_LEVEL_LOW>;
+			module_id = <MTK_ISP_ISP_CAMSV0>;
+		};
+
+		isp_rbfc_gaze_r {
+			compatible = "mediatek,isp-rbfc";
+			num-items = <3>;
+			/* GAZE1_RBFC_RRZO_A_BASE (0x1702B000) */
+			/* GAZE1_RBFC_REN_A_BASE (0x17088000) */
+			/* GAZE1_RBFC_WEN_A_BASE (0x1708C000) */
+			reg = <0 0x1702b000 0 0x1000>,
+				<0 0x17088000 0 0x1000>,
+				<0 0x1708c000 0 0x1000>;
+			module_id = <MTK_ISP_ISP_RBFC_RRZO_A>,
+						<MTK_ISP_ISP_RBFC_REN_A>,
+						<MTK_ISP_ISP_RBFC_WEN_A>;
+		};
+
+		isp_seninf {
+			compatible = "mediatek,isp-seninf";
+			num-items = <3>;
+			reg =
+			/* GAZE1_SENINF1_BASE */
+			/* GAZE1_SENINF1_MUX_BASE */
+			/* GAZE1_CSI0_BASE */
+			    <0 0x17040000 0 0x1000>,
+			    <0 0x17040000 0 0x8000>,
+			    <0 0x11C80000 0 0x2000>;
+			/*interrupts = <GIC_SPI 552 IRQ_TYPE_LEVEL_LOW>;*/
+			module_id =
+			    <MTK_ISP_ISP_SENINF1>,
+			    <MTK_ISP_ISP_SENINF_MUX1>,
+			    <MTK_ISP_ISP_CSI5>; /*GAZE-L*/
+			/* nvmem-cells = <&phy_csi>; */
+			/* nvmem-cell-names = "phy-csi"; */
+			/* num-lanes = <1>; */
+		};
+	};
+
+	/* Camera Memory */
+	cammem_side0: cammem_side0 {
+		compatible = "mediatek,mt3612-cammem-side0";
+		reg = <0 0x15001000 0 0x1000>,		/* DIP: SMI Larb7 */
+			<0 0x18001000 0 0x1000>;	/* CAM: SMI Larb5 */
+		/*interrupts = <GIC_SPI 379 IRQ_TYPE_LEVEL_LOW>;*/ /* CAM0 */
+		mediatek,larb = <&larb7>, <&larb5>;
+		iommus = <&iommu M4U_PORT_RRZO_0_LARB5>,	/* Larb5 */
+			<&iommu M4U_PORT_RRZO_1_LARB5>,
+			<&iommu M4U_PORT_RRZO_0_B_LARB5>,
+			<&iommu M4U_PORT_RRZO_1_B_LARB5>,
+			<&iommu M4U_PORT_LSCI_0_LARB5>,
+			<&iommu M4U_PORT_LSCI_0_B_LARB5>,
+			<&iommu M4U_PORT_BPCI_LARB5>,
+			<&iommu M4U_PORT_BPCI_B_LARB5>,
+			<&iommu M4U_PORT_AAO_LARB5>,
+			<&iommu M4U_PORT_AAO_B_LARB5>,
+			<&iommu M4U_PORT_LSCI_1_LARB5>,
+			<&iommu M4U_PORT_LSCI_1_B_LARB5>,
+			<&iommu M4U_PORT_RSSO_LARB5>,
+			<&iommu M4U_PORT_RSSO_B_LARB5>,
+			<&iommu M4U_PORT_BEO_LARB5>,
+			<&iommu M4U_PORT_BEO_B_LARB5>,
+			<&iommu M4U_PORT_IMGO_LARB5>,
+			<&iommu M4U_PORT_IMGO_B_LARB5>,
+			<&iommu M4U_PORT_SOCO_LARB5>,
+			<&iommu M4U_PORT_CCUI_LARB5>,
+			<&iommu M4U_PORT_CCUO_LARB5>,
+			<&iommu M4U_PORT_RAWI_LARB5>,
+			<&iommu M4U_PORT_RAWI_B_LARB5>,
+			<&iommu M4U_PORT_CCUG_LARB5>,
+			<&iommu M4U_PORT_IMGI_A_LARB7>,	/* Larb7 */
+			<&iommu M4U_PORT_IMGI_B_LARB7>,
+			<&iommu M4U_PORT_IMG3O_A_LARB7>,
+			<&iommu M4U_PORT_IMG3O_B_LARB7>,
+			<&iommu M4U_PORT_LCEI_A_LARB7>,
+			<&iommu M4U_PORT_LCEI_B_LARB7>,
+			<&iommu M4U_PORT_FAKE1_LARB7>,
+			<&iommu M4U_PORT_FAKE2_LARB7>;
+	};
+
+	cammem_side1: cammem_side1 {
+		compatible = "mediatek,mt3612-cammem-side1";
+		reg = <0 0x21001000 0 0x1000>,		/* DIP: SMI Larb8 */
+			<0 0x23001000 0 0x1000>;	/* CAM: SMI Larb6 */
+		/*interrupts = <GIC_SPI 379 IRQ_TYPE_LEVEL_LOW>;*/ /* CAM0 */
+		mediatek,larb = <&larb6>, <&larb8>;
+		iommus = <&iommu M4U_PORT_RRZO_0_LARB6>,	/* Larb6 */
+			<&iommu M4U_PORT_RRZO_1_LARB6>,
+			<&iommu M4U_PORT_RRZO_0_B_LARB6>,
+			<&iommu M4U_PORT_RRZO_1_B_LARB6>,
+			<&iommu M4U_PORT_LSCI_0_LARB6>,
+			<&iommu M4U_PORT_LSCI_0_B_LARB6>,
+			<&iommu M4U_PORT_BPCI_LARB6>,
+			<&iommu M4U_PORT_BPCI_B_LARB6>,
+			<&iommu M4U_PORT_AAO_LARB6>,
+			<&iommu M4U_PORT_AAO_B_LARB6>,
+			<&iommu M4U_PORT_LSCI_1_LARB6>,
+			<&iommu M4U_PORT_LSCI_1_B_LARB6>,
+			<&iommu M4U_PORT_RSSO_LARB6>,
+			<&iommu M4U_PORT_RSSO_B_LARB6>,
+			<&iommu M4U_PORT_BEO_LARB6>,
+			<&iommu M4U_PORT_BEO_B_LARB6>,
+			<&iommu M4U_PORT_IMGO_LARB6>,
+			<&iommu M4U_PORT_IMGO_B_LARB6>,
+			<&iommu M4U_PORT_SOCO_LARB6>,
+			<&iommu M4U_PORT_CCUI_LARB6>,
+			<&iommu M4U_PORT_CCUO_LARB6>,
+			<&iommu M4U_PORT_RAWI_LARB6>,
+			<&iommu M4U_PORT_RAWI_B_LARB6>,
+			<&iommu M4U_PORT_CCUG_LARB6>,
+			<&iommu M4U_PORT_IMGI_A_LARB8>,	/* Larb8 */
+			<&iommu M4U_PORT_IMGI_B_LARB8>,
+			<&iommu M4U_PORT_IMG3O_A_LARB8>,
+			<&iommu M4U_PORT_IMG3O_B_LARB8>,
+			<&iommu M4U_PORT_LCEI_A_LARB8>,
+			<&iommu M4U_PORT_LCEI_B_LARB8>,
+			<&iommu M4U_PORT_FAKE1_LARB8>,
+			<&iommu M4U_PORT_FAKE2_LARB8>;
+	};
+
+	cammem_gaze0: cammem_gaze0 {
+		compatible = "mediatek,mt3612-cammem-gaze0";
+		reg = <0 0x22001000 0 0x1000>;	/* CAM/DIP: SMI Larb9 */
+		mediatek,larb = <&larb9>;
+		iommus = <&iommu M4U_PORT_RRZO_LARB9>,		/* Larb9 */
+			<&iommu M4U_PORT_LSCI_0_LARB9>,
+			<&iommu M4U_PORT_BPCI_LARB9>,
+			<&iommu M4U_PORT_IMGO_LARB9>,
+			<&iommu M4U_PORT_IMGI_LARB9>,
+			<&iommu M4U_PORT_IMG3O_LARB9>,
+			<&iommu M4U_PORT_AAO_LARB9>,
+			<&iommu M4U_PORT_LSCI_1_LARB9>,
+			<&iommu M4U_PORT_RSSO_LARB9>,
+			<&iommu M4U_PORT_SOCO_LARB9>,
+			<&iommu M4U_PORT_LCEI_LARB9>,
+			<&iommu M4U_PORT_CCUI_LARB9>,
+			<&iommu M4U_PORT_CCUO_LARB9>,
+			<&iommu M4U_PORT_WAWI_LARB9>,
+			<&iommu M4U_PORT_CCUG_LARB9>,
+			<&iommu M4U_PORT_FAKE_LARB9>;
+	};
+
+	cammem_gaze1: cammem_gaze1 {
+		compatible = "mediatek,mt3612-cammem-gaze1";
+		reg = <0 0x17001000 0 0x1000>;	/* CAM/DIP: SMI Larb10 */
+		mediatek,larb = <&larb10>;
+		iommus = <&iommu M4U_PORT_RRZO_LARB10>,		/* Larb10 */
+			<&iommu M4U_PORT_LSCI_0_LARB10>,
+			<&iommu M4U_PORT_BPCI_LARB10>,
+			<&iommu M4U_PORT_IMGO_LARB10>,
+			<&iommu M4U_PORT_IMGI_LARB10>,
+			<&iommu M4U_PORT_IMG3O_LARB10>,
+			<&iommu M4U_PORT_AAO_LARB10>,
+			<&iommu M4U_PORT_LSCI_1_LARB10>,
+			<&iommu M4U_PORT_RSSO_LARB10>,
+			<&iommu M4U_PORT_SOCO_LARB10>,
+			<&iommu M4U_PORT_LCEI_LARB10>,
+			<&iommu M4U_PORT_CCUI_LARB10>,
+			<&iommu M4U_PORT_CCUO_LARB10>,
+			<&iommu M4U_PORT_WAWI_LARB10>,
+			<&iommu M4U_PORT_CCUG_LARB10>,
+			<&iommu M4U_PORT_FAKE_LARB10>;
+	};
+
+	camgce: camgce {
+		compatible = "mediatek,mt3612-camgce";
+		mediatek,gce = <&gce5>;
+		dev-name = "camgce";
+		dev-idx = <0>;
+		reg = <0 0x102d3000 0 0x1000>; /*TimeStamp*/
+
+		/* gce#, thrd#, isAtomic: all flush cmds will be*/
+		/* combined into single blanking */
+		/* Keep the same order as driver idx */
+		gce-subsys = <SUBSYS_102DXXXX>;
+		mboxes = <&gce5 11 10000 CMDQ_THR_PRIO_LOWEST>;
+		status = "disabled";
+	};
+
+	soc {
+		mtkccu0: mtk,ccu0 {
+			compatible = "mediatek,ccu,m";
+			reg = <0 0x180a1000 0 0x1000>,
+			      <0 0x18080000 0 0x10000>; /* dmem */
+			interrupts = <GIC_SPI 569 IRQ_TYPE_LEVEL_LOW>;
+
+			ccu_hw_offset = <0x0>;
+			ccu_pmem_base = <0x18090000>;
+			ccu_pmem_size = <0x10000>;
+			ccu_dmem_offset = <0x2480>;
+			ccu_log_base = <0x1800>;
+			ccu_log_size = <0x200>;
+			ccu_hw_dump_size = <0x550>;
+			ccu_isp_l_cam_a_base = <0x18005000>; /*Twin*/
+			ccu_isp_l_cam_b_base = <0x18006000>;
+			ccu_isp_r_cam_a_base = <0x18008000>;
+			ccu_isp_r_cam_b_base = <0x18009000>;
+			ccu_i2c_adap_l_nr = <11>;
+			ccu_i2c_adap_r_nr = <12>;
+			status = "disabled";
+		};
+
+		mtkccu1: mtk,ccu1 {
+			compatible = "mediatek,ccu,m";
+			reg = <0 0x18071000 0 0x1000>,
+			      <0 0x18050000 0 0x10000>;/* dmem */
+			interrupts = <GIC_SPI 571 IRQ_TYPE_LEVEL_LOW>;
+
+			ccu_hw_offset = <0x0>;
+			ccu_pmem_base = <0x18060000>;
+			ccu_pmem_size = <0x10000>;
+			ccu_dmem_offset = <0x2480>;
+			ccu_log_base = <0x1800>;
+			ccu_log_size = <0x200>;
+			ccu_hw_dump_size = <0x550>;
+			ccu_isp_l_cam_a_base = <0x18005000>; /*Twin*/
+			ccu_isp_l_cam_b_base = <0x18006000>;
+			ccu_isp_r_cam_a_base = <0x18008000>;
+			ccu_isp_r_cam_b_base = <0x18009000>;
+			ccu_i2c_adap_l_nr = <11>;
+			ccu_i2c_adap_r_nr = <12>;
+			status = "disabled";
+		};
+
+		mtkccu2: mtk,ccu2 {
+			compatible = "mediatek,ccu,m";
+			reg = <0 0x230a1000 0 0x1000>,
+			      <0 0x23080000 0 0x10000>;/* dmem */
+			interrupts = <GIC_SPI 592 IRQ_TYPE_LEVEL_LOW>;
+
+			ccu_hw_offset = <0x0>;
+			ccu_pmem_base = <0x23090000>;
+			ccu_pmem_size = <0x10000>;
+			ccu_dmem_offset = <0x2480>;
+			ccu_log_base = <0x1800>;
+			ccu_log_size = <0x200>;
+			ccu_hw_dump_size = <0x550>;
+			ccu_isp_l_cam_a_base = <0x23005000>;
+			ccu_isp_l_cam_b_base = <0>;
+			ccu_isp_r_cam_a_base = <0x23006000>;
+			ccu_isp_r_cam_b_base = <0>;
+			ccu_i2c_adap_l_nr = <14>;
+			ccu_i2c_adap_r_nr = <15>;
+			status = "disabled";
+		};
+
+		mtkccu3: mtk,ccu3 {
+			compatible = "mediatek,ccu,m";
+			reg = <0 0x23071000 0 0x1000>,
+			      <0 0x23050000 0 0x10000>;/* dmem */
+			interrupts = <GIC_SPI 594 IRQ_TYPE_LEVEL_LOW>;
+
+			ccu_hw_offset = <0x0>;
+			ccu_pmem_base = <0x23060000>;
+			ccu_pmem_size = <0x10000>;
+			ccu_dmem_offset = <0x2480>;
+			ccu_log_base = <0x1800>;
+			ccu_log_size = <0x200>;
+			ccu_hw_dump_size = <0x550>;
+			ccu_isp_l_cam_a_base = <0x23008000>;
+			ccu_isp_l_cam_b_base = <0>;
+			ccu_isp_r_cam_a_base = <0x23009000>;
+			ccu_isp_r_cam_b_base = <0>;
+			ccu_i2c_adap_l_nr = <15>;
+			ccu_i2c_adap_r_nr = <16>;
+			status = "disabled";
+		};
+
+		mtkchipinfo: mtk,chipinfo {
+			compatible = "mediatek,chipinfo";
+			reg = <0 0x08000000 0 0x1000>;
+			status = "disabled";
+		};
+	};
+};

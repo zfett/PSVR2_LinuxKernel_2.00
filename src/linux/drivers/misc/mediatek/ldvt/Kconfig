@@ -1,0 +1,29 @@
+config MTK_LDVT
+	tristate "MediaTek Linux Design Verification Test"
+	help
+	  Mediatek Linux design verification test support
+	  This is an option for use by developers; most people should
+	  say N here. This enable the test program for Mediatek
+	  device driver.
+
+config MTK_DISP_PIPE
+	tristate "MediaTek display pipe driver"
+	depends on MTK_LDVT
+	help
+	  Display pipe integration driver.
+	  This driver provide an example of how to use rdma/dsc/dsi... modules
+	  to output image stream.
+
+config MTK_CINEMATIC
+        tristate "MediaTek cinematic path"
+        depends on MTK_LDVT
+        help
+          Cinematic integration driver.
+          This driver provide an example of how to display cinematic path.
+
+config MTK_LATENCY
+        tristate "MediaTek latency verify"
+        depends on MTK_LDVT
+        help
+          Low Latency verify driver.
+          This driver provide an example of how to verify the low latency.

@@ -1,0 +1,5 @@
+config MTK_SCP
+	tristate "MediaTek SCP IPC driver"
+	help
+	  SCP is a MediaTek in-house DSP which can receive
+	  command from IPI interface.

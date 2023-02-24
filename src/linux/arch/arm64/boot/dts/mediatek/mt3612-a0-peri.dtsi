@@ -1,0 +1,1074 @@
+/*
+ * Copyright (c) 2018 MediaTek Inc.
+ * Author: Yung-Chi Chen <yung-chi.chen@mediatek.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+#include <dt-bindings/gce/mt3612-gce.h>
+#include <dt-bindings/interrupt-controller/arm-gic.h>
+#include <dt-bindings/clock/mt3612-clk.h>
+#include <dt-bindings/reset-controller/mt3612-resets.h>
+#include <dt-bindings/power/mt3612-power.h>
+#include <dt-bindings/phy/phy.h>
+#include "mt3612-pinfunc.h"
+
+/ {
+	uart_clk: dummy26m {
+		compatible = "fixed-clock";
+		clock-frequency = <26000000>;
+		#clock-cells = <0>;
+	};
+
+	i2c_clk: dummy6m {
+		compatible = "fixed-clock";
+		clock-frequency = <6000000>;
+		#clock-cells = <0>;
+	};
+
+	disp_pwm_clk: dummy160m {
+		compatible = "fixed-clock";
+		clock-frequency = <160000000>;
+		#clock-cells = <0>;
+	};
+
+	soc {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		compatible = "simple-bus";
+		ranges;
+
+		syscfg_pctl_a: syscfg_pctl_a@102d0000 {
+			compatible = "mediatek,mt3612-pctl-a-syscfg", "syscon";
+			reg = <0 0x102d0000 0 0x1000>;
+		};
+
+		syscfg_pctl_b: syscfg_pctl_b@11e90000 {
+			compatible = "mediatek,mt3612-pctl-b-syscfg", "syscon";
+			reg = <0 0x11e90000 0 0x1000>;
+		};
+
+		syscfg_pctl_c: syscfg_pctl_c@11d30000 {
+			compatible = "mediatek,mt3612-pctl-c-syscfg", "syscon";
+			reg = <0 0x11d30000 0 0x1000>;
+		};
+
+		syscfg_pctl_d: syscfg_pctl_d@11d40000 {
+			compatible = "mediatek,mt3612-pctl-d-syscfg", "syscon";
+			reg = <0 0x11d40000 0 0x1000>;
+		};
+
+		syscfg_pctl_e: syscfg_pctl_e@11c20000 {
+			compatible = "mediatek,mt3612-pctl-e-syscfg", "syscon";
+			reg = <0 0x11c20000 0 0x1000>;
+		};
+
+		syscfg_pctl_f: syscfg_pctl_f@11f00000 {
+			compatible = "mediatek,mt3612-pctl-f-syscfg", "syscon";
+			reg = <0 0x11f00000 0 0x1000>;
+		};
+
+		syscfg_pctl_g: syscfg_pctl_g@11f30000 {
+			compatible = "mediatek,mt3612-pctl-g-syscfg", "syscon";
+			reg = <0 0x11f30000 0 0x1000>;
+		};
+
+		syscfg_pctl_h: syscfg_pctl_h@11c10000 {
+			compatible = "mediatek,mt3612-pctl-h-syscfg", "syscon";
+			reg = <0 0x11c10000 0 0x1000>;
+		};
+
+		pio: pinctrl@102d0000 {
+			compatible = "mediatek,mt3612-pinctrl";
+			reg = <0 0x102d0000 0 0x1000>,
+			      <0 0x10050000 0 0x1000>;
+			mediatek,pctl-regmap = <&syscfg_pctl_a>,
+					       <&syscfg_pctl_b>,
+					       <&syscfg_pctl_c>,
+					       <&syscfg_pctl_d>,
+					       <&syscfg_pctl_e>,
+					       <&syscfg_pctl_f>,
+					       <&syscfg_pctl_g>,
+					       <&syscfg_pctl_h>;
+			pins-are-numbered;
+			gpio-controller;
+			#gpio-cells = <2>;
+			interrupt-controller;
+			#interrupt-cells = <2>;
+			interrupts = <GIC_SPI 221 IRQ_TYPE_LEVEL_HIGH>;
+		};
+
+		uart0: serial@11020000 {
+			compatible = "mediatek,mt3611-uart";
+			reg = <0 0x11020000 0 0x400>;
+			interrupts = <GIC_SPI 101 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&pericfg PERISYS_UART0_SEL>,
+					<&pericfg PERISYS_UART0_CK_PDN>;
+			clock-names = "baud", "uart-pericfg-clk";
+			status = "disabled";
+		};
+
+		i2c0: i2c@11080000 {
+			compatible = "mediatek,mt3612-i2c";
+			id = <0>;
+			reg = <0 0x11080000 0 0x100>;
+			interrupts = <GIC_SPI 78 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&topckgen CLK_TOP_SYSPLL1_D4>,
+				 <&topckgen CLK_TOP_I2C_SEL>,
+				 <&topckgen TOPCKGEN_I2C_CG>,
+				 <&pericfg PERISYS_I2C_SEL>,
+				 <&pericfg PERISYS_I2C0_CK_PDN>;
+			clock-names = "top-source",
+				      "top-sel",
+				      "peri-source",
+				      "peri-sel",
+				      "main";
+			clock-div = <1>;
+			clock-inter-div = <2>;
+			dmas = <&apdma 0>;
+			dma-names = "apdma-i2c";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		i2c1: i2c@11090000 {
+			compatible = "mediatek,mt3612-i2c";
+			id = <1>;
+			reg = <0 0x11090000 0 0x100>;
+			interrupts = <GIC_SPI 79 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&topckgen CLK_TOP_SYSPLL1_D4>,
+				 <&topckgen CLK_TOP_I2C_SEL>,
+				 <&topckgen TOPCKGEN_I2C_CG>,
+				 <&pericfg PERISYS_I2C_SEL>,
+				 <&pericfg PERISYS_I2C1_CK_PDN>;
+			clock-names = "top-source",
+				      "top-sel",
+				      "peri-source",
+				      "peri-sel",
+				      "main";
+			clock-div = <1>;
+			clock-inter-div = <2>;
+			dmas = <&apdma 1>;
+			dma-names = "apdma-i2c";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		i2c2: i2c@110a0000 {
+			compatible = "mediatek,mt3612-i2c";
+			id = <2>;
+			reg = <0 0x110a0000 0 0x100>;
+			interrupts = <GIC_SPI 80 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&topckgen CLK_TOP_SYSPLL1_D4>,
+				 <&topckgen CLK_TOP_I2C_SEL>,
+				 <&topckgen TOPCKGEN_I2C_CG>,
+				 <&pericfg PERISYS_I2C_SEL>,
+				 <&pericfg PERISYS_I2C2_CK_PDN>;
+			clock-names = "top-source",
+				      "top-sel",
+				      "peri-source",
+				      "peri-sel",
+				      "main";
+			clock-div = <1>;
+			clock-inter-div = <2>;
+			dmas = <&apdma 2>;
+			dma-names = "apdma-i2c";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+			cs42448: cs42448@48 {
+				compatible = "cirrus,cs42448";
+				reg = <0x48>;
+				status = "disabled";
+			};
+		};
+
+		i2c3: i2c@11100000 {
+			compatible = "mediatek,mt3612-i2c";
+			id = <3>;
+			reg = <0 0x11100000 0 0x100>;
+			interrupts = <GIC_SPI 81 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&topckgen CLK_TOP_SYSPLL1_D4>,
+				 <&topckgen CLK_TOP_I2C_SEL>,
+				 <&topckgen TOPCKGEN_I2C_CG>,
+				 <&pericfg PERISYS_I2C_SEL>,
+				 <&pericfg PERISYS_I2C3_CK_PDN>;
+			clock-names = "top-source",
+				      "top-sel",
+				      "peri-source",
+				      "peri-sel",
+				      "main";
+			clock-div = <1>;
+			clock-inter-div = <2>;
+			dmas = <&apdma 3>;
+			dma-names = "apdma-i2c";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		i2c4: i2c@110c0000 {
+			compatible = "mediatek,mt3612-i2c";
+			id = <4>;
+			reg = <0 0x110c0000 0 0x100>;
+			interrupts = <GIC_SPI 82 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&topckgen CLK_TOP_SYSPLL1_D4>,
+				 <&topckgen CLK_TOP_I2C_SEL>,
+				 <&topckgen TOPCKGEN_I2C_CG>,
+				 <&pericfg PERISYS_I2C_SEL>,
+				 <&pericfg PERISYS_I2C4_CK_PDN>;
+			clock-names = "top-source",
+				      "top-sel",
+				      "peri-source",
+				      "peri-sel",
+				      "main";
+			clock-div = <1>;
+			clock-inter-div = <2>;
+			dmas = <&apdma 4>;
+			dma-names = "apdma-i2c";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		i2c5: i2c@110d0000 {
+			compatible = "mediatek,mt3612-i2c";
+			id = <5>;
+			reg = <0 0x110d0000 0 0x100>;
+			interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&topckgen CLK_TOP_SYSPLL1_D4>,
+				 <&topckgen CLK_TOP_I2C_SEL>,
+				 <&topckgen TOPCKGEN_I2C_CG>,
+				 <&pericfg PERISYS_I2C_SEL>,
+				 <&pericfg PERISYS_I2C5_CK_PDN>;
+			clock-names = "top-source",
+				      "top-sel",
+				      "peri-source",
+				      "peri-sel",
+				      "main";
+			clock-div = <1>;
+			clock-inter-div = <2>;
+			dmas = <&apdma 5>;
+			dma-names = "apdma-i2c";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		i2c6: i2c@110e0000 {
+			compatible = "mediatek,mt3612-i2c";
+			id = <6>;
+			reg = <0 0x110e0000 0 0x100>;
+			interrupts = <GIC_SPI 84 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&topckgen CLK_TOP_SYSPLL1_D4>,
+				 <&topckgen CLK_TOP_I2C_SEL>,
+				 <&topckgen TOPCKGEN_I2C_CG>,
+				 <&pericfg PERISYS_I2C_SEL>,
+				 <&pericfg PERISYS_I2C6_CK_PDN>;
+			clock-names = "top-source",
+				      "top-sel",
+				      "peri-source",
+				      "peri-sel",
+				      "main";
+			clock-div = <1>;
+			clock-inter-div = <2>;
+			dmas = <&apdma 6>;
+			dma-names = "apdma-i2c";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		i2c7: i2c@11190000 {
+			compatible = "mediatek,mt3612-i2c";
+			id = <7>;
+			reg = <0 0x11190000 0 0x100>;
+			interrupts = <GIC_SPI 85 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&topckgen CLK_TOP_SYSPLL1_D4>,
+				 <&topckgen CLK_TOP_I2C_SEL>,
+				 <&topckgen TOPCKGEN_I2C_CG>,
+				 <&pericfg PERISYS_I2C_SEL>,
+				 <&pericfg PERISYS_I2C7_CK_PDN>;
+			clock-names = "top-source",
+				      "top-sel",
+				      "peri-source",
+				      "peri-sel",
+				      "main";
+			clock-div = <1>;
+			clock-inter-div = <2>;
+			dmas = <&apdma 7>;
+			dma-names = "apdma-i2c";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+		i2c8: i2c@111e0000 {
+			compatible = "mediatek,mt3612-i2c";
+			id = <8>;
+			reg = <0 0x111e0000 0 0x100>;
+			interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&topckgen CLK_TOP_SYSPLL1_D4>,
+				 <&topckgen CLK_TOP_I2C_SEL>,
+				 <&topckgen TOPCKGEN_I2C_CG>,
+				 <&pericfg PERISYS_I2C_SEL>,
+				 <&pericfg PERISYS_I2C8_CK_PDN>;
+			clock-names = "top-source",
+				      "top-sel",
+				      "peri-source",
+				      "peri-sel",
+				      "main";
+			clock-div = <1>;
+			clock-inter-div = <2>;
+			dmas = <&apdma 8>;
+			dma-names = "apdma-i2c";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		i2c9: i2c@111f0000 {
+			compatible = "mediatek,mt3612-i2c";
+			id = <9>;
+			reg = <0 0x111f0000 0 0x100>;
+			interrupts = <GIC_SPI 87 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&topckgen CLK_TOP_SYSPLL1_D4>,
+				 <&topckgen CLK_TOP_I2C_SEL>,
+				 <&topckgen TOPCKGEN_I2C_CG>,
+				 <&pericfg PERISYS_I2C_SEL>,
+				 <&pericfg PERISYS_I2C9_CK_PDN>;
+			clock-names = "top-source",
+				      "top-sel",
+				      "peri-source",
+				      "peri-sel",
+				      "main";
+			clock-div = <1>;
+			clock-inter-div = <2>;
+			dmas = <&apdma 9>;
+			dma-names = "apdma-i2c";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		i2c10: i2c@11300000 {
+			compatible = "mediatek,mt3612-i2c";
+			id = <10>;
+			reg = <0 0x11300000 0 0x100>;
+			interrupts = <GIC_SPI 88 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&topckgen CLK_TOP_SYSPLL1_D4>,
+				 <&topckgen CLK_TOP_I2C_SEL>,
+				 <&topckgen TOPCKGEN_I2C_CG>,
+				 <&pericfg PERISYS_I2C_SEL>,
+				 <&pericfg PERISYS_I2C10_CK_PDN>;
+			clock-names = "top-source",
+				      "top-sel",
+				      "peri-source",
+				      "peri-sel",
+				      "main";
+			clock-div = <1>;
+			clock-inter-div = <2>;
+			dmas = <&apdma 10>;
+			dma-names = "apdma-i2c";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		i2c11: i2c@11310000 {
+			compatible = "mediatek,mt3612-i2c";
+			id = <11>;
+			reg = <0 0x11310000 0 0x100>;
+			interrupts = <GIC_SPI 89 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&topckgen CLK_TOP_SYSPLL1_D4>,
+				 <&topckgen CLK_TOP_I2C_SEL>,
+				 <&topckgen TOPCKGEN_I2C_CG>,
+				 <&pericfg PERISYS_I2C_SEL>,
+				 <&pericfg PERISYS_I2C11_CK_PDN>;
+			clock-names = "top-source",
+				      "top-sel",
+				      "peri-source",
+				      "peri-sel",
+				      "main";
+			clock-div = <1>;
+			clock-inter-div = <2>;
+			dmas = <&apdma 11>;
+			dma-names = "apdma-i2c";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		i2c12: i2c@11320000 {
+			compatible = "mediatek,mt3612-i2c";
+			id = <12>;
+			reg = <0 0x11320000 0 0x100>;
+			interrupts = <GIC_SPI 90 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&topckgen CLK_TOP_SYSPLL1_D4>,
+				 <&topckgen CLK_TOP_I2C_SEL>,
+				 <&topckgen TOPCKGEN_I2C_CG>,
+				 <&pericfg PERISYS_I2C_SEL>,
+				 <&pericfg PERISYS_I2C12_CK_PDN>;
+			clock-names = "top-source",
+				      "top-sel",
+				      "peri-source",
+				      "peri-sel",
+				      "main";
+			clock-div = <1>;
+			clock-inter-div = <2>;
+			dmas = <&apdma 22>;
+			dma-names = "apdma-i2c";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		i2c13: i2c@11330000 {
+			compatible = "mediatek,mt3612-i2c";
+			id = <13>;
+			reg = <0 0x11330000 0 0x100>;
+			interrupts = <GIC_SPI 91 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&topckgen CLK_TOP_SYSPLL1_D4>,
+				 <&topckgen CLK_TOP_I2C_SEL>,
+				 <&topckgen TOPCKGEN_I2C_CG>,
+				 <&pericfg PERISYS_I2C_SEL>,
+				 <&pericfg PERISYS_I2C13_CK_PDN>;
+			clock-names = "top-source",
+				      "top-sel",
+				      "peri-source",
+				      "peri-sel",
+				      "main";
+			clock-div = <1>;
+			clock-inter-div = <2>;
+			dmas = <&apdma 23>;
+			dma-names = "apdma-i2c";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		i2c14: i2c@11340000 {
+			compatible = "mediatek,mt3612-i2c";
+			id = <14>;
+			reg = <0 0x11340000 0 0x100>;
+			interrupts = <GIC_SPI 92 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&topckgen CLK_TOP_SYSPLL1_D4>,
+				 <&topckgen CLK_TOP_I2C_SEL>,
+				 <&topckgen TOPCKGEN_I2C_CG>,
+				 <&pericfg PERISYS_I2C_SEL>,
+				 <&pericfg PERISYS_I2C14_CK_PDN>;
+			clock-names = "top-source",
+				      "top-sel",
+				      "peri-source",
+				      "peri-sel",
+				      "main";
+			clock-div = <1>;
+			clock-inter-div = <2>;
+			dmas = <&apdma 24>;
+			dma-names = "apdma-i2c";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		i2c15: i2c@11350000 {
+			compatible = "mediatek,mt3612-i2c";
+			id = <15>;
+			reg = <0 0x11350000 0 0x100>;
+			interrupts = <GIC_SPI 93 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&topckgen CLK_TOP_SYSPLL1_D4>,
+				 <&topckgen CLK_TOP_I2C_SEL>,
+				 <&topckgen TOPCKGEN_I2C_CG>,
+				 <&pericfg PERISYS_I2C_SEL>,
+				 <&pericfg PERISYS_I2C15_CK_PDN>;
+			clock-names = "top-source",
+				      "top-sel",
+				      "peri-source",
+				      "peri-sel",
+				      "main";
+			clock-div = <1>;
+			clock-inter-div = <2>;
+			dmas = <&apdma 25>;
+			dma-names = "apdma-i2c";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		i2c16: i2c@11360000 {
+			compatible = "mediatek,mt3612-i2c";
+			id = <16>;
+			reg = <0 0x11360000 0 0x100>;
+			interrupts = <GIC_SPI 94 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&topckgen CLK_TOP_SYSPLL1_D4>,
+				 <&topckgen CLK_TOP_I2C_SEL>,
+				 <&topckgen TOPCKGEN_I2C_CG>,
+				 <&pericfg PERISYS_I2C_SEL>,
+				 <&pericfg PERISYS_I2C16_CK_PDN>;
+			clock-names = "top-source",
+				      "top-sel",
+				      "peri-source",
+				      "peri-sel",
+				      "main";
+			clock-div = <1>;
+			clock-inter-div = <2>;
+			dmas = <&apdma 26>;
+			dma-names = "apdma-i2c";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		spi0: spi@110F0000 {
+			compatible = "mediatek,mt3612-spi";
+			reg = <0 0x110F0000 0 0x100>;
+			interrupts = <GIC_SPI 111 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&topckgen CLK_TOP_SYSPLL1_D4>,
+				 <&topckgen CLK_TOP_SPI_SEL>,
+				 <&pericfg PERISYS_SPI0_CK_PDN>;
+			clock-names = "parent-clk", "sel-clk", "spi-clk";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		spi1: spi@11160000 {
+			compatible = "mediatek,mt3612-spi";
+			reg = <0 0x11160000 0 0x100>;
+			interrupts = <GIC_SPI 112 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&topckgen CLK_TOP_SYSPLL1_D4>,
+				 <&topckgen CLK_TOP_SPI_SEL>,
+				 <&pericfg PERISYS_SPI1_CK_PDN>;
+			clock-names = "parent-clk", "sel-clk", "spi-clk";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		spi2: spi@11170000 {
+			compatible = "mediatek,mt3612-spi";
+			reg = <0 0x11170000 0 0x100>;
+			interrupts = <GIC_SPI 113 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&topckgen CLK_TOP_SYSPLL1_D4>,
+				 <&topckgen CLK_TOP_SPI_SEL>,
+				 <&pericfg PERISYS_SPI2_CK_PDN>;
+			clock-names = "parent-clk", "sel-clk", "spi-clk";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		spi3: spi@111B0000 {
+			compatible = "mediatek,mt3612-spi";
+			reg = <0 0x111B0000 0 0x100>;
+			interrupts = <GIC_SPI 114 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&topckgen CLK_TOP_SYSPLL1_D4>,
+				 <&topckgen CLK_TOP_SPI_SEL>,
+				 <&pericfg PERISYS_SPI3_CK_PDN>;
+			clock-names = "parent-clk", "sel-clk", "spi-clk";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		spi4: spi@111C0000 {
+			compatible = "mediatek,mt3612-spi";
+			reg = <0 0x111C0000 0 0x100>;
+			interrupts = <GIC_SPI 115 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&topckgen CLK_TOP_SYSPLL1_D4>,
+				 <&topckgen CLK_TOP_SPI_SEL>,
+				 <&pericfg PERISYS_SPI4_CK_PDN>;
+			clock-names = "parent-clk", "sel-clk", "spi-clk";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		spi5: spi@111D0000 {
+			compatible = "mediatek,mt3612-spi";
+			reg = <0 0x111D0000 0 0x100>;
+			interrupts = <GIC_SPI 116 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&topckgen CLK_TOP_SYSPLL1_D4>,
+				 <&topckgen CLK_TOP_SPI_SEL>,
+				 <&pericfg PERISYS_SPI5_CK_PDN>;
+			clock-names = "parent-clk", "sel-clk", "spi-clk";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		spi6: spi@110B0000 {
+			compatible = "mediatek,mt3612-spi";
+			reg = <0 0x110B0000 0 0x100>;
+			interrupts = <GIC_SPI 117 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&topckgen CLK_TOP_SYSPLL1_D4>,
+				 <&topckgen CLK_TOP_SPI_SEL>,
+				 <&pericfg PERISYS_SPI6_CK_PDN>;
+			clock-names = "parent-clk", "sel-clk", "spi-clk";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		spi7: spi@11130000 {
+			compatible = "mediatek,mt3612-spi";
+			reg = <0 0x11130000 0 0x100>;
+			interrupts = <GIC_SPI 118 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&topckgen CLK_TOP_SYSPLL1_D4>,
+				 <&topckgen CLK_TOP_SPI_SEL>,
+				 <&pericfg PERISYS_SPI7_CK_PDN>;
+			clock-names = "parent-clk", "sel-clk", "spi-clk";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		spi8: spi@11110000 {
+			compatible = "mediatek,mt3612-spi";
+			reg = <0 0x11110000 0 0x100>;
+			interrupts = <GIC_SPI 119 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&topckgen CLK_TOP_SYSPLL1_D4>,
+				 <&topckgen CLK_TOP_SPI_SEL>,
+				 <&pericfg PERISYS_SPI8_CK_PDN>;
+			clock-names = "parent-clk", "sel-clk", "spi-clk";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		spi9: spi@11B60000 {
+			compatible = "mediatek,mt3612-spi";
+			reg = <0 0x11B60000 0 0x100>;
+			interrupts = <GIC_SPI 120 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&topckgen CLK_TOP_SYSPLL1_D4>,
+				 <&topckgen CLK_TOP_SPI_SEL>,
+				 <&pericfg PERISYS_SPI9_CK_PDN>;
+			clock-names = "parent-clk", "sel-clk", "spi-clk";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		sound: sound {
+			compatible = "mediatek,mt3612-afe-machine";
+			mediatek,platform = <&afe>;
+			mediatek,audio-codec = <&cs42448>;
+			status = "disabled";
+		};
+
+		afe: audio-controller@10c00000 {
+			compatible = "mediatek,mt3611-afe-pcm";
+			reg = <0 0x10c00000 0 0x1000>,
+			      <0 0x10c01000 0 0x2400>;
+			interrupts = <GIC_SPI 196 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&topckgen TOPCKGEN_AUD_INTBUS_CG>,
+				<&topckgen CLK_TOP_APLL1_CK>,
+				<&topckgen CLK_TOP_APLL2_CK>,
+				<&topckgen CLK_TOP_DPAPLL_CK>,
+				<&topckgen CLK_TOP_DPAPLL_D3>,
+				<&topckgen TOPCKGEN_A1SYS_HP_CG>,
+				<&topckgen TOPCKGEN_A2SYS_HP_CG>,
+				<&topckgen TOPCKGEN_A3SYS_HP_CG>,
+				<&topckgen CLK_TOP_A3SYS_HP_SEL>,
+				<&topckgen CLK_TOP_TDMOUT_SEL>,
+				<&topckgen CLK_TOP_TDMIN_SEL>,
+				<&topckgen CLK_TOP_APLL12_DIV0>,
+				<&topckgen CLK_TOP_APLL12_DIV1>,
+				<&topckgen CLK_TOP_APLL12_DIV2>,
+				<&topckgen CLK_TOP_APLL12_DIV3>,
+				<&infracfg INFRACFG_AO_AUDIO_CG>;
+			clock-names = "aud_intbus_cg",
+				"apll1_ck",
+				"apll2_ck",
+				"dpapll_ck",
+				"dpapll_d3",
+				"a1sys_hp_cg",
+				"a2sys_hp_cg",
+				"a3sys_hp_cg",
+				"a3sys_hp_sel",
+				"tdmout_sel",
+				"tdmin_sel",
+				"apll12_div0",
+				"apll12_div1",
+				"apll12_div2",
+				"apll12_div3",
+				"aud_mas_slv_bclk";
+			assigned-clocks = <&topckgen CLK_TOP_A1SYS_HP_SEL>,
+				<&topckgen CLK_TOP_A2SYS_HP_SEL>,
+				<&topckgen CLK_TOP_AUD_INTBUS_SEL>;
+			assigned-clock-parents = <&topckgen CLK_TOP_APLL1_D3>,
+				<&topckgen CLK_TOP_APLL2_D3>,
+				<&topckgen CLK_TOP_SYSPLL1_D4>;
+
+			status = "disabled";
+		};
+
+		pwrap: pwrap@10010000 {
+			compatible = "mediatek,mt3612-pwrap";
+			reg = <0 0x10010000 0 0x364>;
+			reg-names = "pwrap";
+			#interrupts = <GIC_SPI 146 IRQ_TYPE_LEVEL_HIGH>;
+			resets = <&infracfg MT3612_INFRA_PMIC_WRAP_RST>;
+			reset-names = "pwrap";
+			clocks = <&topckgen TOPCKGEN_PMICSPI_CG>,
+				<&topckgen TOPCKGEN_PMICGSPI_CG>,
+				<&infracfg INFRACFG_AO_PMIC_CG_TMR>,
+				<&infracfg INFRACFG_AO_PMIC_CG_AP>,
+				<&infracfg INFRACFG_AO_PMIC_CG_MD>,
+				<&infracfg INFRACFG_AO_PMIC_CG_CONN>,
+				<&infracfg INFRACFG_AO_PMIC_GSPI_CG>;
+			clock-names = "spi", "gspi", "cg_tmr", "cg_ap",
+				 "cg_md", "cg_conn", "cg_gspi";
+			status = "disabled";
+
+			mt3615 {
+				compatible = "mediatek,mt3615";
+			};
+		};
+
+		scp: scp@10900000 {
+			compatible = "mediatek,mt3612-scp";
+			#interrupt-cells = <3>;
+			reg = <0 0x10900000 0 0x40000>,
+			      <0 0x109C0000 0 0x1000>,
+			      <0 0x109C4000 0 0x1000>;
+			clocks = <&topckgen CLK_TOP_SCP_SEL>,
+				 <&topckgen TOPCKGEN_SCP_P_CK0_CG>,
+				 <&topckgen TOPCKGEN_SCP_P_CK1_CG>,
+				 <&topckgen TOPCKGEN_SCP_P_CK2_CG>;
+			clock-names = "top-scp-sel",
+				      "top-scp-ck0",
+				      "top-scp-ck1",
+				      "top-scp-ck2";
+			interrupts = <GIC_SPI 249 IRQ_TYPE_LEVEL_HIGH>;
+			core_1 = "enable";
+			status = "disabled";
+		};
+
+		pmicw_p2p: pmicw_p2p@109CA000 {
+			compatible = "mediatek,mt3612-pmicw-p2p";
+			reg = <0 0x109CA000 0 0x0200>;
+			clocks = <&topckgen CLK_TOP_SCP_SEL>;
+			clock-names = "top-scp-sel";
+			status = "disabled";
+		};
+
+		apdma: apdma@11000000 {
+			compatible = "mediatek,mt3612-apdma";
+			#interrupt-cells = <3>;
+			reg = <0 0x11000000 0 0x1000>,
+					<0 0x11001000 0 0x1000>;
+			clocks = <&pericfg PERISYS_AP_DMA_CK_PDN>;
+			clock-names = "apdmaclk";
+
+			interrupts = <GIC_SPI 127 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 128 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 129 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 130 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 131 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 132 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 133 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 134 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 135 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 136 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 137 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 138 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 151 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 152 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 153 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 154 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 155 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 156 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 157 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 158 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 159 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 160 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 139 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 140 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 141 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 142 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 143 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 144 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 145 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 146 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 147 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 148 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 149 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 161 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 162 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 163 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 164 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 165 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 166 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 167 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 168 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 169 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 170 IRQ_TYPE_LEVEL_LOW>;
+
+			interrupt-names = "apdma0_i2c0",
+						"apdma0_i2c1",
+						"apdma0_i2c2",
+						"apdma0_i2c3",
+						"apdma0_i2c4",
+						"apdma0_i2c5",
+						"apdma0_i2c6",
+						"apdma0_i2c7",
+						"apdma0_i2c8",
+						"apdma0_i2c9",
+						"apdma0_i2c10",
+						"apdma0_i2c11",
+						"apdma0_uart0_tx",
+						"apdma0_uart0_rx",
+						"apdma0_uart1_tx",
+						"apdma0_uart1_rx",
+						"apdma0_uart2_tx",
+						"apdma0_uart2_rx",
+						"apdma0_uart3_tx",
+						"apdma0_uart3_rx",
+						"apdma0_uart4_tx",
+						"apdma0_uart4_rx",
+						"apdma1_i2c12",
+						"apdma1_i2c13",
+						"apdma1_i2c14",
+						"apdma1_i2c15",
+						"apdma1_i2c16",
+						"apdma1_i2c17",
+						"apdma1_i2c18",
+						"apdma1_i2c19",
+						"apdma1_i2c20",
+						"apdma1_i2c21",
+						"apdma1_i2c22",
+						"apdma1_uart5_tx",
+						"apdma1_uart5_rx",
+						"apdma1_uart6_tx",
+						"apdma1_uart6_rx",
+						"apdma1_uart7_tx",
+						"apdma1_uart7_rx",
+						"apdma1_uart8_tx",
+						"apdma1_uart8_rx",
+						"apdma1_uart9_tx",
+						"apdma1_uart9_rx";
+
+			#dma-cells = <1>;
+			mediatek,apdma-num = <2>;
+			mediatek,apdma0-ch-num = <22>;
+			mediatek,apdma1-ch-num = <21>;
+			status = "disabled";
+		};
+	};
+
+	u3phy2: usb-phy@11e80000 {
+		compatible = "mediatek,mt3612-u3phy2";
+		nvmem-cells = <&phy_usb>;
+		nvmem-cell-names = "phy-usb";
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+		status = "disabled";
+
+		u2port2: usb-phy@11e80000 {
+			reg = <0 0x11e80000 0 0x0400>;
+			clocks = <&topckgen TOPCKGEN_SSUB_PHY_CK_EN_IP2>;
+			clock-names = "ref";
+			#phy-cells = <1>;
+		};
+
+		u3port2: usb-phy@11e83000 {
+			reg = <0 0x11e83000 0 0x0900>;
+			clocks = <&topckgen TOPCKGEN_SSUB_PHY_CK_EN_IP2>;
+			clock-names = "ref";
+			#phy-cells = <1>;
+		};
+	};
+
+	usb3dg: usbdg@112A0000 {
+		compatible = "mediatek,mt3612-mtu3";
+		reg = <0 0x112A1000 0 0x2dff>,
+		      <0 0x112A3e00 0 0x0100>;
+		reg-names = "mac", "ippc";
+		interrupts = <GIC_SPI 125 IRQ_TYPE_LEVEL_LOW>;
+		clocks = <&topckgen TOPCKGEN_USBD_SYS_CG>,
+			<&topckgen TOPCKGEN_SSUB_TOP_CK_EN_IP2>,
+			<&pericfg PERISYS_USB_CK_PDN>,
+			<&pericfg PERISYS_USB_CK_PDN>;
+		clock-names = "sys_ck",
+			"ref_ck",
+			"mcu_ck",
+			"dma_ck";
+		phys = <&u2port2 PHY_TYPE_USB2>,
+		<&u3port2 PHY_TYPE_USB3>;
+		status = "disabled";
+	};
+
+	auxadc: adc@10370000 {
+		compatible = "mediatek,mt3612-auxadc";
+		reg = <0 0x10370000 0 0x1000>,
+			<0 0x10000000 0 0x200>;
+		interrupts = <GIC_SPI 213 IRQ_TYPE_LEVEL_LOW>;
+		clocks = <&infracfg INFRACFG_AO_AUXADC_CG>;
+		clock-names = "main";
+		status = "okay";
+	};
+
+	dprx: dprx@24000000 {
+		compatible = "mediatek,mt3612-dprx";
+		reg =   <0 0x24000000 0 0x8a1000>,
+			<0 0x11e70000 0 0x200>,
+			<0 0x20800000 0 0x200>;
+		interrupts = <GIC_SPI 657 IRQ_TYPE_LEVEL_HIGH>;
+		power-domains = <&scpsys MT3612_POWER_DOMAIN_DP>;
+		clocks = <&topckgen TOPCKGEN_F26M_DP_REF_CK_EN>;
+		clock-names = "ref_clk";
+		resets = <&toprgu MT3612_TOPRGU_DP_RST>,
+			<&toprgu MT3612_TOPRGU_DP_APB_RST>;
+		reset-names = "dprx_rst", "dprx_apb_rst";
+		phys = <&dprxphy PHY_TYPE_DPRX>;
+		mboxes = <&gce5 0 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST>;
+
+		sub_hw_nr = <3>;
+		fpga-mode = <0>;
+		early-porting = <0>;
+		hw-number = <1>;
+		dprx-lanes = <4>;
+		dp1p3 = <1>;
+		dsc = <1>;
+		fec = <1>;
+		hdcp2p2 = <1>;
+		yuv420 = <0>;
+		audio = <1>;
+		hbr3 = <1>;
+		status = "disabled";
+	};
+
+	dprxphy: dprx-phy@11e50000 {
+		compatible = "mediatek,mt3612-dprxphy";
+		nvmem-cells = <&phy_dp>;
+		nvmem-cell-names = "phy-dprx";
+		reg =	<0 0x11e50000 0 0x100>,
+			<0 0x11e60000 0 0x100>,
+			<0 0x11e66000 0 0x400>,
+			<0 0x11e69000 0 0x100>,
+			<0 0x11e6a000 0 0x400>;
+
+		phy_hw_nr = <5>;
+		clocks = <&clk26m>;
+		clock-names = "ref";
+		#phy-cells = <1>;
+		status = "disabled";
+	 };
+
+	mmc0: msdc0@11240000 {
+		   compatible = "mediatek,mt3612-mmc";
+		   reg = <0 0x11240000 0 0x10000>,
+			 <0 0x11C00000 0 0x1000>;
+		   interrupts = <GIC_SPI 75 IRQ_TYPE_LEVEL_LOW>;
+		   clocks =  <&topckgen TOPCKGEN_MSDC_CG>,
+			   <&topckgen TOPCKGEN_MSDC_HCLK_CG>,
+			   <&pericfg PERISYS_MSDC0_AP_CK_PDN>,
+			   <&topckgen TOPCKGEN_AES_FDE_CG>;
+		   clock-names = "source", "hclk", "source_cg", "aes_cg";
+		   assigned-clocks = <&topckgen CLK_TOP_MSDC50_0_SEL>,
+				     <&topckgen CLK_TOP_MSDC50_0_HCLK_SEL>,
+				     <&topckgen CLK_TOP_AES_FDE_SEL>;
+		   assigned-clock-parents = <&topckgen CLK_TOP_MSDCPLL_CK>,
+					    <&topckgen CLK_TOP_SYSPLL2_D2>,
+					    <&topckgen CLK_TOP_MMPLL_D7>;
+		   status = "disabled";
+	};
+
+	nor_flash: spi@11AB0000 {
+		compatible = "mediatek,mt3611-nor";
+		reg = <0 0x11AB0000 0 0x800>;
+		interrupts = <GIC_SPI 171 IRQ_TYPE_LEVEL_LOW>;
+		clocks = <&topckgen TOPCKGEN_SFLASH_CG>,
+			 <&topckgen CLK_TOP_SFLASH_SEL>;
+		clock-names = "spi", "sf";
+		#address-cells = <1>;
+		#size-cells = <0>;
+		status = "disable";
+	};
+
+	pwm: pwm@11070000 {
+		compatible = "mediatek,mt3612-pwm";
+		reg = <0 0x11070000 0 0x1000>;
+		interrupts = <GIC_SPI 74 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&topckgen TOPCKGEN_PWM_CG>,
+			<&topckgen CLK_TOP_PWM_SEL>,
+			<&pericfg PERISYS_PWM_CK_PDN>,
+			<&pericfg PERISYS_PWM1_CK_PDN>,
+			<&pericfg PERISYS_PWM2_CK_PDN>,
+			<&pericfg PERISYS_PWM3_CK_PDN>,
+			<&pericfg PERISYS_PWM4_CK_PDN>,
+			<&pericfg PERISYS_PWM5_CK_PDN>,
+			<&pericfg PERISYS_PWM6_CK_PDN>,
+			<&pericfg PERISYS_PWM7_CK_PDN>,
+			<&pericfg PERISYS_PWM8_CK_PDN>,
+			<&pericfg PERISYS_PWM9_CK_PDN>,
+			<&pericfg PERISYS_PWM10_CK_PDN>,
+			<&pericfg PERISYS_PWM11_CK_PDN>,
+			<&pericfg PERISYS_PWM12_CK_PDN>,
+			<&pericfg PERISYS_PWM13_CK_PDN>,
+			<&pericfg PERISYS_PWM14_CK_PDN>,
+			<&pericfg PERISYS_PWM15_CK_PDN>,
+			<&pericfg PERISYS_PWM16_CK_PDN>,
+			<&pericfg PERISYS_PWM17_CK_PDN>,
+			<&pericfg PERISYS_PWM18_CK_PDN>,
+			<&pericfg PERISYS_PWM19_CK_PDN>,
+			<&pericfg PERISYS_PWM20_CK_PDN>,
+			<&pericfg PERISYS_PWM21_CK_PDN>,
+			<&pericfg PERISYS_PWM22_CK_PDN>,
+			<&pericfg PERISYS_PWM23_CK_PDN>,
+			<&pericfg PERISYS_PWM24_CK_PDN>,
+			<&pericfg PERISYS_PWM25_CK_PDN>,
+			<&pericfg PERISYS_PWM26_CK_PDN>,
+			<&pericfg PERISYS_PWM27_CK_PDN>,
+			<&pericfg PERISYS_PWM28_CK_PDN>,
+			<&pericfg PERISYS_PWM29_CK_PDN>,
+			<&pericfg PERISYS_PWM30_CK_PDN>,
+			<&pericfg PERISYS_PWM31_CK_PDN>,
+			<&pericfg PERISYS_PWM32_CK_PDN>;
+		clock-names =   "groupclk",
+			"fpwmclk",
+			"pwmclk",
+			"pwm1clk",
+			"pwm2clk",
+			"pwm3clk",
+			"pwm4clk",
+			"pwm5clk",
+			"pwm6clk",
+			"pwm7clk",
+			"pwm8clk",
+			"pwm9clk",
+			"pwm10clk",
+			"pwm11clk",
+			"pwm12clk",
+			"pwm13clk",
+			"pwm14clk",
+			"pwm15clk",
+			"pwm16clk",
+			"pwm17clk",
+			"pwm18clk",
+			"pwm19clk",
+			"pwm20clk",
+			"pwm21clk",
+			"pwm22clk",
+			"pwm23clk",
+			"pwm24clk",
+			"pwm25clk",
+			"pwm26clk",
+			"pwm27clk",
+			"pwm28clk",
+			"pwm29clk",
+			"pwm30clk",
+			"pwm31clk",
+			"pwm32clk";
+	};
+};

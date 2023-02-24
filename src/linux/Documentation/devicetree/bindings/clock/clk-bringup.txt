@@ -1,0 +1,17 @@
+MediaTek CLK-BRINGUP
+===============
+
+The driver implements for bringup stage to turn on all clock.
+It provides the clock node defined in
+include/dt-bindings/clock/mt3612-clk.h
+
+Required properties:
+- compatible: Should be one of:
+	- "mediatek,clk-bring-up"
+
+Example:
+
+	bring-up {
+		compatible = "mediatek,clk-bring-up";
+	}
+

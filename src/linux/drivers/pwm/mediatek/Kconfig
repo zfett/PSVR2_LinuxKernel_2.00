@@ -1,0 +1,16 @@
+config PWM_MTK
+	tristate "MediaTek PWM driver"
+	default n
+	help
+	  PWM: pluse-width modulation.
+	  PWM driver support for MediaTek SOC.
+	  If you want to use MediaTek PWM driver, say Y or M here.
+	  If unsure, say N.
+
+config PWM_MTK_DEBUG
+        bool "MediaTek PWM Ddebug driver"
+        depends on PWM_MTK
+        help
+          PWM debug driver support for MediaTek SOC.
+          If you want to debug MediaTek PWM driver, say Y or M here.
+          If unsure, say N.

@@ -1,0 +1,458 @@
+/**
+ * @file mt3611-afe-regs.h
+ * Mediatek audio register definitions
+ *
+ * Copyright (c) 2017 MediaTek Inc.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+#ifndef _MT3611_AFE_REGS_H_
+#define _MT3611_AFE_REGS_H_
+
+#include <linux/bitops.h>
+
+/*****************************************************************************
+ *                  R E G I S T E R       D E F I N I T I O N
+ *****************************************************************************/
+/** @ingroup type_group_afe_def
+ * @brief AFE register definitions
+ * @{
+ */
+#define AUDIO_TOP_CON0		0x0000
+#define AUDIO_TOP_CON1		0x0004
+#define AUDIO_TOP_CON3		0x000c
+#define AFE_DAC_CON0		0x0010
+#define AFE_DAC_CON1		0x0014
+#define AFE_I2S_CON1		0x0034
+#define AFE_I2S_CON2		0x0038
+
+#define AFE_AWB_BASE		0x0070
+#define AFE_AWB_END		0x0078
+#define AFE_AWB_CUR		0x007c
+#define AFE_DL12_BASE		0x0340
+#define AFE_DL12_CUR		0x0344
+#define AFE_DL12_END		0x0348
+#define AFE_VUL12_BASE		0x0350
+#define AFE_VUL12_END		0x0358
+#define AFE_VUL12_CUR		0x035c
+#define AFE_TDM_OUT_BASE	0x0374
+#define AFE_TDM_OUT_CUR		0x0378
+#define AFE_TDM_OUT_END		0x037c
+
+#define	AFE_MEMIF_MSB		0x00cc
+#define	AFE_MEMIF_MON4		0x00e0
+#define	AFE_MEMIF_MON5		0x00e4
+#define	AFE_MEMIF_MON6		0x00e8
+#define	AFE_MEMIF_MON7		0x00ec
+#define	AFE_MEMIF_MON12		0x0d70
+#define	AFE_MEMIF_MON13		0x0d74
+#define	AFE_MEMIF_MON14		0x0d78
+#define	AFE_MEMIF_MON15		0x0d7c
+#define	AFE_MEMIF_MON16		0x0d80
+#define	AFE_MEMIF_MON17		0x0d84
+
+#define AFE_TDM_SHIFT_CON0	0x0180
+#define AFE_I2S_SHIFT_CON0	0x0184
+
+#define AFE_SGEN_CON2		0x01dc
+#define AFE_SGEN_CON0		0x01f0
+#define AFE_SINEGEN_CON_TDM	0x01fc
+#define AFE_SINEGEN_CON_TDM_IN	0x0cd0
+
+#define AFE_DAC_MON		0x02ec
+
+#define AFE_IRQ0_MCU_CNT	0x0300
+#define AFE_IRQ6_MCU_CNT	0x0304
+#define AFE_IRQ_MCU_CON		0x03a0
+#define AFE_IRQ_MCU_STATUS	0x03a4
+#define AFE_IRQ_MCU_CLR		0x03a8
+#define AFE_IRQ1_MCU_CNT	0x03ac
+#define AFE_IRQ2_MCU_CNT	0x03b0
+#define AFE_IRQ5_MCU_CNT	0x03bc
+#define AFE_IRQ_MCU_CNT3	0x03e4
+#define AFE_IRQ_MCU_CNT4	0x03e8
+#define AFE_IRQ_MCU_EN		0x03b4
+
+#define	AFE_IRQ0_MCU_CNT_MON	0x0310
+#define	AFE_IRQ6_MCU_CNT_MON	0x0314
+#define	AFE_IRQ3_MCU_CNT_MON	0x0398
+#define	AFE_IRQ4_MCU_CNT_MON	0x039c
+#define	AFE_IRQ1_MCU_CNT_MON	0x03c0
+#define	AFE_IRQ2_MCU_CNT_MON	0x03c4
+#define	AFE_IRQ5_MCU_CNT_MON	0x03cc
+
+#define AFE_TDM_OUT_CON0	0x0370
+#define AFE_CONN_TDMOUT		0x0390
+#define AFE_CONN_TDMIN_CON	0x039C
+
+#define AFE_MEMIF_MINLEN	0x03d0
+#define AFE_MEMIF_MAXLEN	0x03d4
+#define AFE_MEMIF_PBUF_SIZE	0x03d8
+#define AFE_MEMIF_HD_MODE	0x03f8
+#define AFE_MEMIF_HDALIGN	0x03fc
+
+#define AFE_TDM_CON1		0x0548
+#define AFE_TDM_CON2		0x054c
+
+#define AFE_CONN_MUX_CFG	0x0af8
+
+#define AFE_TDM_IN_CON1		0x0cbc
+#define AFE_TDM_IN_CON2		0x0cc0
+
+#define AFE_DL_UL_COUNTER_CON	0x0de0
+#define AFE_DL12_RD_COUNTER	0x0de8
+#define AFE_UL12_WR_COUNTER	0x0df0
+#define AFE_AWB_WR_COUNTER	0x0df4
+#define AFE_TDM_IN_COUNTER	0x0df8
+#define AFE_TDM_OUT_COUNTER	0x0dfc
+
+#define AFE_DL12_RD_BUF_MON	0x0e00
+#define AFE_VUL12_WR_BUF_MON	0x0e04
+#define AFE_AWB_WR_BUF_MON	0x0e08
+#define AFE_TDM_IN_BUF_MON	0x0e0c
+#define AFE_TDM_OUT_BUF_MON	0x0e10
+
+#define AFE_MPHONE_MULTI_CON0	0x0e50
+#define AFE_MPHONE_MULTI_CON1	0x0e54
+
+#define AFE_TDM_IN_BASE		0x0e60
+#define AFE_TDM_IN_WR_CUR	0x0e64
+#define AFE_TDM_IN_END		0x0e68
+
+#define AFE_FS_TIMING_CON	0x0ea0
+
+#define AFE_IRQ_DELAY_CNT0	0x0ea4
+#define AFE_IRQ_DELAY_CNT1	0x0ea8
+#define AFE_IRQ_DELAY_CNT2	0x0eac
+#define AFE_IRQ_DELAY_CNT3	0x0eb0
+#define AFE_IRQ_DELAY_CON	0x0eb4
+
+#define AFE_TDM_OUT_CHK_SUM0	0x0eb8
+#define AFE_TDM_OUT_CHK_SUM1	0x0ebc
+#define AFE_TDM_OUT_CHK_SUM2	0x0ec0
+#define AFE_TDM_OUT_CHK_SUM3	0x0ec4
+#define AFE_TDM_OUT_CHK_SUM4	0x0ec8
+#define AFE_TDM_OUT_CHK_SUM5	0x0ecc
+#define AFE_TDM_OUT_CHK_SUM6	0x0ed0
+#define AFE_TDM_OUT_CHK_SUM7	0x0ed4
+
+#define AFE_MAX_REGISTER	(AFE_TDM_OUT_CHK_SUM7)
+
+#define AFE_IRQ_STATUS_BITS	0x7f
+
+#ifdef FPGA_ONLY
+#define FPGA_CFG1		0x05b4
+
+#define FPGA_CFG1_A1SYS_CLK_DIV(x)	((x - 1) & 0xff)
+#define FPGA_CFG1_A2SYS_CLK_DIV(x)	(((x - 1) & 0xff) << 12)
+#define FPGA_CFG1_A3SYS_CLK_DIV(x)	(((x - 1) & 0xff) << 21)
+
+#define FPGA_CFG1_A1SYS_CLK_DIV_MASK	GENMASK(7, 0)
+#define FPGA_CFG1_A2SYS_CLK_DIV_MASK	GENMASK(19, 12)
+#define FPGA_CFG1_A3SYS_CLK_DIV_MASK	GENMASK(28, 21)
+#endif
+
+/* AUDIO_TOP_CON0 (0x0000) */
+#define AUD_TCON0_PDN_TDM_IN		BIT(28)
+#define AUD_TCON0_PDN_A3SYS		BIT(26)
+#define AUD_TCON0_PDN_A2SYS		BIT(25)
+#define AUD_TCON0_PDN_A1SYS		BIT(24)
+#ifdef HDMI_ENABLE
+#define AUD_TCON0_PDN_HDMI_RX		BIT(23)
+#endif
+#define AUD_TCON0_PDN_DP_RX		BIT(22)
+#define AUD_TCON0_PDN_TDM_OUT		BIT(20)
+#define AUD_TCON0_PDN_AFE		BIT(2)
+
+/* AUDIO_TOP_CON1 (0x0004) */
+#define AUD_TCON1_TDMOUT_BCK_TO_PAD_INV	BIT(15)
+#define AUD_TCON1_TDMIN_BCK_TO_PAD_INV	BIT(13)
+#define AUD_TCON1_PDN_I2S_IN_CLK	BIT(6)
+#define AUD_TCON1_PDN_I2S_OUT_CLK	BIT(5)
+
+/* AFE_DAC_CON0 (0x0010) */
+#define AFE_DAC_CON0_VUL12_A1SYS_MASK	(0x0)
+#define AFE_DAC_CON0_VUL12_A2SYS_MASK	(0x10)
+#define AFE_DAC_CON0_VUL12_A3SYS_MASK	(0x20)
+#define AFE_VUL12_ON	BIT(9)
+#define AFE_DL12_ON	BIT(8)
+#define AFE_AWB_ON	BIT(6)
+#define AFE_AFE_ON	BIT(0)
+
+/* AFE_DAC_CON1 (0x0014) */
+#define AFE_DL12_MODE_MASK		GENMASK(6, 0)
+#define AFE_DAC_CON1_DL12_A1SYS_MASK	(0x0)
+#define AFE_DAC_CON1_DL12_A2SYS_MASK	(0x10)
+#define AFE_DAC_CON1_DL12_A3SYS_MASK	(0x20)
+
+/* AFE_I2S_CON1 (0x0034) */
+#define AFE_I2S_CON1_CLK_A3SYS		(0x2 << 12)
+#define AFE_I2S_CON1_CLK_A2SYS		(0x1 << 12)
+#define AFE_I2S_CON1_CLK_A1SYS		(0x0 << 12)
+#define AFE_I2S_CON1_RATE(x)		(((x) & 0xf) << 8)
+#define AFE_I2S_CON1_BCK_INV		BIT(6)
+#define AFE_I2S_CON1_LRCK_INV		BIT(5)
+#define AFE_I2S_CON1_FORMAT_I2S		BIT(3)
+#define AFE_I2S_CON1_WLEN_32BIT		BIT(1)
+#define AFE_I2S_CON1_EN			BIT(0)
+
+/* AFE_I2S_CON2 (0x0038) */
+#define AFE_I2S_CON2_LOOPBACK_EN	BIT(20)
+#define AFE_I2S_CON2_CLK_A3SYS		(0x2 << 12)
+#define AFE_I2S_CON2_CLK_A2SYS		(0x1 << 12)
+#define AFE_I2S_CON2_CLK_A1SYS		(0x0 << 12)
+#define AFE_I2S_CON2_RATE(x)		(((x) & 0xf) << 8)
+#define AFE_I2S_CON2_BCK_INV		BIT(6)
+#define AFE_I2S_CON2_LRCK_INV		BIT(5)
+#define AFE_I2S_CON2_FORMAT_I2S		BIT(3)
+#define AFE_I2S_CON2_WLEN_32BIT		BIT(1)
+#define AFE_I2S_CON2_EN			BIT(0)
+
+/* AFE_MEMIF_MSB (0x00cc) */
+#define AFE_MEMIF_MSB_TDM_IN_SIGN_MASK	BIT(25)
+#define AFE_MEMIF_MSB_VUL12_SIGN_MASK	BIT(21)
+#define AFE_MEMIF_MSB_AWB_SIGN_MASK	BIT(17)
+
+/* AFE_TDM_SHIFT_CON0 (0x0180) */
+#define AFE_TDM_SHIFT_CON0_IN_MASK		GENMASK(15, 8)
+#define AFE_TDM_SHIFT_CON0_OUT_MASK		GENMASK(7, 0)
+#define AFE_TDM_SHIFT_CON0_IN_SHIFT_NUM(x)	(((x) & 0x1f) << 8)
+#define AFE_TDM_SHIFT_CON0_OUT_SHIFT_NUM(x)	((x) & 0x1f)
+#define AFE_TDM_SHIFT_CON0_IN_RJ_EN		BIT(14)
+#define AFE_TDM_SHIFT_CON0_OUT_RJ_EN		BIT(6)
+
+/* AFE_I2S_SHIFT_CON0 (0x0184) */
+#define AFE_I2S_SHIFT_CON0_IN_MASK		GENMASK(15, 8)
+#define AFE_I2S_SHIFT_CON0_OUT_MASK		GENMASK(7, 0)
+#define AFE_I2S_SHIFT_CON0_IN_SHIFT_NUM(x)	(((x) & 0x1f) << 8)
+#define AFE_I2S_SHIFT_CON0_OUT_SHIFT_NUM(x)	((x) & 0x1f)
+#define AFE_I2S_SHIFT_CON0_IN_RJ_EN		BIT(14)
+#define AFE_I2S_SHIFT_CON0_OUT_RJ_EN		BIT(6)
+
+/* AFE_SINEGEN_CON_TDM (0x01f8) */
+#define AFE_SINEGEN_CON_EN_SET		(0x11071071)
+#define AFE_SINEGEN_CON_EN_RESET	(0x100100)
+#define AFE_SINEGEN_CON_TDM_OUT_EN	BIT(28)
+
+/* AFE_SGEN_CON2 (0x01dc) */
+#define AFE_SGEN_CON2_EN_MASK		GENMASK(5, 0)
+#define AFE_SGEN_CON2_EN		(0x23)
+
+/* AFE_SGEN_CON0 (0x01f0) */
+#define AFE_SGEN_CON0_EN_MASK		(0x070ff0ff)
+#define AFE_SGEN_CON0_EN		(0x40c20c2)
+#define AFE_SGEN_CON0_SINE_CH2_MASK	GENMASK(23, 20)
+#define AFE_SGEN_CON0_SINE_CH2_192K	(0xe << 20)
+#define AFE_SGEN_CON0_SINE_CH2_176K	(0xd << 20)
+#define AFE_SGEN_CON0_SINE_CH2_96K	(0xc << 20)
+#define AFE_SGEN_CON0_SINE_CH2_88K	(0xb << 20)
+#define AFE_SGEN_CON0_SINE_CH2_48K	(0xa << 20)
+#define AFE_SGEN_CON0_SINE_CH2_44K	(0x9 << 20)
+#define AFE_SGEN_CON0_SINE_CH2_32K	(0x8 << 20)
+#define AFE_SGEN_CON0_SINE_CH2_24K	(0x6 << 20)
+#define AFE_SGEN_CON0_SINE_CH2_22K	(0x5 << 20)
+#define AFE_SGEN_CON0_SINE_CH2_16K	(0x4 << 20)
+#define AFE_SGEN_CON0_SINE_CH2_12K	(0x2 << 20)
+#define AFE_SGEN_CON0_SINE_CH2_11K	(0x1 << 20)
+#define AFE_SGEN_CON0_SINE_CH2_8K	(0x0 << 20)
+#define AFE_SGEN_CON0_SINE_CH1_MASK	GENMASK(11, 8)
+#define AFE_SGEN_CON0_SINE_CH1_192K	(0xe << 8)
+#define AFE_SGEN_CON0_SINE_CH1_176K	(0xd << 8)
+#define AFE_SGEN_CON0_SINE_CH1_96K	(0xc << 8)
+#define AFE_SGEN_CON0_SINE_CH1_88K	(0xb << 8)
+#define AFE_SGEN_CON0_SINE_CH1_48K	(0xa << 8)
+#define AFE_SGEN_CON0_SINE_CH1_44K	(0x9 << 8)
+#define AFE_SGEN_CON0_SINE_CH1_32K	(0x8 << 8)
+#define AFE_SGEN_CON0_SINE_CH1_24K	(0x6 << 8)
+#define AFE_SGEN_CON0_SINE_CH1_22K	(0x5 << 8)
+#define AFE_SGEN_CON0_SINE_CH1_16K	(0x4 << 8)
+#define AFE_SGEN_CON0_SINE_CH1_12K	(0x2 << 8)
+#define AFE_SGEN_CON0_SINE_CH1_11K	(0x1 << 8)
+#define AFE_SGEN_CON0_SINE_CH1_8K	(0x0 << 8)
+
+/* AFE_SINEGEN_CON_TDM_IN (0x01fc) */
+#define AFE_SINEGEN_CON_TDM_IN_EN_SET	(0x11071071)
+#define AFE_SINEGEN_CON_TDM_IN_EN_RESET	(0x100100)
+#define AFE_SINEGEN_CON_TDM_IN_EN	BIT(28)
+
+/* AFE_IRQ0_MCU_CNT (0x0300) */
+#define AFE_COMMON_IRQ_A1SYS_MASK	(0x0)
+#define AFE_COMMON_IRQ_A2SYS_MASK	(0x10)
+#define AFE_COMMON_IRQ_A3SYS_MASK	(0x20)
+
+/* AFE_TDM_OUT_CON0 (0x0370) */
+#define AFE_TDM_OUT_CON0_CH_MASK	GENMASK(7, 4)
+
+/* AFE_CONN_TDMOUT (0x0390) */
+#define AFE_CONN_TDMOUT_O7_I7		(0x7 << 28)
+#define AFE_CONN_TDMOUT_O6_I6		(0x6 << 24)
+#define AFE_CONN_TDMOUT_O5_I5		(0x5 << 20)
+#define AFE_CONN_TDMOUT_O4_I4		(0x4 << 16)
+#define AFE_CONN_TDMOUT_O3_I3		(0x3 << 12)
+#define AFE_CONN_TDMOUT_O2_I2		(0x2 << 8)
+#define AFE_CONN_TDMOUT_O1_I1		(0x1 << 4)
+#define AFE_CONN_TDMOUT_O0_I0		(0x0 << 0)
+
+/* #define AFE_IRQ_MCU_EN (0x03b4) */
+#define AFE_IRQ_MCU_EN_ALL		GENMASK(6, 0)
+
+/* #define AFE_MEMIF_HD_MODE (0x03f8) */
+#define AFE_TDM_IN_HD_MASK	GENMASK(31, 30)
+#define AFE_TDM_OUT_HD_MASK	GENMASK(21, 20)
+#define AFE_VUL12_HD_MASK	GENMASK(13, 12)
+#define AFE_AWB_HD_MASK		GENMASK(9, 8)
+#define AFE_DL12_HD_MASK	GENMASK(3, 2)
+#define AFE_16_BIT_FORMAT	0x0
+#define AFE_24_BIT_FORMAT	0x1
+#define AFE_32_BIT_FORMAT	0x2
+#define AFE_20_BIT_FORMAT	0x3
+
+/* #define AFE_MEMIF_HD_MODE (0x03fC) */
+#define AFE_TDM_IN_HD_ALIGN	BIT(15)
+#define AFE_TDM_OUT_HD_ALIGN	BIT(10)
+#define AFE_VUL12_HD_ALIGN	BIT(6)
+#define AFE_AWB_HD_ALIGN	BIT(4)
+#define AFE_DL12_HD_ALIGN	BIT(1)
+
+
+/* AFE_TDM_CON1 (0x0548) */
+#define AFE_TDM_CON1_LRCK_WIDTH(x)	(((x) - 1) << 24)
+#define AFE_TDM_CON1_32_BCK_CYCLES	(0x2 << 12)
+#define AFE_TDM_CON1_24_BCK_CYCLES	(0x1 << 12)
+#define AFE_TDM_CON1_16_BCK_CYCLES	(0x0 << 12)
+#define AFE_TDM_CON1_8CH_PER_SDATA	(0x2 << 10)
+#define AFE_TDM_CON1_4CH_PER_SDATA	(0x1 << 10)
+#define AFE_TDM_CON1_2CH_PER_SDATA	(0x0 << 10)
+#define AFE_TDM_CON1_WLEN_32BIT		(0x3 << 8)
+#define AFE_TDM_CON1_WLEN_24BIT		(0x2 << 8)
+#define AFE_TDM_CON1_WLEN_16BIT		(0x1 << 8)
+#define AFE_TDM_CON1_LEFT_ALIGNED	BIT(4)
+#define AFE_TDM_CON1_1_BCK_DELAY	BIT(3)
+#define AFE_TDM_CON1_LRCK_INV		BIT(2)
+#define AFE_TDM_CON1_EN			BIT(0)
+
+/* AFE_TDM_CON2 (0x054c) */
+#define AFE_TDM_CON2_SOUT_MASK		GENMASK(14, 0)
+
+/* AFE_CONN_MUX_CFG(0x0af8) */
+#define AFE_CONN_MUX_O7_NULL		(0xf << 28)
+#define AFE_CONN_MUX_O7_I9		(0x9 << 28)
+#define AFE_CONN_MUX_O7_I7		(0x7 << 28)
+#define AFE_CONN_MUX_O7_I5		(0x5 << 28)
+#define AFE_CONN_MUX_O6_NULL		(0xf << 24)
+#define AFE_CONN_MUX_O6_I8		(0x8 << 24)
+#define AFE_CONN_MUX_O6_I6		(0x6 << 24)
+#define AFE_CONN_MUX_O6_I4		(0x4 << 24)
+#define AFE_CONN_MUX_O5_NULL		(0xf << 20)
+#define AFE_CONN_MUX_O5_I9		(0x9 << 20)
+#define AFE_CONN_MUX_O5_I5		(0x5 << 20)
+#define AFE_CONN_MUX_O4_NULL		(0xf << 16)
+#define AFE_CONN_MUX_O4_I8		(0x8 << 16)
+#define AFE_CONN_MUX_O4_I4		(0x4 << 16)
+#define AFE_CONN_MUX_O3_NULL		(0xf << 12)
+#define AFE_CONN_MUX_O3_I9		(0x9 << 12)
+#define AFE_CONN_MUX_O3_I3		(0x3 << 12)
+#define AFE_CONN_MUX_O2_NULL		(0xf << 8)
+#define AFE_CONN_MUX_O2_I8		(0x8 << 8)
+#define AFE_CONN_MUX_O2_I2		(0x2 << 8)
+#define AFE_CONN_MUX_O1_NULL		(0xf << 4)
+#define AFE_CONN_MUX_O1_I9		(0x9 << 4)
+#define AFE_CONN_MUX_O1_I1		(0x1 << 4)
+#define AFE_CONN_MUX_O0_NULL		(0xf << 0)
+#define AFE_CONN_MUX_O0_I8		(0x8 << 0)
+#define AFE_CONN_MUX_O0_I0		(0x0 << 0)
+
+#define AFE_CONN_MUX_O7_MASK		GENMASK(31, 28)
+#define AFE_CONN_MUX_O6_MASK		GENMASK(27, 24)
+#define AFE_CONN_MUX_O5_MASK		GENMASK(23, 20)
+#define AFE_CONN_MUX_O4_MASK		GENMASK(19, 16)
+#define AFE_CONN_MUX_O3_MASK		GENMASK(15, 12)
+#define AFE_CONN_MUX_O2_MASK		GENMASK(11, 8)
+#define AFE_CONN_MUX_O1_MASK		GENMASK(7, 4)
+#define AFE_CONN_MUX_O0_MASK		GENMASK(3, 0)
+
+/* AFE_TDM_IN_CON1 (0x0cbc) */
+#define AFE_TDM_IN_CON1_SET_MASK		(0xff0333fe)
+#define AFE_TDM_IN_CON1_LRCK_WIDTH(x)		(((x) - 1) << 24)
+#define AFE_TDM_IN_CON1_LOOPBACK_EN		BIT(20)
+#define AFE_TDM_IN_CON1_FAST_LRCK_CYCLE_32BCK	(0x2 << 16)
+#define AFE_TDM_IN_CON1_FAST_LRCK_CYCLE_16BCK	(0x0 << 16)
+#define AFE_TDM_IN_CON1_8CH_PER_SDATA		(0x2 << 12)
+#define AFE_TDM_IN_CON1_4CH_PER_SDATA		(0x1 << 12)
+#define AFE_TDM_IN_CON1_2CH_PER_SDATA		(0x0 << 12)
+#define AFE_TDM_IN_CON1_WLEN_32BIT		(0x3 << 8)
+#define AFE_TDM_IN_CON1_WLEN_24BIT		(0x2 << 8)
+#define AFE_TDM_IN_CON1_WLEN_16BIT		(0x1 << 8)
+#define AFE_TDM_IN_CON1_SYNC_MODE_ON		BIT(4)
+#define AFE_TDM_IN_CON1_I2S			BIT(3)
+#define AFE_TDM_IN_CON1_LRCK_INV		BIT(2)
+#define AFE_TDM_IN_CON1_EN			BIT(0)
+
+/* AFE_TDM_IN_CON2 (0x0cc0) */
+#define AFE_TDM_IN_CON2_SET_MASK		(0xf0f0f)
+#define AFE_TDM_IN_CON2_OUT_LEN_16BIT		(0x3 << 24)
+#define AFE_TDM_IN_CON2_OUT_LEN_20BIT		(0x2 << 24)
+#define AFE_TDM_IN_CON2_OUT_LEN_24BIT		(0x1 << 24)
+#define AFE_TDM_IN_CON2_OUT_LEN_32BIT		(0x0 << 24)
+#define AFE_TDM_IN_CON2_ODD_CFG_CH01		BIT(7)
+#define AFE_TDM_IN_CON2_DISABLE_CH67		BIT(0)
+
+/* AFE_MPHONE_MULTI_CON0 (0x0e50) */
+#define AFE_MPHONE_MULTI_CON0_SET_MASK			(0x03fff00e)
+#define AFE_MPHONE_MULTI_CON0_SDATA3_SEL_SDATA3		(0x3 << 23)
+#define AFE_MPHONE_MULTI_CON0_SDATA2_SEL_SDATA2		(0x2 << 20)
+#define AFE_MPHONE_MULTI_CON0_SDATA1_SEL_SDATA1		(0x1 << 17)
+#define AFE_MPHONE_MULTI_CON0_SDATA0_SEL_SDATA0		(0x0 << 14)
+#define AFE_MPHONE_MULTI_CON0_CLK_SRC_TDM_OUT		(0x2 << 12)
+#define AFE_MPHONE_MULTI_CON0_CLK_SRC_DPRX		(0x1 << 12)
+#ifdef HDMI_ENABLE
+#define AFE_MPHONE_MULTI_CON0_CLK_SRC_HDMIRX		(0x0 << 12)
+#endif
+#define AFE_MPHONE_MULTI_CON0_24BIT_MODE		(0x1 << 1)
+#define AFE_MPHONE_MULTI_CON0_16BIT_MODE		(0x0 << 1)
+#define AFE_MPHONE_MULTI_CON0_16BIT_SWAP		BIT(3)
+#define AFE_MPHONE_MULTI_CON0_EN			BIT(0)
+
+/* AFE_MPHONE_MULTI_CON1 (0x0e54) */
+#define AFE_MPHONE_MULTI_CON1_SET_MASK		(0x314fff43)
+#define AFE_MPHONE_MULTI_CON1_DATA_SRC_TDM_OUT	(0x2 << 28)
+#define AFE_MPHONE_MULTI_CON1_DATA_SRC_DPRX	(0x1 << 28)
+#ifdef HDMI_ENABLE
+#define AFE_MPHONE_MULTI_CON1_DATA_SRC_HDMIRX	(0x0 << 28)
+#endif
+#define AFE_MPHONE_MULTI_CON1_32_LRCK_CYCLES	(0x2 << 16)
+#define AFE_MPHONE_MULTI_CON1_24_LRCK_CYCLES	(0x1 << 16)
+#define AFE_MPHONE_MULTI_CON1_16_LRCK_CYCLES	(0x0 << 16)
+#define AFE_MPHONE_MULTI_CON1_COMPACT_MODE	(0x0 << 19)
+#define AFE_MPHONE_MULTI_CON1_NONCOMPACT_MODE	(0x1 << 19)
+#define AFE_MPHONE_MULTI_CON1_INPUT_SRC_BITS(x) ((((x) - 1) & 0x1F) << 8)
+#define AFE_MPHONE_MULTI_CON1_MULTI_SYNC_EN	BIT(24)
+#define AFE_MPHONE_MULTI_CON1_24BIT_SWAP_PASS	BIT(22)
+#define AFE_MPHONE_MULTI_CON1_HBR_MODE		BIT(18)
+#define AFE_MPHONE_MULTI_CON1_INV_LRCK		BIT(15)
+#define AFE_MPHONE_MULTI_CON1_DELAY_DATA	BIT(14)
+#define AFE_MPHONE_MULTI_CON1_LEFT_ALIGN	BIT(13)
+#define AFE_MPHONE_MULTI_CON1_INV_BCK		BIT(6)
+#define AFE_MPHONE_MULTI_CON1_8_CHANNEL		(0x3 << 0)
+#define AFE_MPHONE_MULTI_CON1_6_CHANNEL		(0x2 << 0)
+#define AFE_MPHONE_MULTI_CON1_4_CHANNEL		(0x1 << 0)
+#define AFE_MPHONE_MULTI_CON1_2_CHANNEL		(0x0 << 0)
+
+/* AFE_FS_TIMING_CON (0x0ea0) */
+#define AFE_FS_TIMING_CON_A3SYS_ENGEN_EN	BIT(6)
+#define AFE_FS_TIMING_CON_A2SYS_ENGEN_EN	BIT(5)
+#define AFE_FS_TIMING_CON_A1SYS_ENGEN_EN	BIT(4)
+/**
+ * @}
+ */
+
+#endif
+

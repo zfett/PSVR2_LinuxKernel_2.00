@@ -1,0 +1,60 @@
+/*
+ * Copyright (c) 2019 MediaTek Inc.
+ * Author: Chun-Chi Lan <cc.lan@mediatek.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+/dts-v1/;
+#include "mt3612-a0-system.dtsi"
+#include "mt3612-a0-peri.dtsi"
+#include "mt3612-a0-peri-extra.dtsi"
+
+#include "mt3612-a0-single-core.dtsi"
+#include "mt3615.dtsi"
+
+/ {
+	model = "MediaTek MT3612 Evaluation Board";
+	compatible = "mediatek,mt3612-evb", "mediatek,mt3612";
+	interrupt-parent = <&sysirq>;
+	#address-cells = <2>;
+	#size-cells = <2>;
+
+	aliases {
+		serial0 = &uart0;
+	};
+
+	chosen {
+		/* bootargs = "console=ttyS0,921600n1 initcall_debug=1 loglevel=8 androidboot.selinux=disabled"; */
+		bootargs = "console=ttyS0,921600n1 mem=2048M root=/dev/ram \
+			    auto_detect_partition init=/init \
+			    earlycon=mtk8250,0x11020000,921600n8 loglevel=8 \
+			    mtdparts=mtk_nor:1024k@0x000F0000(factory2), \
+			    1024k@0x01F00000(fts)";
+		linux,stdout-path = "serial0";
+		linux,initrd-start = <0x48000000>;
+		linux,initrd-end = <0x4A000000>;
+		lk,timestamp = <0x00000000>;
+		linux,bootmode = "normal";
+	};
+
+	/*
+	*sound: sound {
+	*	compatible = "mediatek,mt3612-afe-machine";
+	*	mediatek,platform = <&afe>;
+	*	status = "okay";
+	*};
+	*/
+};
+
+&uart0 {
+	clocks = <&uart_clk>;
+	status = "okay";
+};

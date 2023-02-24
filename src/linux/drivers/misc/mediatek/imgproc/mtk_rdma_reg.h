@@ -1,0 +1,262 @@
+/*
+ * Copyright (c) 2017 MediaTek Inc.
+ * Authors:
+ *	Monica Wang <monica.wang@mediatek.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+#ifndef __MTK_RDMA_REG_H__
+#define __MTK_RDMA_REG_H__
+/** @ingroup IP_group_rdma_internal_def
+ * @brief RDMA configuration register
+ * @{
+ */
+/* ----------------- Register Definitions ------------------- */
+#define MDP_RDMA_EN					0x00000000
+	#define ROT_ENABLE				BIT(0)
+	#define INTERNAL_DCM_EN				BIT(4)
+#define MDP_RDMA_RESET					0x00000008
+	#define WARM_RESET				BIT(0)
+#define MDP_RDMA_INTERRUPT_ENABLE			0x00000010
+	#define FRAME_COMPLETE_INT_EN			BIT(0)
+	#define REG_UPDATE_INT_EN			BIT(1)
+	#define UNDERRUN_INT_EN				BIT(2)
+#define MDP_RDMA_INTERRUPT_STATUS			0x00000018
+	#define FRAME_COMPLETE_INT			BIT(0)
+	#define REG_UPDATE_INT				BIT(1)
+	#define UNDERRUN_INT				BIT(2)
+#define MDP_RDMA_GMCIF_CON				0x00000028
+	#define COMMAND_DIV				BIT(0)
+	#define READ_REQUEST_TYPE			GENMASK(6, 4)
+	#define ULTRA_EN					GENMASK(13, 12)
+	#define PRE_ULTRA_EN				GENMASK(17, 16)
+	#define THROTTLE_EN				BIT(19)
+	#define THROTTLE_PERIOD			GENMASK(31, 20)
+#define MDP_RDMA_SRC_CON				0x00000030
+	#define SRC_FORMAT				GENMASK(3, 0)
+	#define RDMA_FMT_RGB888				1
+	#define RDMA_FMT_BGRA8888			2
+	#define RDMA_FMT_ARGB8888			3
+	#define RDMA_FMT_YUY2				5
+	#define RDMA_FMT_Y8				7
+	#define RDMA_FMT_NV12				12
+	#define SWAP					BIT(14)
+	#define RING_BUF_READ				BIT(24)
+	#define OUTPUT_ARGB				BIT(25)
+	#define RIGHT_BOUNDARY				BIT(28)
+	#define LEFT_BOUNDARY				BIT(29)
+	#define BOT_BOUNDARY				BIT(30)
+	#define TOP_BOUNDARY				BIT(31)
+#define MDP_RDMA_SRC_CON2				0x00000038
+	#define ARGB_10BIT				BIT(0)
+	#define Y_ONLY_10BIT				BIT(1)
+	#define FAKE_CTRL_EN				BIT(2)
+	#define FAKE_DATA_EN				BIT(3)
+	#define SOF_CNT_CLR				BIT(4)
+	#define FID_BYPASS				BIT(5)
+	#define FID					GENMASK(9, 6)
+	#define EOF_MASK				BIT(14)
+#define MDP_RDMA_MF_BKGD_SIZE_IN_BYTE			0x00000060
+	#define MF_BKGD_WB				GENMASK(20, 0)
+#define MDP_RDMA_MF_BKGD_SIZE_IN_PXL			0x00000068
+	#define MF_BKGD_WP				GENMASK(20, 0)
+#define MDP_RDMA_MF_SRC_SIZE				0x00000070
+	#define MF_SRC_W				GENMASK(12, 0)
+	#define MF_SRC_H				GENMASK(28, 16)
+#define MDP_RDMA_MF_CLIP_SIZE				0x00000078
+	#define MF_CLIP_W				GENMASK(12, 0)
+	#define MF_CLIP_H				GENMASK(28, 16)
+#define MDP_RDMA_MF_OFFSET_1				0x00000080
+	#define MF_OFFSET_W_1				GENMASK(4, 0)
+	#define MF_OFFSET_H_1				GENMASK(21, 16)
+#define MDP_RDMA_MF_PAR					0x00000088
+	#define MF_JUMP					GENMASK(9, 0)
+	#define MF_SB					GENMASK(28, 12)
+#define MDP_RDMA_SRC_END_0				0x00000100
+	#define SRC_END_0				GENMASK(31, 0)
+#define MDP_RDMA_SRC_OFFSET_0				0x00000118
+	#define SRC_OFFSET_0				GENMASK(31, 0)
+#define MDP_RDMA_SRC_OFFSET_W_0				0x00000130
+	#define SRC_OFFSET_W_0				GENMASK(15, 0)
+#define MDP_RDMA_DMABUF_CON_0				0x00000240
+	#define ISSUE_REQ_TH_0				GENMASK(7, 0)
+	#define GROUP_REQ_TH_0				GENMASK(15, 8)
+	#define BUF_RESV_SIZE_0				GENMASK(25, 16)
+	#define EXTRD_ARB_MAX_0				GENMASK(28, 26)
+#define MDP_RDMA_DMAULTRA_CON_0				0x00000248
+	#define ULTRA_TH_LOW_0				GENMASK(7, 0)
+	#define PRE_ULTRA_TH_LOW_OFS_0			GENMASK(15, 8)
+	#define ULTRA_TH_HIGH_OFS_0			GENMASK(23, 16)
+	#define PRE_ULTRA_TH_HIGH_OFS_0			GENMASK(31, 24)
+#define MDP_RDMA_SMI_CRC_CON				0x00000390
+	#define CRC_EN					BIT(0)
+	#define CRC_RESET				BIT(1)
+#define MDP_RDMA_SMI_CRC_PRE				0x00000398
+	#define CRC_PRE					GENMASK(31, 0)
+#define MDP_RDMA_SMI_CRC_CUR				0x000003a0
+	#define CRC_CUR					GENMASK(31, 0)
+#define MDP_RDMA_TARGET_LINE				0x000003a8
+	#define TARGET_LINE				GENMASK(12, 0)
+#define MDP_RDMA_SRC_BASE_0				0x00000f00
+	#define SRC_BASE_0				GENMASK(31, 0)
+
+#define PVRIC_EN					0x00000000
+	#define ROT_ENABLE				BIT(0)
+	#define INTERNAL_DCM_DISABLE			GENMASK(13, 4)
+#define PVRIC_RESET					0x00000008
+	#define WARM_RESET				BIT(0)
+#define PVRIC_INTERRUPT_ENABLE				0x0000000c
+	#define FRAME_COMPLETE_INT_EN			BIT(0)
+	#define REG_UPDATE_INT_EN			BIT(1)
+	#define UNDERRUN_INT_EN				BIT(2)
+#define PVRIC_INTERRUPT_STATUS				0x00000010
+	#define FRAME_COMPLETE_INT			BIT(0)
+	#define REG_UPDATE_INT				BIT(1)
+	#define UNDERRUN_INT				BIT(2)
+#define PVRIC_SRC_CON					0x00000030
+	#define SRAM_SHARE_EN				BIT(0)
+	#define SRAM_SHARE_SEL				BIT(1)
+	#define RBFC_OFF				BIT(2)
+	#define PVRIC_GSECURE				BIT(3)
+	#define SRC_SWAP				GENMASK(6, 4)
+	#define PVRIC_EOF_MASK				BIT(7)
+	#define PVRIC_FORMAT				GENMASK(14, 8)
+	#define PVRIC_SOF_CNT_CLR			BIT(15)
+	#define OUTPUT_ARGB				BIT(25)
+#define PVRIC_BASE_ADDR_MSB				0x00000068
+	#define BASE_ADDR_MSB				GENMASK(1, 0)
+#define PVRIC_BASE_ADDR_LSB				0x0000006c
+	#define BASE_ADDR_LSB				GENMASK(31, 0)
+#define PVRIC_START_OFFSET				0x00000074
+	#define START_OFFSET				GENMASK(22, 0)
+#define PVRIC_TILE_SRC_WIDTH				0x0000007c
+	#define TILE_SRC_WIDTH				GENMASK(10, 0)
+#define PVRIC_TILE_SRC_HEIGHT				0x00000084
+	#define TILE_SRC_HEIGHT				GENMASK(10, 0)
+#define PVRIC_OFFSET_PITCH				0x0000008c
+	#define OFFSET_PITCH				GENMASK(22, 0)
+#define PVRIC_POST_PROC_SRC_CON				0x0000009c
+	#define OUT_10B					BIT(27)
+	#define ARGB_SWAP				GENMASK(31, 28)
+#define PVRIC_POST_PROC_SRC_CON3			0x000000a4
+	#define SRC_W					GENMASK(12, 0)
+	#define CLIP_W					GENMASK(25, 13)
+	#define CLIP_OFFSET_W				GENMASK(31, 26)
+#define PVRIC_POST_PROC_SRC_CON4			0x000000a8
+	#define SRC_H					GENMASK(12, 0)
+	#define CLIP_H					GENMASK(25, 13)
+	#define CLIP_OFFSET_H				GENMASK(31, 26)
+#define PVRIC_SMI_ULTRA_CON				0x000000c0
+	#define SMI_ULTRA_EN				BIT(0)
+	#define SMI_ULTRA_TH				GENMASK(30, 4)
+#define PVRIC_SMI_ULTRA_CON2				0x000000c4
+	#define SMI_PREULTRA_EN				BIT(0)
+	#define SMI_PREULTRA_TH				GENMASK(30, 4)
+#define PVRIC_SMI_CRC_CON				0x00000300
+	#define CRC_EN					BIT(0)
+	#define CRC_RESET				BIT(1)
+#define PVRIC_SMI_CRC_PRE				0x00000304
+	#define CRC_PRE					GENMASK(31, 0)
+#define PVRIC_SMI_CRC_CUR				0x00000308
+	#define CRC_CUR					GENMASK(31, 0)
+#define PVRIC_TARGET_LINE				0x0000030c
+	#define TARGET_LINE				GENMASK(12, 0)
+#define PVRIC_DEBUG_CON					0x00000310
+	#define DEBUG_OUT_SEL				GENMASK(5, 0)
+#define PVRIC_DUMMY0					0x00000500
+	#define DUMMY0					GENMASK(31, 0)
+#define PVRIC_DUMMY1					0x00000504
+	#define DUMMY1					GENMASK(31, 0)
+#define PVRIC_DUMMY2					0x00000508
+	#define DUMMY2					GENMASK(31, 0)
+
+#define DISP_RDMA_INT_ENABLE					0x00000000
+	#define DISP_RDMA_REG_UPDATE_INT_EN			BIT(0)
+	#define DISP_RDMA_FRAME_END_INT_EN			BIT(2)
+#define DISP_RDMA_INT_STATUS					0x00000004
+	#define DISP_RDMA_REG_UPDATE_INT_FLAG			BIT(0)
+	#define DISP_RDMA_FRAME_END_INT_FLAG			BIT(2)
+#define DISP_RDMA_GLOBAL_CON					0x00000010
+	#define DISP_RDMA_ENGINE_EN				BIT(0)
+	#define DISP_RDMA_PIXEL_10_BIT				BIT(3)
+	#define DISP_RDMA_SOFT_RESET				BIT(4)
+	#define DISP_RDMA_RESET_STATE				GENMASK(10, 8)
+#define DISP_RDMA_SIZE_CON_0					0x00000014
+	#define DISP_RDMA_OUTPUT_FRAME_WIDTH			GENMASK(12, 0)
+#define DISP_RDMA_SIZE_CON_1					0x00000018
+	#define DISP_RDMA_OUTPUT_FRAME_HEIGHT			GENMASK(19, 0)
+#define DISP_RDMA_TARGET_LINE					0x0000001c
+	#define DISP_RDMA_BIT_TARGET_LINE			GENMASK(19, 0)
+#define DISP_RDMA_FIFO_CON					0x00000040
+	#define DISP_RDMA_OUTPUT_VALID_FIFO_THRESHOLD		GENMASK(13, 0)
+	#define DISP_RDMA_OUTPUT_VALID_THRESHOLD_PER_LINE	BIT(15)
+	#define DISP_RDMA_FIFO_PSEUDO_SIZE			GENMASK(29, 16)
+	#define DISP_RDMA_FIFO_UNDERFLOW_EN			BIT(31)
+#define DISP_RDMA_FIFO_LOG					0x00000044
+	#define DISP_RDMA_BIT_FIFO_LOG				GENMASK(11, 0)
+#define DISP_RDMA_DUMMY						0x00000090
+	#define DISP_RDMA_BIT_DUMMY				GENMASK(31, 0)
+#define DISP_RDMA_DEBUG_OUT_SEL					0x00000094
+	#define DISP_RDMA_BIT_DEBUG_OUT_SEL			GENMASK(3, 0)
+	#define DISP_RDMA_DEBUG_COUNTER_EN			BIT(4)
+#define DISP_RDMA_BG_CON_0					0x000000a0
+	#define DISP_RDMA_BG_LEFT				GENMASK(12, 0)
+	#define DISP_RDMA_BG_RIGHT				GENMASK(28, 16)
+#define DISP_RDMA_BG_CON_1					0x000000a4
+	#define DISP_RDMA_BG_TOP				GENMASK(12, 0)
+	#define DISP_RDMA_BG_BOTTOM				GENMASK(28, 16)
+#define DISP_RDMA_THRESHOLD_FOR_SODI				0x000000a8
+#define DISP_RDMA_THRESHOLD_FOR_DVFS				0x000000ac
+#define DISP_RDMA_SRAM_SEL					0x000000b0
+	#define DISP_RDMA_BIT_SRAM_SEL				GENMASK(2, 0)
+#define DISP_RDMA_STALL_CG_CON					0x000000b4
+	#define DISP_RDMA_POST_ENG_CG				BIT(0)
+	#define DISP_RDMA_ASYNC_READ_CG				BIT(1)
+	#define DISP_RDMA_ASYNC_WRITE_CG			BIT(2)
+	#define DISP_RDMA_LINE_BUF_CG				BIT(3)
+	#define DISP_RDMA_GMC_ENG_CG				BIT(4)
+	#define DISP_RDMA_PRE_ENG_CG				BIT(5)
+	#define DISP_RDMA_FRAME_CTL_CG				BIT(6)
+	#define DISP_RDMA_FRAME_CTL_SHARED_BUF_CG		BIT(7)
+	#define DISP_RDMA_FENG_CK_EN_CG				BIT(8)
+	#define DISP_RDMA_RELAY_CG				BIT(9)
+	#define DISP_RDMA_REG_CG				BIT(10)
+	#define DISP_RDMA_MEM_CG				BIT(11)
+	#define DISP_RDMA_OUT_RELAY_CG				BIT(12)
+	#define DISP_RDMA_UV_UPSAMPLE_CG			BIT(13)
+	#define DISP_RDMA_MATRIX_CG				BIT(14)
+	#define DISP_RDMA_HG_FRDMA_SMI_BCLK_DCM_DIS		BIT(16)
+	#define DISP_RDMA_HG_FRDMA_BCLK_DCM_DIS			BIT(17)
+	#define DISP_RDMA_HG_FRDMA_OUT_CK_DCM_DIS		BIT(18)
+#define DISP_RDMA_SHADOW_UPDATE					0x000000bc
+	#define DISP_RDMA_FORCE_COMMIT				BIT(0)
+	#define DISP_RDMA_BYPASS_SHADOW				BIT(1)
+	#define DISP_RDMA_READ_WORK_REG				BIT(2)
+#define DISP_RDMA_DRAM_CON					0x000000c0
+#define DISP_RDMA_SRAM_CASCADE					0x000000c8
+	#define DISP_RDMA_SRAM_SIZE_0				GENMASK(13, 0)
+	#define DISP_RDMA_SRAM_SIZE_1				GENMASK(29, 16)
+#define DISP_RDMA_DVFS_SETTING_PREULTRA				0x000000d0
+#define DISP_RDMA_DVFS_SETTING_ULTRA				0x000000d4
+#define DISP_RDMA_LEAVE_DRS_SETTING				0x000000d8
+#define DISP_RDMA_ENTER_DRS_SETTING				0x000000dc
+#define DISP_RDMA_CROP_CON_0					0x000000e0
+	#define DISP_RDMA_CROP_LEFT				GENMASK(12, 0)
+	#define DISP_RDMA_CROP_RIGHT				GENMASK(28, 16)
+#define DISP_RDMA_CROP_CON_1					0x000000e4
+	#define DISP_RDMA_CROP_TOP				GENMASK(12, 0)
+	#define DISP_RDMA_CROP_BOTTOM				GENMASK(28, 16)
+#define DISP_RDMA_THRESHOLD_FOR_URGENT				0x000000e8
+
+/**
+ * @}
+ */
+
+#endif /*__MTK_RDMA_REG_H__*/

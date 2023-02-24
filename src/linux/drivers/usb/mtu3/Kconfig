@@ -1,0 +1,277 @@
+# For MTK USB3.0 IP
+
+config USB_MTU3
+	tristate "MediaTek USB3 Dual Role controller"
+	#depends on EXTCON && (USB || USB_GADGET) && HAS_DMA
+	#depends on ARCH_MEDIATEK || COMPILE_TEST
+	#select USB_XHCI_MTK if USB_SUPPORT && USB_XHCI_HCD
+	depends on USB
+	help
+	  Say Y or M here if your system runs on MediaTek SoCs with
+	  Dual Role SuperSpeed USB controller. You can select usb
+	  mode as peripheral role or host role, or both.
+
+	  If you don't know what this is, please say N.
+
+	  Choose M here to compile this driver as a module, and it
+	  will be called mtu3.ko.
+
+
+if USB_MTU3
+choice
+	bool "MTU3 Mode Selection"
+	default USB_MTU3_GADGET if (USB && USB_GADGET)
+
+
+config USB_MTU3_HOST
+	bool "Host only mode"
+	depends on USB=y || USB=USB_MTU3
+	help
+	  Select this when you want to use MTU3 in host mode only,
+	  thereby the gadget feature will be regressed.
+
+config USB_MTU3_GADGET
+	bool "Gadget only mode"
+	depends on USB_GADGET=y || USB_GADGET=USB_MTU3
+	help
+	  Select this when you want to use MTU3 in gadget mode only,
+	  thereby the host feature will be regressed.
+
+config USB_MTU3_DUAL_ROLE
+	bool "Dual Role mode"
+	depends on ((USB=y || USB=USB_MTU3) && (USB_GADGET=y || USB_GADGET=USB_MTU3))
+	help
+	  This is the default mode of working of MTU3 controller where
+	  both host and gadget features are enabled.
+
+endchoice
+
+config USB_MTU3_MAX_GPD_NUM
+	int "MTU3 Maximum GPD number usage (4-4096)"
+	depends on USB_MTU3_GADGET
+	range 4 4096
+	default 256
+	help
+	   This value will be set mtu3 device GPD
+	   (General Purpose Descriptor) number.
+
+config USB_MTU3_U3_IN_EP1_SLOT_NUM
+	int "USB3 Input EP1 config SLOT number (0-4)"
+	depends on USB_MTU3_GADGET
+	range 0 4
+	default 1
+	help
+	   This value will be set mtu3 device,
+	   IN EP1 FIFO SLOT number.
+
+config USB_MTU3_U3_IN_EP2_SLOT_NUM
+	int "USB3 Input EP2 config SLOT number (0-4)"
+	depends on USB_MTU3_GADGET
+	range 0 4
+	default 1
+	help
+	   This value will be set mtu3 device,
+	   IN EP2 FIFO SLOT number.
+
+config USB_MTU3_U3_IN_EP3_SLOT_NUM
+	int "USB3 Input EP3 config SLOT number (0-4)"
+	depends on USB_MTU3_GADGET
+	range 0 4
+	default 1
+	help
+	   This value will be set mtu3 device,
+	   IN EP3 FIFO SLOT number.
+
+config USB_MTU3_U3_IN_EP4_SLOT_NUM
+	int "USB3 Input EP4 config SLOT number (0-4)"
+	depends on USB_MTU3_GADGET
+	range 0 4
+	default 1
+	help
+	   This value will be set mtu3 device,
+	   IN EP4 FIFO SLOT number.
+
+config USB_MTU3_U3_IN_EP5_SLOT_NUM
+	int "USB3 Input EP5 config SLOT number (0-4)"
+	depends on USB_MTU3_GADGET
+	range 0 4
+	default 1
+	help
+	   This value will be set mtu3 device,
+	   IN EP5 FIFO SLOT number.
+
+config USB_MTU3_U3_IN_EP6_SLOT_NUM
+	int "USB3 Input EP6 config SLOT number (0-4)"
+	depends on USB_MTU3_GADGET
+	range 0 4
+	default 1
+	help
+	   This value will be set mtu3 device,
+	   IN EP6 FIFO SLOT number.
+
+config USB_MTU3_U3_IN_EP7_SLOT_NUM
+	int "USB3 Input EP7 config SLOT number (0-4)"
+	depends on USB_MTU3_GADGET
+	range 0 4
+	default 1
+	help
+	   This value will be set mtu3 device,
+	   IN EP7 FIFO SLOT number.
+
+config USB_MTU3_U3_IN_EP8_SLOT_NUM
+	int "USB3 Input EP8 config SLOT number (0-4)"
+	depends on USB_MTU3_GADGET
+	range 0 4
+	default 1
+	help
+	   This value will be set mtu3 device,
+	   IN EP8 FIFO SLOT number.
+
+config USB_MTU3_U3_IN_EP9_SLOT_NUM
+	int "USB3 Input EP9 config SLOT number (0-4)"
+	depends on USB_MTU3_GADGET
+	range 0 4
+	default 1
+	help
+	   This value will be set mtu3 device,
+	   IN EP9 FIFO SLOT number.
+
+config USB_MTU3_U3_IN_EP10_SLOT_NUM
+	int "USB3 Input EP10 config SLOT number (0-4)"
+	depends on USB_MTU3_GADGET
+	range 0 4
+	default 1
+	help
+	   This value will be set mtu3 device,
+	   IN EP10 FIFO SLOT number.
+
+config USB_MTU3_U3_IN_EP11_SLOT_NUM
+	int "USB3 Input EP11 config SLOT number (0-4)"
+	depends on USB_MTU3_GADGET
+	range 0 4
+	default 1
+	help
+	   This value will be set mtu3 device,
+	   IN EP11 FIFO SLOT number.
+
+config USB_MTU3_U3_IN_EP12_SLOT_NUM
+	int "USB3 Input EP12 config SLOT number (0-4)"
+	depends on USB_MTU3_GADGET
+	range 0 4
+	default 1
+	help
+	   This value will be set mtu3 device,
+	   IN EP12 FIFO SLOT number.
+
+config USB_MTU3_U3_IN_EP13_SLOT_NUM
+	int "USB3 Input EP13 config SLOT number (0-4)"
+	depends on USB_MTU3_GADGET
+	range 0 4
+	default 1
+	help
+	   This value will be set mtu3 device,
+	   IN EP13 FIFO SLOT number.
+
+config USB_MTU3_U3_IN_EP14_SLOT_NUM
+	int "USB3 Input EP14 config SLOT number (0-4)"
+	depends on USB_MTU3_GADGET
+	range 0 4
+	default 1
+	help
+	   This value will be set mtu3 device,
+	   IN EP14 FIFO SLOT number.
+
+config USB_MTU3_U3_IN_EP15_SLOT_NUM
+	int "USB3 Input EP15 config SLOT number (0-4)"
+	depends on USB_MTU3_GADGET
+	range 0 4
+	default 1
+	help
+	   This value will be set mtu3 device,
+	   IN EP15 FIFO SLOT number.
+
+config USB_MTU3_U3_OUT_EP1_SLOT_NUM
+	int "USB3 Output EP1 config SLOT number (0-4)"
+	depends on USB_MTU3_GADGET
+	range 0 4
+	default 1
+	help
+	   This value will be set mtu3 device,
+	   OUT EP1 FIFO SLOT number.
+
+config USB_MTU3_U3_OUT_EP2_SLOT_NUM
+	int "USB3 Output EP2 config SLOT number (0-4)"
+	depends on USB_MTU3_GADGET
+	range 0 4
+	default 1
+	help
+	   This value will be set mtu3 device,
+	   OUT EP2 FIFO SLOT number.
+
+config USB_MTU3_U3_OUT_EP3_SLOT_NUM
+	int "USB3 Output EP3 config SLOT number (0-4)"
+	depends on USB_MTU3_GADGET
+	range 0 4
+	default 1
+	help
+	   This value will be set mtu3 device,
+	   OUT EP3 FIFO SLOT number.
+
+config USB_MTU3_U3_OUT_EP4_SLOT_NUM
+	int "USB3 Output EP4 config SLOT number (0-4)"
+	depends on USB_MTU3_GADGET
+	range 0 4
+	default 1
+	help
+	   This value will be set mtu3 device,
+	   OUT EP4 FIFO SLOT number.
+
+config USB_MTU3_U3_OUT_EP5_SLOT_NUM
+	int "USB3 Output EP5 config SLOT number (0-4)"
+	depends on USB_MTU3_GADGET
+	range 0 4
+	default 1
+	help
+	   This value will be set mtu3 device,
+	   OUT EP5 FIFO SLOT number.
+
+config USB_MTU3_U3_OUT_EP6_SLOT_NUM
+	int "USB3 Output EP6 config SLOT number (0-4)"
+	depends on USB_MTU3_GADGET
+	range 0 4
+	default 1
+	help
+	   This value will be set mtu3 device,
+	   OUT EP6 FIFO SLOT number.
+
+config USB_MTU3_U3_OUT_EP7_SLOT_NUM
+	int "USB3 Output EP7 config SLOT number (0-4)"
+	depends on USB_MTU3_GADGET
+	range 0 4
+	default 1
+	help
+	   This value will be set mtu3 device,
+	   OUT EP7 FIFO SLOT number.
+
+config USB_MTU3_U3_OUT_EP8_SLOT_NUM
+	int "USB3 Output EP8 config SLOT number (0-4)"
+	depends on USB_MTU3_GADGET
+	range 0 4
+	default 1
+	help
+	   This value will be set mtu3 device,
+	   OUT EP8 FIFO SLOT number.
+
+config USB_MTU3_USB2_FS
+	bool "USB2.0 speed suppress to full-speed"
+	depends on USB_MTU3_GADGET
+	help
+	  Say Y here to disable USB2.0 high-speed support.
+
+config USB_MTU3_DEBUG
+	bool "Enable Debugging Messages"
+	help
+	  Say Y here to enable debugging messages in the MTU3 Driver.
+
+endif
+

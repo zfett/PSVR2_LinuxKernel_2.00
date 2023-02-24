@@ -1,0 +1,286 @@
+/* SIE CONFIDENTIAL
+ *
+ *  Copyright (C) 2021 Sony Interactive Entertainment Inc.
+ *                     All Rights Reserved.
+ *
+ **/
+
+#include <dt-bindings/gpio/gpio.h>
+#define IMU_USE_CUSTOM_SPI_DRIVER
+
+/ {
+	model = "SIE VR HMD";
+	chosen {
+		bootargs = "console=ttyS0,921600n1 \
+root=/dev/ram init=/init earlycon=mtk8250,0x11020000,921600n8 loglevel=4 \
+mtdparts=mtk_nor:1024k@0x000F0000(factory2), 1024k@0x01F00000(fts)";
+	};
+	soc {
+		warpa_fe: warpa_fe {
+			compatible = "sie,warpa-fe";
+			mediatek,mmsys_common_top = <&mmsys_cmmn_top>;
+			mediatek,mmsys_core_top = <&mmsyscfg>;
+			mediatek,mutex = <&mutex_common>;
+			mediatek,sysram = <&mm_sysram2>;
+			mediatek,rbfc = <&rbfc_wpe1>;
+			mediatek,warpa = <&warpa1>;
+			mediatek,fe = <&fe>;
+			mediatek,wdma = <&common_wdma0
+					 &common_wdma1
+					 &common_wdma2>;
+			mediatek,padding = <&disp_padding0
+					    &disp_padding1
+					    &disp_padding2>;
+			mediatek,resizer = <&mdp_rsz2
+					    &mdp_rsz3>;
+			mediatek,timestamp = <&timestamp>;
+			mboxes = <&gce4 28 3000 CMDQ_THR_PRIO_LOWEST>;
+			gce-events = 	<CMDQ_EVENT_MMSYS_COMMON_FRAME_DONE_4_FE
+					 CMDQ_EVENT_MMSYS_COMMON_FRAME_DONE_5_WDMA_0
+					 CMDQ_EVENT_MMSYS_COMMON_FRAME_DONE_6_WDMA_1
+					 CMDQ_EVENT_MMSYS_COMMON_FRAME_DONE_7_WDMA_2
+					 CMDQ_EVENT_IMG_SIDE0_CAM0_P2_DONE>;
+		};
+
+		fm_dev: fm_dev {
+			compatible = "sie,fm-dev";
+			mediatek,mmsys_common_top = <&mmsys_cmmn_top>;
+			mediatek,sysram = <&mm_sysram2>;
+			mediatek,fm = <&fm>;
+			mboxes = <&gce4 20 3000 CMDQ_THR_PRIO_LOWEST>;
+			gce-events =
+				<CMDQ_EVENT_MMSYS_COMMON_FRAME_DONE_4_FE
+				 CMDQ_EVENT_MMSYS_COMMON_FRAME_DONE_5_WDMA_0
+				 CMDQ_EVENT_MMSYS_COMMON_FRAME_DONE_6_WDMA_1
+				 CMDQ_EVENT_MMSYS_COMMON_FRAME_DONE_7_WDMA_2
+				 CMDQ_EVENT_MMSYS_COMMON_FRAME_DONE_8_FM>;
+		};
+
+		disp_pipe: disp_pipe {
+			compatible = "sie,disp-pipe";
+			mediatek,dprx     = <&dprx>;
+			mediatek,mutex    = <&mutex_core>;
+			mediatek,crop     = <&disp_crop0 &disp_crop1 &disp_crop2 &disp_crop3>;
+			mediatek,dsc      = <&dsc>;
+			mediatek,dsi      = <&dsi>;
+			mediatek,ddds     = <&ddds>;
+			mediatek,frmtrk   = <&frmtrk>;
+			mediatek,lhc      = <&lhc>;
+			mediatek,mmsyscfg = <&mmsyscfg>;
+			mediatek,p2s      = <&p2s_0>;
+			mediatek,rdma     = <&mdp_rdma &pvric_rdma &disp_rdma>;
+			mediatek,rbfc     = <&rbfc_rdma>;
+			mediatek,resizer  = <&mdp_rsz0 &mdp_rsz1>;
+			mediatek,slicer   = <&slicer>;
+			mediatek,ts       = <&timestamp>;
+			mediatek,wdma     = <&disp_wdma0 &disp_wdma1 &disp_wdma2 &disp_wdma3>;
+			mboxes = <&gce0 10 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST>,
+			<&gce0 11 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST>,
+			<&gce0 12 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST>,
+			<&gce0 13 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST>,
+			<&gce0 14 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST>,
+			<&gce0 15 5000 CMDQ_THR_PRIO_LOWEST>,
+			<&gce0 16 1000 CMDQ_THR_PRIO_LOWEST>,
+			<&gce0 17 1000 CMDQ_THR_PRIO_LOWEST>,
+			<&gce0 18 1000 CMDQ_THR_PRIO_LOWEST>;
+		};
+
+		cmdq: cmdq {
+			compatible        = "sie,cmdq";
+			mediatek,gce      = <&gce0 &gce4 &gce5>;
+		};
+
+		top_clock {
+			clocks =
+				<&apmixedsys CLK_APMIXED_ARMPLL>,
+				<&apmixedsys CLK_APMIXED_VPUPLL>,
+				<&apmixedsys CLK_APMIXED_GPUPLL>,
+				<&apmixedsys CLK_APMIXED_DPVPLL>,
+				<&apmixedsys CLK_APMIXED_DPAPLL>,
+				<&apmixedsys CLK_APMIXED_MAINPLL>,
+				<&apmixedsys CLK_APMIXED_MMPLL>,
+				<&apmixedsys CLK_APMIXED_UNIVPLL>,
+				<&apmixedsys CLK_APMIXED_EMIPLL>,
+				<&apmixedsys CLK_APMIXED_APLL1>,
+				<&apmixedsys CLK_APMIXED_APLL2>,
+				<&apmixedsys CLK_APMIXED_AP27PLL>,
+				<&apmixedsys CLK_APMIXED_MPLL>,
+				<&apmixedsys CLK_APMIXED_MSDCPLL>,
+				<&topckgen TOPCKGEN_SMI_CG>,
+				<&topckgen TOPCKGEN_PWM_CG>,
+				<&topckgen TOPCKGEN_SENM3_CG>,
+				<&topckgen TOPCKGEN_SENM4_CG>,
+				<&topckgen TOPCKGEN_SENM5_CG>,
+				<&topckgen TOPCKGEN_SENM6_CG>,
+				<&topckgen TOPCKGEN_SENM7_CG>,
+				<&topckgen TOPCKGEN_SENM8_CG>,
+				<&topckgen TOPCKGEN_AXI_PERI_CG>,
+				<&topckgen TOPCKGEN_TDMIN_CG>,
+				<&topckgen TOPCKGEN_TDMOUT_CG>,
+				<&topckgen TOPCKGEN_STC_H27_CG>,
+				<&topckgen TOPCKGEN_CRYPTO_CG>,
+				<&topckgen TOPCKGEN_ATB_CG>,
+				<&topckgen TOPCKGEN_HEADER_SYS_CG>,
+				<&topckgen TOPCKGEN_TPIU_CG>,
+				<&topckgen CLK_TOP_APLL12_DIV0>,
+				<&topckgen CLK_TOP_APLL12_DIV1>,
+				<&topckgen CLK_TOP_APLL12_DIV2>,
+				<&topckgen CLK_TOP_APLL12_DIV3>,
+				<&infracfg INFRACFG_AO_SCP_CG>,
+				<&infracfg INFRACFG_AO_SEJ_CG>,
+				<&infracfg INFRACFG_AO_APXGPT_CG>,
+				<&infracfg INFRACFG_AO_DVFSRC_CG>,
+				<&infracfg INFRACFG_AO_IO_TIMER_CG>,
+				<&infracfg INFRACFG_AO_DEVAPC_MPU_CG>,
+				<&infracfg INFRACFG_AO_FHCTL_CG>,
+				<&infracfg INFRACFG_AO_AUXADC_CG>,
+				<&infracfg INFRACFG_AO_DEVICE_APC_CG>,
+				<&infracfg INFRACFG_AO_SMI_L2C_CG>,
+				<&infracfg INFRACFG_AO_DRAMC_F26M_CG>,
+				<&pericfg PERISYS_DEV_APC_CK_PDN>,
+				<&pericfg PERISYS_FLASH_CK_PDN>,
+				<&pericfg PERISYS_DEBUGTOP_CK_PDN>,
+				<&pericfg PERISYS_PWM_CK_PDN>,
+				<&pericfg PERISYS_PWM21_CK_PDN>;
+			clock-names =
+				"0", "1", "2", "3", "4", "5", "6", "7",
+				"8", "9", "10", "11", "12", "13", "14",
+				"15", "16", "17", "18",	"19", "20", "21",
+				"22", "23", "24", "25", "26", "27", "28",
+				"29", "30", "31", "32", "33", "34", "35",
+				"36", "37", "38", "39", "40", "41", "42",
+				"43", "44", "45", "46", "47", "48", "49";
+			numbers = <50>;
+		};
+
+		gpio_keys {
+			compatible = "gpio-keys";
+			pinctrl-names = "default";
+			pinctrl-0 = <&key_pins>;
+			mute-key {
+				label = "mute";
+				gpios = <&pio 127 GPIO_ACTIVE_LOW>;
+				linux,code = <113>;				// KEY_MUTE
+			};
+			power-key {
+				label = "power";
+				gpios = <&pio 134 GPIO_ACTIVE_LOW>;
+				linux,code = <116>;				// KEY_POWER
+			};
+			cable-out {
+				label = "cable out";
+				gpios = <&pio 135 GPIO_ACTIVE_LOW>;
+				linux,code = <0x19b>;			// KEY_BREAK
+			};
+			fan-key {
+				label = "fan_good";
+				gpios = <&pio 91 GPIO_ACTIVE_LOW>;
+				linux,code = <33>;				// KEY_F
+				debounce-interval = <1>;
+			};
+		};
+#ifdef IMU_USE_CUSTOM_SPI_DRIVER
+		sieicm426xx: sieicm426xx@0 {
+			compatible = "sie,sieimu_spi";
+			reg = <0 0x110F0000 0 0x100>;
+			interrupts = <GIC_SPI 111 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&topckgen CLK_TOP_SYSPLL1_D4>,
+				 <&topckgen CLK_TOP_SPI_SEL>,
+				 <&pericfg PERISYS_SPI0_CK_PDN>;
+			clock-names = "parent-clk", "sel-clk", "spi-clk";
+			spi-max-frequency = <10000000>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&imu_pins>;
+			gpios = <&pio 25 GPIO_ACTIVE_LOW>;
+			mediatek,timestamp = <&timestamp>;
+		};
+#endif
+	};
+ };
+
+
+&pio {
+	key_pins: key_default {
+		pin_key {
+			pinmux = <MT3612_PIN_91_GPIO91__FUNC_GPIO91>,
+					<MT3612_PIN_127_GPIO127__FUNC_GPIO127>,
+					<MT3612_PIN_134_GPIO134__FUNC_GPIO134>,
+					<MT3612_PIN_135_GPIO135__FUNC_GPIO135>;
+			bias-disable;
+		};
+	};
+	gaze_led_pin: led_default {
+		pin_gaze_led {
+			pinmux = <MT3612_PIN_30_GPIO30__FUNC_GPIO30>;	//GLED_RESET
+			output-low;
+		};
+	};
+	pwm_pins: pwm_default {
+		pins_dat {
+			pinmux = <MT3612_PIN_18_GPIO18__FUNC_PWM_20>;	//SOC_MOTOR
+			bias-disable;
+		};
+		pins_motor_brake {
+			pinmux = <MT3612_PIN_19_GPIO19__FUNC_GPIO19>;	//MOTOR_BRAKE
+			output-low;
+		};
+	};
+	imu_pins: imu_default {
+		pin_imu {
+			pinmux = <MT3612_PIN_24_GPIO24__FUNC_IMU_INT0>, <MT3612_PIN_25_GPIO25__FUNC_GPIO25>;
+			bias-pull-up;
+		};
+	};
+};
+
+&i2c3 {
+	clock-frequency = <400000>;
+	clock-inter-div = <2>;
+	i2c-timings = /bits/ 16 <0x18B2 0x2 0x3838 0x0>;
+	status = "okay";
+};
+
+&i2c7 {
+	clock-frequency = <400000>;
+	clock-inter-div = <2>;
+	i2c-timings = /bits/ 16 <0x18B2 0x2 0x3838 0x0>;
+	status = "okay";
+};
+
+#ifndef IMU_USE_CUSTOM_SPI_DRIVER
+&spi0 {
+	cs-gpios = <0>, <0>;
+	status = "okay";
+
+	icm426xx: icm426xx@0 {
+		compatible = "sie,icm426xx";
+		reg = <1>;
+		spi-max-frequency = <10000000>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&imu_pins>;
+		gpios = <&pio 25 GPIO_ACTIVE_LOW>;
+		mediatek,timestamp = <&timestamp>;
+	};
+};
+#endif
+
+&spi4 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&spi_pins_4>,
+				<&gaze_led_pin>;
+	status = "okay";
+};
+
+&spi5 {
+	status = "okay";
+};
+
+&pwm {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pwm_pins>;
+	status = "okay";
+};
+
+&afe {
+    compatible = "sie,mt-afe-pcm";
+};

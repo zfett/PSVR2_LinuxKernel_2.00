@@ -1,0 +1,202 @@
+/*
+ * Copyright (c) 2018 MediaTek Inc.
+ * Author: Yung-Chi Chen <yung-chi.chen@mediatek.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+#include <dt-bindings/camera.h>
+
+&pio {
+	/* Side-0(LL) */
+	/*
+	* camera_pins_cam_side_ll_clk: cam_side_ll_0 {
+	*	pins_cmd_dat {
+	*		pinmux = <MT3611_PIN_11_GPIO11__FUNC_CSIDIOS0_CAMCLK_N>;
+	*		drive-strength = <MTK_DRIVE_8mA>;
+	*	};
+	*};
+	*
+	*camera_pins_cam_side_ll_vsync: cam_side_ll_1 {
+	*	pins_cmd_dat {
+	*		pinmux = <MT3611_PIN_14_GPIO14__FUNC_CSIDIOS01_VSYNC>;
+	*		drive-strength = <MTK_DRIVE_8mA>;
+	*	};
+	*};
+	*
+	*camera_pins_cam_side_ll_gpio_14: cam_side_ll_2 {
+	*	pins_cmd_dat {
+	*		pinmux = <MT3611_PIN_14_GPIO14__FUNC_GPIO14>;
+	*		drive-strength = <MTK_DRIVE_8mA>;
+	*		input-enable;
+	*	};
+	*};
+	*/
+	/* Side-1(LR) */
+	/*
+	*camera_pins_cam_side_lr_clk: cam_side_lr_0 {
+	*	pins_cmd_dat {
+	*		pinmux = <MT3611_PIN_15_GPIO15__FUNC_CSIDIOS1_CAMCLK_N>;
+	*		drive-strength = <MTK_DRIVE_8mA>;
+	*	};
+	*};
+	*camera_pins_cam_side_lr_vsync: cam_side_lr_1 {
+	*	pins_cmd_dat {
+	*		pinmux = <MT3611_PIN_14_GPIO14__FUNC_CSIDIOS01_VSYNC>;
+	*		drive-strength = <MTK_DRIVE_8mA>;
+	*	};
+	*};
+	*camera_pins_cam_side_lr_gpio_14: cam_side_lr_2 {
+	*	pins_cmd_dat {
+	*		pinmux = <MT3611_PIN_14_GPIO14__FUNC_GPIO14>;
+	*		drive-strength = <MTK_DRIVE_8mA>;
+	*		input-enable;
+	*	};
+	*};
+	*/
+	/* Side-2(RL) */
+	/*
+	*camera_pins_cam_side_rl_clk: cam_side_rl_0 {
+	*	pins_cmd_dat {
+	*		pinmux = <MT3611_PIN_33_GPIO33__FUNC_CSIDIOS2_CAMCLK_N>;
+	*		drive-strength = <MTK_DRIVE_8mA>;
+	*	};
+	*};
+	*camera_pins_cam_side_rl_vsync: cam_side_rl_1 {
+	*	pins_cmd_dat {
+	*		pinmux = <MT3611_PIN_36_GPIO36__FUNC_CSIDIOS23_VSYNC>;
+	*		drive-strength = <MTK_DRIVE_8mA>;
+	*	};
+	*};
+	*camera_pins_cam_side_rl_gpio_36: cam_side_rl_2 {
+	*	pins_cmd_dat {
+	*		pinmux = <MT3611_PIN_36_GPIO36__FUNC_GPIO36>;
+	*		drive-strength = <MTK_DRIVE_8mA>;
+	*		input-enable;
+	*	};
+	*};
+	*/
+	/* Side-3(RR) */
+	/*
+	*camera_pins_cam_side_rr_clk: cam_side_rr_0 {
+	*	pins_cmd_dat {
+	*		pinmux = <MT3611_PIN_37_GPIO37__FUNC_CSIDIOS3_CAMCLK_N>;
+	*		drive-strength = <MTK_DRIVE_8mA>;
+	*	};
+	*};
+	*camera_pins_cam_side_rr_vsync: cam_side_rr_1 {
+	*	pins_cmd_dat {
+	*		pinmux = <MT3611_PIN_36_GPIO36__FUNC_CSIDIOS23_VSYNC>;
+	*		drive-strength = <MTK_DRIVE_8mA>;
+	*	};
+	*};
+	*camera_pins_cam_side_rr_gpio_36: cam_side_rr_2 {
+	*	pins_cmd_dat {
+	*		pinmux = <MT3611_PIN_36_GPIO36__FUNC_GPIO36>;
+	*		drive-strength = <MTK_DRIVE_8mA>;
+	*		input-enable;
+	*	};
+	*};
+	*/
+	/* Gaze-0 */
+	/*
+	*camera_pins_cam_gaze_l_clk: cam_gaze_l_0 {
+	*	pins_cmd_dat {
+	*		pinmux = <MT3611_PIN_25_GPIO25__FUNC_CSIDIOG0_CAMCLK_N>;
+	*		drive-strength = <MTK_DRIVE_8mA>;
+	*	};
+	*};
+	*camera_pins_cam_gaze_l_vsync: cam_gaze_l_1 {
+	*	pins_cmd_dat {
+	*		pinmux =
+	*		<MT3611_PIN_22_GPIO22__FUNC_CSIDIOG_VSYNC>;
+	*		drive-strength = <MTK_DRIVE_8mA>;
+	*	};
+	*};
+	*camera_pins_cam_gaze_l_gpio_22: cam_gaze_l_2 {
+	*	pins_cmd_dat {
+	*		pinmux =
+	*		<MT3611_PIN_22_GPIO22__FUNC_GPIO22>;
+	*		drive-strength = <MTK_DRIVE_8mA>;
+	*		input-enable;
+	*	};
+	*};
+	*/
+	/* Gaze-1 */
+	/*
+	*camera_pins_cam_gaze_r_clk: cam_gaze_r_0 {
+	*	pins_cmd_dat {
+	*		pinmux = <MT3611_PIN_28_GPIO28__FUNC_CSIDIOG1_CAMCLK_N>;
+	*		drive-strength = <MTK_DRIVE_8mA>;
+	*	};
+	*};
+	*camera_pins_cam_gaze_r_vsync: cam_gaze_r_1 {
+	*	pins_cmd_dat {
+	*		pinmux =
+	*		<MT3611_PIN_22_GPIO22__FUNC_CSIDIOG_VSYNC>;
+	*		drive-strength = <MTK_DRIVE_8mA>;
+	*	};
+	*};
+	*camera_pins_cam_gaze_r_gpio_22: cam_gaze_r_2 {
+	*	pins_cmd_dat {
+	*		pinmux =
+	*		<MT3611_PIN_22_GPIO22__FUNC_GPIO22>;
+	*		drive-strength = <MTK_DRIVE_8mA>;
+	*		input-enable;
+	*	};
+	*};
+	*/
+};
+
+&i2c11 {
+	status = "okay";
+	clock-frequency = <100000>;
+	kd_camera_hw_sidell@10 {
+		compatible = "mediatek,camera-sensor";
+		reg = <0x10>;
+		sensorIdx = <MTK_CAMERA_SIDE_LL>;
+		clocks = <&topckgen CLK_TOP_SENM3_SEL>,
+		<&topckgen TOPCKGEN_SENM3_CG>,
+		<&topckgen CLK_TOP_CLK26M_CK>,
+		<&topckgen CLK_TOP_UNIVPLL_D52>;
+		clock-names = "senm_sel", "senm_cg",
+			      "clk26m", "univpll_d52";
+	};
+};
+&i2c15 {
+	status = "okay";
+	clock-frequency = <100000>;
+	kd_camera_hw_gazel@10 {
+		compatible = "mediatek,camera-sensor";
+		reg = <0x10>;
+		sensorIdx = <MTK_CAMERA_GAZE_L>;
+		clocks = <&topckgen CLK_TOP_SENM7_SEL>,
+		<&topckgen TOPCKGEN_SENM7_CG>,
+		<&topckgen CLK_TOP_CLK26M_CK>,
+		<&topckgen CLK_TOP_UNIVPLL_D52>;
+		clock-names = "senm_sel", "senm_cg",
+			      "clk26m", "univpll_d52";
+	};
+};
+&i2c16 {
+	status = "okay";
+	clock-frequency = <100000>;
+	kd_camera_hw_gazer@10 {
+		compatible = "mediatek,camera-sensor";
+		reg = <0x10>;
+		sensorIdx = <MTK_CAMERA_GAZE_R>;
+		clocks = <&topckgen CLK_TOP_SENM8_SEL>,
+		<&topckgen TOPCKGEN_SENM8_CG>,
+		<&topckgen CLK_TOP_CLK26M_CK>,
+		<&topckgen CLK_TOP_UNIVPLL_D52>;
+		clock-names = "senm_sel", "senm_cg",
+			      "clk26m", "univpll_d52";
+	};
+};
+

@@ -1,0 +1,238 @@
+/*
+ * Copyright (c) 2018 MediaTek Inc.
+ * Author: Yung-Chi Chen <yung-chi.chen@mediatek.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+ #include "mt3612-emu-peri.dtsi"
+ #include "mt3612-emu-mm.dtsi"
+
+/ {
+	soc {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		compatible = "simple-bus";
+		ranges;
+
+		cinematic_0: cinematic_path@0 {
+			compatible = "mediatek,mt3612-cinematic-test";
+			path = <0>;
+			mediatek,cp2s = <&p2s_0>;
+			mediatek,wdma = <&disp_wdma0>;
+			mediatek,mutex = <&mutex_core>;
+			mediatek,resizer = <&mdp_rsz0>;
+			mediatek,slicer = <&slicer>;
+			mediatek,crop = <&disp_crop0>;
+			mediatek,mmsys_core_top = <&mmsyscfg>;
+			mboxes = <&gce0 21 2000 CMDQ_THR_PRIO_1>;
+	       };
+
+		cinematic_1: cinematic_path@1 {
+			compatible = "mediatek,mt3612-cinematic-test";
+			path = <1>;
+			mediatek,cp2s = <&p2s_0>;
+			mediatek,wdma = <&disp_wdma1>;
+			mediatek,mutex = <&mutex_core>;
+			mediatek,resizer = <&mdp_rsz1>;
+			mediatek,slicer = <&slicer>;
+			mediatek,crop = <&disp_crop1>;
+			mediatek,mmsys_core_top = <&mmsyscfg>;
+			mboxes = <&gce0 22 2000 CMDQ_THR_PRIO_1>;
+	       };
+
+		cinematic_2: cinematic_path@2 {
+			compatible = "mediatek,mt3612-cinematic-test";
+			path = <2>;
+			mediatek,wdma = <&disp_wdma2>;
+			mediatek,mutex = <&mutex_core>;
+			mediatek,slicer = <&slicer>;
+			mediatek,crop = <&disp_crop2>;
+			mediatek,mmsys_core_top = <&mmsyscfg>;
+	       };
+
+		cinematic_3: cinematic_path@3 {
+			compatible = "mediatek,mt3612-cinematic-test";
+			path = <3>;
+			mediatek,wdma = <&disp_wdma3>;
+			mediatek,mutex = <&mutex_core>;
+			mediatek,slicer = <&slicer>;
+			mediatek,crop = <&disp_crop3>;
+			mediatek,mmsys_core_top = <&mmsyscfg>;
+	       };
+
+		cinematic_ctrl: cinematic_ctrl {
+			compatible = "mediatek,mt3612-cinematic-ctrl";
+			mediatek,cinematic_path = <&cinematic_0
+						   &cinematic_1
+						   &cinematic_2
+						   &cinematic_3>;
+			mediatek,disp = <&display_pipe>;
+			mediatek,rbfc = <&rbfc_rdma>;
+			mediatek,sbrc = <&sbrc>;
+			gce-subsys = <SUBSYS_1402XXXX>;
+			mboxes = <&gce0 10 3000 CMDQ_THR_PRIO_LOWEST>,
+			       <&gce0 11 3000 CMDQ_THR_PRIO_LOWEST>,
+			       <&gce0 12 3000 CMDQ_THR_PRIO_LOWEST>,
+			       <&gce0 13 3000 CMDQ_THR_PRIO_LOWEST>,
+			       <&gce0 14 3000 CMDQ_THR_PRIO_LOWEST>,
+			       <&gce0 15 3000 CMDQ_THR_PRIO_LOWEST>,
+			       <&gce0 16 3000 CMDQ_THR_PRIO_LOWEST>,
+			       <&gce0 17 3000 CMDQ_THR_PRIO_LOWEST>,
+			       <&gce0 18 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST>,
+			       <&gce0 19 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST>,
+			       <&gce0 20 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST>;
+			gce-events =
+				<CMDQ_EVENT_MMSYS_CORE_DISP_WDMA0_FRAME_DONE
+			CMDQ_EVENT_MMSYS_CORE_DISP_WDMA1_FRAME_DONE
+			CMDQ_EVENT_MMSYS_CORE_DISP_WDMA2_FRAME_DONE
+			CMDQ_EVENT_MMSYS_CORE_DISP_WDMA3_FRAME_DONE
+			CMDQ_EVENT_MMSYS_CORE_DISP_WDMA0_TARGET_LINE_DONE
+			CMDQ_EVENT_MMSYS_CORE_DISP_WDMA1_TARGET_LINE_DONE
+			CMDQ_EVENT_MMSYS_CORE_DISP_WDMA2_TARGET_LINE_DONE
+			CMDQ_EVENT_MMSYS_CORE_DISP_WDMA3_TARGET_LINE_DONE
+			CMDQ_EVENT_MMSYS_CORE_MDP_RDMA0_RBFC_REN_R_INCOMPLETE_EVENT
+			CMDQ_EVENT_MMSYS_CORE_MDP_RDMA1_RBFC_REN_R_INCOMPLETE_EVENT
+			CMDQ_EVENT_MMSYS_CORE_MDP_RDMA2_RBFC_REN_R_INCOMPLETE_EVENT
+			CMDQ_EVENT_MMSYS_CORE_MDP_RDMA3_RBFC_REN_R_INCOMPLETE_EVENT
+			CMDQ_EVENT_MMSYS_CORE_SBRC_GCE_GPU_CURRENT_FRAME_SKIP_DONE
+			CMDQ_EVENT_MMSYS_CORE_AH_EVENT_PIN_8
+			CMDQ_EVENT_MMSYS_CORE_DSI0_FRAME_DONE
+			CMDQ_EVENT_MMSYS_CORE_TD_EVENT_0
+			CMDQ_EVENT_MMSYS_CORE_TD_EVENT_5
+			CMDQ_EVENT_MMSYS_CORE_SBRC_GCE_W_INCOMPLETE>;
+	       };
+
+		fm_dev: fm_dev {
+			compatible = "mediatek,mt3612-fm-dev";
+			mediatek,mmsys_common_top = <&mmsys_cmmn_top>;
+			mediatek,sysram = <&mm_sysram2>;
+			mediatek,fm = <&fm>;
+			mboxes =
+				<&gce4 23 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				 &gce4 24 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				 &gce4 25 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				 &gce4 26 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				 &gce4 27 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST>;
+			gce-events =
+				<CMDQ_EVENT_MMSYS_COMMON_FRAME_DONE_4_FE
+				 CMDQ_EVENT_MMSYS_COMMON_FRAME_DONE_8_FM
+				 CMDQ_EVENT_VPU_0_IRQ
+				 CMDQ_EVENT_VPU_1_IRQ
+				 CMDQ_EVENT_VPU_2_IRQ
+				 CMDQ_EVENT_MMSYS_COMMON_SOF_3_WPE_1
+				 CMDQ_EVENT_MMSYS_COMMON_FRAME_DONE_3_WPE_1
+				 CMDQ_EVENT_MMSYS_COMMON_SOF_4_FE
+				 CMDQ_EVENT_IMG_SIDE0_CAM0_IMG3O_W_RBFC_W_INCOMPLETE_EVENT
+				 CMDQ_EVENT_MMSYS_COMMON_RBFC_REN_WPE_1_RBFC_R_INCOMPLETE_EVENT>;
+		};
+
+		warpa_fe: warpa_fe {
+			compatible = "mediatek,mt3612-warpa-fe";
+			mediatek,mmsys_common_top = <&mmsys_cmmn_top>;
+			mediatek,mmsys_core_top = <&mmsyscfg>;
+			mediatek,mutex = <&mutex_common>;
+			mediatek,sysram = <&mm_sysram2>;
+			mediatek,rbfc = <&rbfc_wpe1>;
+			mediatek,warpa = <&warpa1>;
+			mediatek,fe = <&fe>;
+			mediatek,wdma = <&common_wdma0
+				&common_wdma1
+				&common_wdma2>;
+			mediatek,padding = <&disp_padding0
+				&disp_padding1
+				&disp_padding2>;
+			mediatek,resizer = <&mdp_rsz2
+				&mdp_rsz3>;
+			mboxes =
+				<&gce4 28 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				 &gce4 29 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST>;
+			gce-events =
+				<CMDQ_EVENT_CAM_SIDE0_CAM0_IR_FRAME_DONE
+				 CMDQ_EVENT_IMG_SIDE0_CAM0_P2_DONE
+				 CMDQ_EVENT_MMSYS_COMMON_FRAME_DONE_4_FE
+				 CMDQ_EVENT_VPU_0_IRQ
+				 CMDQ_EVENT_VPU_1_IRQ
+				 CMDQ_EVENT_VPU_2_IRQ>;
+		};
+
+		fe_fm_test: fe_fm_test {
+			compatible = "mediatek,mt3612-fe-fm-test";
+			mediatek,fm-dev = <&fm_dev>;
+			mediatek,warpa-fe = <&warpa_fe>;
+		};
+
+		mm_gaze: mm_gaze {
+			compatible = "mediatek,mt3612-mm-gaze-dev";
+			mediatek,mmsys_gaze_top = <&mmsys_gaze_top>;
+			mediatek,mmsys_core_top = <&mmsyscfg>;
+			mediatek,mutex = <&mutex_gaze>;
+			mediatek,sysram = <&mm_sysram1>;
+			mediatek,rbfc = <&rbfc_wpe0>;
+			mediatek,warpa = <&warpa0>;
+			mediatek,wdma = <&gaze_wdma0>;
+			mboxes =
+				<&gce4 22 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				 &gce4 21 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				 &gce4 20 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				 &gce4 19 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST>;
+		};
+
+		display_pipe: display_pipe {
+			compatible = "mediatek,mt3612-display";
+			mediatek,mmsyscfg = <&mmsyscfg>;
+			mediatek,mutex = <&mutex_core>;
+			mediatek,dsi = <&dsi>;
+			mediatek,dsc = <&dsc>;
+			mediatek,wdma0 = <&disp_wdma0>;
+			mediatek,mdp_rdma = <&mdp_rdma>;
+			mediatek,pvric_rdma = <&pvric_rdma>;
+			mediatek,disp_rdma = <&disp_rdma>;
+			mediatek,rbfc = <&rbfc_rdma>;
+			mediatek,slcr = <&slicer>;
+			mediatek,timestamp = <&timestamp>;
+			mediatek,lhc = <&lhc>;
+			mediatek,gce0 = <&gce0>;
+			disp_partition_nr = <DISPLAY_PARTITION_NR>;
+			disp_wrap_nr = <DISPLAY_WRAP_NR>;
+			disp_core_per_wrap = <DISPLAY_CORE_PER_WRAP>;
+			mboxes = <&gce0 0 2000 CMDQ_THR_PRIO_LOWEST>,
+				<&gce0 1 2000 CMDQ_THR_PRIO_LOWEST>,
+				<&gce0 2 2000 CMDQ_THR_PRIO_LOWEST>,
+				<&gce0 3 2000 CMDQ_THR_PRIO_LOWEST>,
+				<&gce0 4 2000 CMDQ_THR_PRIO_LOWEST>,
+				<&gce0 5 2000 CMDQ_THR_PRIO_LOWEST>,
+				<&gce0 6 2000 CMDQ_THR_PRIO_LOWEST>,
+				<&gce0 7 2000 CMDQ_THR_PRIO_LOWEST>,
+				<&gce0 8 2000 CMDQ_THR_PRIO_LOWEST>,
+				<&gce0 9 2000 CMDQ_THR_PRIO_LOWEST>;
+			status = "disabled";
+		};
+
+		gce_verify: gce_verify{
+			compatible = "mediatek,mt3612_gce_verify";
+			mediatek,mutex = <&mutex_core>;
+			mboxes = <&gce0 30 1000 CMDQ_THR_PRIO_LOWEST
+				&gce4 30 1000 CMDQ_THR_PRIO_LOWEST
+				&gce5 30 1000 CMDQ_THR_PRIO_LOWEST
+				&gce0 31 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				&gce4 31 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				&gce5 31 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST>;
+		};
+	};
+};
+
+&spi0 {
+	status = "disabled";
+	spidev0: spi@0 {
+		compatible = "linux,spidev";
+		reg = <0>;
+		spi-max-frequency = <1000000>;
+	};
+};

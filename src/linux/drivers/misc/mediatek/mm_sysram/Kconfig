@@ -1,0 +1,7 @@
+config MTK_MM_SYSRAM
+	tristate "MediaTek MM_SYSRAM driver"
+	help
+	  MediaTek MultiMedia SYSRAM hardware. Enable for low latency
+	  requirement when platform support. The driver provide
+	  SYSRAM control for other multimedia drivers which include
+	  Ring Buffer Control (RBFC) in their data path.

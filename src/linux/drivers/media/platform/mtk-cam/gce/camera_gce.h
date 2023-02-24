@@ -1,0 +1,130 @@
+#ifndef _ISP_GCE_KERNEL_H_
+#define _ISP_GCE_KERNEL_H_
+
+#include <linux/ioctl.h>
+#include <dt-bindings/camera.h>
+
+#define ISP_GCE_REG_RANGE 0x1000
+#define CAMGCE_MAGIC ('M')
+#define NODE_STR_LENGTH 32
+#define NAME_MAX_LENGTH 32
+#define SUBSYS_MAX 32
+#define SUBSYS_NONE 99
+#define CMDQ_EVENT_MAX_NUM_GCE4_5 1016
+#define camgce_cmdq_pkt_hndl void*
+
+/* both dts and driver use MTK_CAMERA_PID_XXX(camera.h) as pid*/
+enum CAMGCE_DEVIDX_ENUM {
+	CAMGCE_DEVIDX_SGZ,
+	CAMGCE_DEV_MAX_NUM
+};
+
+/* module ID for SGZ0/1/2/3, corresponding to DTS */
+enum CAMGCE_SGZ_MODULE_ENUM {
+	CAMGCE_SGZ_SIDE_CAM_TG,
+	CAMGCE_SGZ_GAZE_CAM_TG,
+	CAMGCE_SGZ_TS_ISP0_IR,
+	CAMGCE_SGZ_TS_ISP0_W,
+	CAMGCE_SGZ_TS_ISP1_IR,
+	CAMGCE_SGZ_TS_ISP1_W,
+	CAMGCE_SGZ_TS_ISP2_IR,
+	CAMGCE_SGZ_TS_ISP2_W,
+	CAMGCE_SGZ_TS_ISP3_IR,
+	CAMGCE_SGZ_TS_ISP3_W,
+	CAMGCE_SGZ_TS_ISP4,
+	CAMGCE_SGZ_TS_ISP5,
+	CAMGCE_SGZ_MAX_NUM
+};
+
+/* module ID for center camera, corresponding to DTS */
+enum CAMGCE_CENTER_MODULE_ENUM {
+	CAMGCE_CENTER_CAMSV,
+	CAMGCE_CENTER_HG,
+	CAMGCE_CENTER_SENINF5,
+	CAMGCE_CENTER_CSI2A,
+	CAMGCE_CENTER_CSI2B,
+	CAMGCE_CENTER_MAX_NUM
+};
+
+/* command ID for CAMGCE ioctl */
+enum CAMGCE_CMD_ENUM {
+	CAMGCE_CMD_WRITE,
+	CAMGCE_CMD_READ,
+	CAMGCE_CMD_CMDQ_CREATE,
+	CAMGCE_CMD_CMDQ_DESTROY,
+	CAMGCE_CMD_CMDQ_MSKWR,
+	CAMGCE_CMD_CMDQ_WRITE,
+	CAMGCE_CMD_CMDQ_READ,
+	CAMGCE_CMD_CMDQ_FLUSH,
+	CAMGCE_CMD_CMDQ_FLUSH_ASYNC,
+	CAMGCE_CMD_CMDQ_WFE,
+	CAMGCE_CMD_CMDQ_SNDEV,
+	CAMGCE_CMD_GET_CBINFO,
+	CAMGCE_CMD_DEBUG_WRITE
+};
+
+enum CAMGCE_CB_RESULT {
+	CAMGCE_CB_PERFECT_DONE,
+	CAMGCE_CB_DONE_EQUAL,
+	CAMGCE_CB_DONE_LESS,
+	CAMGCE_CB_DONE_MORE,
+	CAMGCE_CB_NONE
+};
+
+/* for param validation check */
+static const unsigned int camgce_module_num = CAMGCE_SGZ_MAX_NUM;
+
+/* sub-structure for ioctl parameters */
+struct camgce_reg {
+	unsigned int module;
+	unsigned int addr;
+	unsigned int value;
+	unsigned int bitmask;
+	camgce_cmdq_pkt_hndl pkt_handle;
+};
+
+/* Camera GCE cmds */
+#define CAMGCE_WRITE \
+_IOWR(CAMGCE_MAGIC, CAMGCE_CMD_WRITE, struct camgce_reg)
+
+#define CAMGCE_READ \
+_IOWR(CAMGCE_MAGIC, CAMGCE_CMD_READ, struct camgce_reg)
+
+/* Camera GCE packet cmds */
+#define CAMGCE_CMDQ_CREATE \
+_IOW(CAMGCE_MAGIC, CAMGCE_CMD_CMDQ_CREATE, struct camgce_reg)
+
+#define CAMGCE_CMDQ_DESTROY \
+_IOW(CAMGCE_MAGIC, CAMGCE_CMD_CMDQ_DESTROY, struct camgce_reg)
+
+#define CAMGCE_CMDQ_MASK_WRITE \
+_IOW(CAMGCE_MAGIC, CAMGCE_CMD_CMDQ_MSKWR, struct camgce_reg)
+
+#define CAMGCE_CMDQ_WRITE \
+_IOWR(CAMGCE_MAGIC, CAMGCE_CMD_CMDQ_WRITE, struct camgce_reg)
+
+#define CAMGCE_CMDQ_READ \
+_IOWR(CAMGCE_MAGIC, CAMGCE_CMD_CMDQ_READ, struct camgce_reg)
+
+#define CAMGCE_CMDQ_FLUSH \
+_IOW(CAMGCE_MAGIC, CAMGCE_CMD_CMDQ_FLUSH, struct camgce_reg)
+
+#define CAMGCE_CMDQ_FLUSH_ASYNC \
+_IOW(CAMGCE_MAGIC, CAMGCE_CMD_CMDQ_FLUSH_ASYNC, struct camgce_reg)
+
+#define CAMGCE_CMDQ_WAITEVENT \
+_IOW(CAMGCE_MAGIC, CAMGCE_CMD_CMDQ_WFE, struct camgce_reg)
+
+#define CAMGCE_CMDQ_SENDEVENT \
+_IOW(CAMGCE_MAGIC, CAMGCE_CMD_CMDQ_SNDEV, struct camgce_reg)
+
+#define CAMGCE_GET_CBINFO \
+_IOWR(CAMGCE_MAGIC, CAMGCE_CMD_GET_CBINFO, struct camgce_reg)
+
+#define CAMGCE_DEBUG_WRITE \
+_IOWR(CAMGCE_MAGIC, CAMGCE_CMD_DEBUG_WRITE, struct camgce_reg)
+
+#define FPGA_GPIO_DIR 0xE88
+#define RBFC_RSTCTL 0x054
+
+#endif

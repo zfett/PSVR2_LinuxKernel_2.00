@@ -1,0 +1,35 @@
+config MTK_DPRX
+	tristate "MediaTek DP-Rx Driver"
+	help
+	  MediaTek DP-Rx driver
+	  Say 'Y' here to add MediaTek DP-Rx driver for mt3612,
+	  it supports DisplayPort 1.4.
+	  If unsure, say 'N'.
+
+config MTK_DPRX_EDID
+	bool "MediaTek DP-Rx Default EDID Loaded"
+	depends on MTK_DPRX
+	default y
+	help
+	  Say 'Y' here to load DP-Rx default EDID for mt3612,
+	  it will load default EDID initially.
+	  Say 'N' here not to load DP-Rx default EDID for mt3612,
+	  it won't load default EDID initially.
+
+config MTK_DPRX_HDCP_KEY
+	bool "MediaTek DP-Rx HDCP Key Loaded"
+	depends on MTK_DPRX
+	default n
+	help
+	  Say 'Y' here to load DP-Rx HDCP Key for mt3612,
+	  it will load HDCP Key.
+	  Say 'N' here not to load DP-Rx HDCP Key for mt3612,
+	  it won't load HDCP Key.
+
+config MTK_DPRX_PHY_GCE
+	bool "MediaTek DP-Rx PHY GCE Setting"
+	depends on MTK_DPRX
+	default y
+	help
+	  Say 'Y' here to enable DP-Rx PHY GCE setting for mt3612.
+	  Say 'N' here not to enable DP-Rx PHY GCE setting for mt3612.

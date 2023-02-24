@@ -1,0 +1,81 @@
+config MTK_IMGPROC
+	tristate "MediaTek Image Processing Support"
+	help
+	  MediaTek Image Processing Driver
+	  This is an option to enable support for MediaTek
+	  image processing drivers including CROP, LHC, P2S,
+	  Padding, RDMA, Resizer, WarpA, and WDMA.
+
+config MTK_CROP
+	tristate "MediaTek Crop driver"
+	depends on MTK_IMGPROC
+	help
+	  Crop module is used to crop Region-of-Interest (ROI)
+	  to the nest module.this module input color format
+	  is YUV444 10bit,output color format is YUV444 10 bit,
+	  color range is input/output (0-1023/0-255).
+
+config MTK_LHC
+	tristate "MediaTek LHC driver"
+	depends on MTK_IMGPROC && !MACH_MT3612EP
+	help
+	  The Local Histogram Counter (LHC) module is used to
+	  generate R/G/B histogram for each local block. LHC
+	  supports YUV444 & RGB data. The histogram processing
+	  is based on RGB data.
+
+config MTK_P2S
+	tristate "MediaTek P2S driver"
+	depends on MTK_IMGPROC
+	help
+	  The Parallel-To-Serial (P2S) module is used to
+	  transfer a Left side and Right side of image into
+	  a sideby-side image to be output. It can also support
+	  Left relay mode and Right relay mode.
+
+config MTK_PADDING
+	tristate "MediaTek Padding driver"
+	depends on MTK_IMGPROC && !MACH_MT3612EP
+	help
+	  Padding module is used to pad out boundary pixels
+	  between side-by-side images.The padding engine is
+	  for padding out horizontal pixels. Padding engine pads
+	  out some pixel values in one quarter, two quarter and
+	  three quarter of the horizontal line.
+
+config MTK_RDMA
+	tristate "MediaTek RDMA driver"
+	depends on MTK_IMGPROC
+	help
+	  The RDMA module is used to read data from
+	  SRAM or DRAM. This module support read only
+	  Region-Of-Interest from SRAM or DRAM (cropping).
+	  It can support to read data with some special
+	  color formats.
+
+config MTK_RSZ
+	tristate "MediaTek Resizer driver"
+	depends on MTK_IMGPROC
+	help
+	  Resizer module is a High fidelity scaler, used to
+	  scaling the image, support both up and down scaling.
+	  support input format as YUV444 10bit mode and support
+	  scaling ratio from 1/128 to 64.
+
+config MTK_WDMA
+	tristate "MediaTek WDMA driver"
+	depends on MTK_IMGPROC
+	help
+	  The WDMA module is used to transfer data into
+	  SRAM or DRAM. this module also support simple
+	  color format transformation and write only
+	  Region-Of-Interest into SRAM or DRAM (cropping).
+
+config MTK_WARPA
+	tristate "MediaTek WPEA driver"
+	depends on MTK_IMGPROC
+	help
+	  The Warp Engine Type-A (WPEA) is used to process lens
+	  distortion in multimedia sub-system according warpmap
+	  description. WPEA just process the Y channel (luminance)
+	  of image.

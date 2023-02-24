@@ -1,0 +1,44 @@
+#
+# Phy drivers for Mediatek devices
+#
+config MTK_MIPI_TX
+	tristate "Mediatek mipi tx driver"
+	help
+		MTK MIPI TX Linux Driver.
+		This driver is used to configure MTK mipi tx hardware module.
+		It includes pll setting, lane setting... and etc.
+
+config PHY_MTK_USB_XSPHY
+	tristate "MediaTek USB XS-PHY Driver"
+	depends on ARCH_MEDIATEK && OF
+	select GENERIC_PHY
+	default n
+	help
+ 		Say 'Y' here to add support for MediaTek USB XS-PHY driver,
+		it supports multiple usb2.0, usb3.0/usb3.1 ports,
+		the XS-PHY with shared banks between multi-ports.
+		If unsure, say N.
+
+config MTK_USB_PHY_PGAIN
+	bool "MediaTek USB PHY CDR P-Gain Fine Tune"
+	depends on PHY_MTK_USB_XSPHY
+	default y
+	help
+	  Say 'Y' here to fine tune USB PHY CDR p-gain.
+	  Say 'N' here not to fine tune USB PHY CDR p-gain.
+
+config PHY_MTK_DPRX_PHY
+	tristate "MediaTek DPRX PHY Driver"
+	depends on ARCH_MEDIATEK && OF
+	select GENERIC_PHY
+	default n
+	help
+		Say 'Y' here to add support for MediaTek DPRX PHY driver.
+
+config MT3612_DPRX_EFUSE
+	bool "MediaTek DP-Rx eFuse for MT3612"
+	depends on PHY_MTK_DPRX_PHY
+	default n
+	help
+	  Say 'Y' here to load eFuse for mt3612
+	  Say 'N' here to load eFuse for mt3611

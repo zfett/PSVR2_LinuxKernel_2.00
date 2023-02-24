@@ -1,0 +1,252 @@
+/*
+ * Mediatek's PMIC MT3615 device tree source
+ * Copyright (c) 2016 MediaTek Inc.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+
+&pwrap {
+	status = "okay";
+
+	mt3615 {
+		compatible = "mediatek,mt3615";
+		interrupt-parent = <&pio>;
+		interrupts = <120 IRQ_TYPE_EDGE_FALLING>,
+			     <119 IRQ_TYPE_EDGE_FALLING>;
+		interrupt-names = "mt3615-key",
+				  "mt3615-cable";
+		mt3615pio: mt3615pio {
+			compatible = "mediatek,mt3615-pinctrl";
+			pins-are-numbered;
+			gpio-controller;
+			#gpio-cells = <2>;
+			status = "okay";
+		};
+
+		mt3615regulator: mt3615regulator {
+			compatible = "mediatek,mt3615-regulator";
+
+			mt3615_vproc_reg: buck_vproc {
+				regulator-name = "vproc";
+				regulator-min-microvolt = < 600000>;
+				regulator-max-microvolt = <1125000>;
+				regulator-ramp-delay = <5000>;
+				regulator-always-on;
+				regulator-boot-on;
+			};
+			mt3615_vgpu11_reg: buck_vgpu11 {
+				regulator-name = "vgpu11";
+				regulator-min-microvolt = < 600000>;
+				regulator-max-microvolt = < 993750>;
+				regulator-ramp-delay = <5000>;
+				regulator-always-on;
+				regulator-boot-on;
+			};
+			mt3615_vgpu12_reg: buck_vgpu12 {
+				regulator-name = "vgpu12";
+				regulator-min-microvolt = < 600000>;
+				regulator-max-microvolt = < 993750>;
+				regulator-ramp-delay = <5000>;
+				regulator-always-on;
+				regulator-boot-on;
+			};
+			mt3615_vpu_reg: buck_vpu {
+				regulator-name = "vpu";
+				regulator-min-microvolt = < 600000>;
+				regulator-max-microvolt = < 937500>;
+				regulator-ramp-delay = <5000>;
+				regulator-always-on;
+				regulator-boot-on;
+			};
+			mt3615_vcore1_reg: buck_vcore1 {
+				regulator-name = "vcore1";
+				regulator-min-microvolt = < 600000>;
+				regulator-max-microvolt = < 775000>;
+				regulator-always-on;
+				regulator-boot-on;
+			};
+			mt3615_vcore2_reg: buck_vcore2 {
+				regulator-name = "vcore2";
+				regulator-min-microvolt = < 600000>;
+				regulator-max-microvolt = < 881250>;
+				regulator-ramp-delay = <8000>;
+				regulator-always-on;
+				regulator-boot-on;
+			};
+			mt3615_vcore4_reg: buck_vcore4 {
+				regulator-name = "vcore4";
+				regulator-min-microvolt = < 760000>;
+				regulator-max-microvolt = < 881250>;
+				regulator-always-on;
+				regulator-boot-on;
+			};
+			mt3615_vs1_reg: buck_vs1 {
+				regulator-name = "vs1";
+				regulator-min-microvolt = <1800000>;
+				regulator-max-microvolt = <2200000>;
+				regulator-always-on;
+				regulator-boot-on;
+			};
+			mt3615_vs2_reg: buck_vs2 {
+				regulator-name = "vs2";
+				regulator-min-microvolt = <1200000>;
+				regulator-max-microvolt = <1500000>;
+				regulator-always-on;
+				regulator-boot-on;
+			};
+			mt3615_vs3_reg: buck_vs3 {
+				regulator-name = "vs3";
+				regulator-min-microvolt = < 900000>;
+				regulator-max-microvolt = <1100000>;
+				regulator-always-on;
+				regulator-boot-on;
+			};
+			mt3615_vdram1_reg: buck_vdram1 {
+				regulator-name = "vdram1";
+				regulator-min-microvolt = <1000000>;
+				regulator-max-microvolt = <1200000>;
+				regulator-always-on;
+				regulator-boot-on;
+			};
+			mt3615_vdram2_reg: buck_vdram2 {
+				regulator-name = "vdram2";
+				regulator-min-microvolt = < 600000>;
+				regulator-max-microvolt = <1200000>;
+				regulator-always-on;
+				regulator-boot-on;
+			};
+			mt3615_vio18_reg: buck_vio18 {
+				regulator-name = "vio18";
+				regulator-min-microvolt = <1700000>;
+				regulator-max-microvolt = <2100000>;
+				regulator-always-on;
+				regulator-boot-on;
+			};
+			mt3615_vio31_reg: buck_vio31 {
+				regulator-name = "vio31";
+				regulator-min-microvolt = <2900000>;
+				regulator-max-microvolt = <3300000>;
+				regulator-always-on;
+				regulator-boot-on;
+			};
+
+			mt3615_vaux18_reg: ldo_vaux18 {
+				regulator-name = "vaux18";
+				regulator-min-microvolt = <1800000>;
+				regulator-max-microvolt = <1900000>;
+				regulator-always-on;
+				regulator-boot-on;
+			};
+			mt3615_vxo_reg: ldo_vxo {
+				regulator-name = "vxo";
+				regulator-min-microvolt = <2000000>;
+				regulator-max-microvolt = <2300000>;
+				regulator-always-on;
+				regulator-boot-on;
+			};
+			mt3615_vefuse_reg: ldo_vefuse {
+				regulator-name = "vefuse";
+				regulator-min-microvolt = <1650000>;
+				regulator-max-microvolt = <1950000>;
+				regulator-boot-off;
+			};
+			mt3615_vm18_reg: ldo_vm18 {
+				regulator-name = "vm18";
+				regulator-min-microvolt = <1650000>;
+				regulator-max-microvolt = <1950000>;
+				regulator-always-on;
+				regulator-boot-on;
+			};
+			mt3615_vusb_reg: ldo_vusb {
+				regulator-name = "vusb";
+				regulator-min-microvolt = <2850000>;
+				regulator-max-microvolt = <3250000>;
+				regulator-always-on;
+				regulator-boot-on;
+			};
+			mt3615_va18_reg: ldo_va18 {
+				regulator-name = "va18";
+				regulator-min-microvolt = <1650000>;
+				regulator-max-microvolt = <1950000>;
+				regulator-always-on;
+				regulator-boot-on;
+			};
+			mt3615_va12_reg: ldo_va12 {
+				regulator-name = "va12";
+				regulator-min-microvolt = <1050000>;
+				regulator-max-microvolt = <1350000>;
+				regulator-always-on;
+				regulator-boot-on;
+			};
+			mt3615_va09_reg: ldo_va09 {
+				regulator-name = "va09";
+				regulator-min-microvolt = < 755000>;
+				regulator-max-microvolt = < 1050000>;
+				regulator-always-on;
+				regulator-boot-on;
+			};
+			mt3615_vsram_proc_reg: ldo_vsram_proc {
+				regulator-name = "vsram_proc";
+				regulator-min-microvolt = < 500000>;
+				regulator-max-microvolt = <1125000>;
+				regulator-ramp-delay = <10000>;
+				regulator-always-on;
+				regulator-boot-on;
+			};
+			mt3615_vsram_corex_reg: ldo_vsram_corex {
+				regulator-name = "vsram_corex";
+				regulator-min-microvolt = < 500000>;
+				regulator-max-microvolt = <1100000>;
+				regulator-ramp-delay = <10000>;
+				regulator-always-on;
+				regulator-boot-on;
+			};
+			mt3615_vsram_gpu_reg: ldo_vsram_gpu {
+				regulator-name = "vsram_gpu";
+				regulator-min-microvolt = < 500000>;
+				regulator-max-microvolt = <1100000>;
+				regulator-ramp-delay = <10000>;
+				regulator-always-on;
+				regulator-boot-on;
+			};
+			mt3615_vsram_vpu_reg: ldo_vsram_vpu {
+				regulator-name = "vsram_vpu";
+				regulator-min-microvolt = < 500000>;
+				regulator-max-microvolt = <1100000>;
+				regulator-ramp-delay = <10000>;
+				regulator-always-on;
+				regulator-boot-on;
+			};
+			mt3615_vpio31_reg: ldo_vpio31 {
+				regulator-name = "vpio31";
+				regulator-min-microvolt = <3000000>;
+				regulator-max-microvolt = <3200000>;
+				regulator-always-on;
+				regulator-boot-on;
+			};
+			mt3615_vbbck_reg: ldo_vbbck {
+				regulator-name = "vbbck";
+				regulator-min-microvolt = <1100000>;
+				regulator-max-microvolt = <1300000>;
+				regulator-always-on;
+				regulator-boot-on;
+			};
+			mt3615_vpio18_reg: ldo_vpio18 {
+				regulator-name = "vpio18";
+				regulator-min-microvolt = <1750000>;
+				regulator-max-microvolt = <1900000>;
+				regulator-always-on;
+				regulator-boot-on;
+			};
+
+		};
+	};
+};
+

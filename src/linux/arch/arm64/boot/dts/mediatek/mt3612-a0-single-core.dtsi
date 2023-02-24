@@ -1,0 +1,35 @@
+/*
+ * Copyright (c) 2019 MediaTek Inc.
+ * Author: Chun-Chi Lan <cc.lan@mediatek.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+&psci_cfg {
+	compatible = "arm,SHELL ONLY";
+};
+
+/*
+ *&cpus_cfg {
+ *
+ *	cpu-map {
+ *
+ *		cluster0 {
+ *			/delete-node/ core1;
+ *			/delete-node/ core2;
+ *			/delete-node/ core3;
+ *		};
+ *	};
+ *
+ *	/delete-node/ cpu@1;
+ *	/delete-node/ cpu@2;
+ *	/delete-node/ cpu@3;
+ *};
+ */

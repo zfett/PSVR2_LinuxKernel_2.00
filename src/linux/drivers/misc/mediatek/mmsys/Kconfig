@@ -1,0 +1,11 @@
+config MTK_MMSYS
+	tristate "MediaTek MMSys Support"
+	depends on ARCH_MEDIATEK || COMPILE_TEST
+	select MTK_INFRACFG
+	help
+	  This is MediaTek multimedia system (MMSys) core dirver.
+	  It's used to configure the display path which contains the
+	  necessary hardware components. A display path is used for a
+	  special display scenario.
+
+	  To compile this driver as a module, choose M here.

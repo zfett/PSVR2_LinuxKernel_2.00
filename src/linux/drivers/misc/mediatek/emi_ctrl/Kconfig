@@ -1,0 +1,4 @@
+config MTK_EMI_CTRL
+	tristate "MediaTek EMI Control Driver"
+	help
+	  MediaTek EMI control driver.

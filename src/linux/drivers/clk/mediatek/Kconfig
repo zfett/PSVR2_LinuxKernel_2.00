@@ -1,0 +1,21 @@
+#
+# MediaTek SoC drivers
+#
+config COMMON_CLK_MEDIATEK
+	bool
+	---help---
+	  Mediatek SoCs' clock support.
+
+config COMMON_CLK_MT3612
+	bool "Clock driver for Mediatek MT3612"
+	depends on COMMON_CLK
+	select COMMON_CLK_MEDIATEK
+	default MACH_MT3612_A0
+	---help---
+	  This driver supports Mediatek MT3611 clocks.
+
+config MTK_FREQ_METER_VERIFY
+	tristate "Frequency meter for Mediatek MT3612"
+	---help---
+	  This driver use to measure actual clock frequency.
+

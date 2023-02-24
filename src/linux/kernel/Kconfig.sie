@@ -1,0 +1,32 @@
+#
+# SIE related configurations
+#
+
+config SIE_PRINTK_CUSTOM_LOG_DRIVER
+	bool "Support for printk log driver"
+	depends on SIE
+	default n
+
+config SIE_PRINTK_CUSTOM_LOG_DRIVER_DEBUG
+	bool "Enable debug mode for printk log driver"
+	depends on SIE
+	default n
+
+config SIE_CRASH_DUMP_SUPPORT_FOR_USER
+	bool "Support for crash dump for user space application"
+	depends on SIE
+	default n
+
+config SIE_DEVELOP_BUILD
+	bool "Enable develop build flag for SIE modules."
+	depends on SIE
+	default n
+
+config NR_CPUS_DURING_BOOT
+	int "Number of CPUs during linux bootup stage"
+	depends on HOTPLUG_CPU
+	range 1 NR_CPUS
+	default NR_CPUS
+	help
+	  Boot up limited number of CPUs.
+	  other CPUs are enabled only when explicitly enabled.

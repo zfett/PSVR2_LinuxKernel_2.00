@@ -1,0 +1,6 @@
+config MTK_SLICER
+	tristate "Mediatek slicer driver"
+	help
+	  MTK Linux Driver for slicer.
+	  This driver is used to configure MTK slicer hardware module.
+	  It includes DP video and DSC path selection, frame and slice configuration

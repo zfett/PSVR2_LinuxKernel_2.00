@@ -1,0 +1,10 @@
+config MTK_MMSYS_CMMN_TOP
+	tristate "Mediatek mmsys common top driver"
+	help
+	  Connect two different modules in computer vision paths
+	  and the display pipeline.
+
+config MTK_MMSYS_GAZE_TOP
+	tristate "Mediatek mmsys gaze top driver"
+	help
+	  For mmsys gaze hw modules reset and some debug.

@@ -1,0 +1,114 @@
+/*
+ * Copyright (c) 2018 MediaTek Inc.
+ * Authors:
+ *      Peggy Jao <peggy.jao@mediatek.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+#ifndef __SBRC_REG_H__
+#define __SBRC_REG_H__
+
+/* ----------------- Register Definitions ------------------- */
+#define SBRC_ENABLE					0x00000000
+	#define SBRC_EN					BIT(0)
+#define SBRC_SW_RESET					0x00000004
+	#define SBRC_SW_RST				BIT(0)
+#define SBRC_BUFFER_NUM_CFG				0x00000008
+	#define SBRC_BUFFER_NUM				GENMASK(8, 0)
+#define SBRC_BUFFER_DEPTH_CFG				0x0000000c
+	#define SBRC_BUFFER_DEPTH			GENMASK(8, 0)
+#define SBRC_BUFFER_SIZE_CFG				0x00000010
+	#define SBRC_BUFFER_SIZE			GENMASK(23, 0)
+#define SBRC_TOTAL_STRIP_NUM_CFG			0x00000014
+	#define SBRC_TOTAL_STRIP_NUM			GENMASK(12, 0)
+#define SBRC_LINE_REMAINDER_CFG				0x00000018
+	#define SBRC_LINE_REMAINDER			GENMASK(12, 0)
+#define SBRC_GCE_CONFIG					0x0000001c
+	#define GCE_W_INCOMPLETE_EN			BIT(0)
+	#define GCE_GPU_RENDER_FAULT_EN			BIT(1)
+	#define GCE_GPU_N_SBRC_RW_CLASH_EN		BIT(2)
+	#define GCE_W_OVER_TH_EN			BIT(3)
+	#define GCE_GPU_FRAME_SKIP_DONE_EN		BIT(4)
+	#define GCE_GPIO_TIMEOUT_EN			BIT(5)
+	#define GCE_URGENT_START_EN			BIT(7)
+	#define GCE_URGENT_END_EN			BIT(8)
+#define SBRC_W_OVER_TH_VAL				0x00000020
+	#define SBRC_W_OVER_TH_VALUE			GENMASK(14, 0)
+#define SBRC_BUFFER_STA					0x00000024
+	#define SBRC_WRITE_BUFFER_STA			GENMASK(7, 0)
+	#define SBRC_READ_BUFFER_STA			GENMASK(15, 8)
+#define SBRC_BYPASS_MODE				0x00000028
+	#define SBRC_BYPASS_MODE_SET			BIT(0)
+	#define SBRC_BYPASS_MODE_CLR			BIT(1)
+#define SBRC_GPIO_DELAY					0x0000002c
+	#define SBRC_GPIO_READ_REQ_DELAY		GENMASK(7, 0)
+	#define GPIO_INPUT_REQ_N_DATA_DELAY		GENMASK(15, 8)
+#define SBRC_GPIO_TIMEOUT_VAL				0x00000030
+	#define SBRC_GPIO_TIMEOUT_VALUE			GENMASK(14, 0)
+#define SBRC_SW_CTRL_READ_BUFFER			0x00000034
+	#define SW_CTRL_READ_BUF_INDEX			GENMASK(9, 1)
+	#define SW_CTRL_READ_BUF_EN			BIT(0)
+#define GPIO_BUF_AVA_BITMAP_0_31			0x00000038
+	#define GPIO_BUF_AVA_BITMAP_0_7			GENMASK(7, 0)
+#define GPIO_SKIP_FRAME_CONTROL_APB			0x00000058
+	#define GPIO_SKIP_FRAME_CONTROL			GENMASK(7, 0)
+#define GPIO_PENDING_BUF_IDX_VALID_APB			0x0000005c
+	#define PENDING_BUF_IDX_VALID			GENMASK(7, 0)
+#define GPIO_PENDING_BUF_IDX_APB			0x00000060
+	#define PENDING_BUF_IDX				GENMASK(7, 0)
+#define GPIO_RENDER_STRIP_INDEX_APB			0x00000064
+	#define GPIO_RENDER_STRIP_INDEX			GENMASK(7, 0)
+#define GPIO_BUFFER_RENDER_COMPLETE_APB			0x00000068
+	#define GPIO_BUFFER_RENDER_COMPLETE		GENMASK(7, 0)
+#define GPIO_BUFFER_RENDER_FAULT_APB			0x0000006c
+	#define GPIO_BUFFER_RENDER_FAULT		GENMASK(7, 0)
+#define SBRC_DBG_OUT_SELECT				0x00000074
+	#define SBRC_DBG_OUT_SEL			GENMASK(2, 0)
+#define SBRC_MUTEX_CONFIG				0x00000078
+	#define MUTEX_ERR_W_INCOMPLETE_EN		BIT(0)
+	#define MUTEX_ERR_GPU_RENDER_FAULT_EN		BIT(1)
+	#define MUTEX_ERR_GPU_N_SBRC_RW_CLASH		BIT(2)
+	#define MUTEX_W_OVER_TH_EN			BIT(3)
+	#define MUTEX_ERR_GPIO_TIMEOUT_EN		BIT(4)
+#define SBRC_IRQ_CONFIG					0x0000007c
+	#define IRQ_W_INCOMPLETE_EN			BIT(0)
+	#define IRQ_GPU_RENDER_FAULT_EN			BIT(1)
+	#define IRQ_GPU_N_SBRC_RW_CLASH_EN		BIT(2)
+	#define IRQ_W_OVER_TH_EN			BIT(3)
+	#define IRQ_GPU_FRAME_SKIP_DONE_EN		BIT(4)
+	#define IRQ_GPIO_TIMEOUT_EN			BIT(5)
+	#define IRQ_URGENT_EN				BIT(7)
+	#define IRQ_W_INCOMPLETE_CLR			BIT(16)
+	#define IRQ_GPU_RENDER_FAULT_CLR		BIT(17)
+	#define IRQ_GPU_N_SBRC_RW_CLASH_CLR		BIT(18)
+	#define IRQ_W_OVER_TH_CLR			BIT(19)
+	#define IRQ_GPU_FRAME_SKIP_DONE_CLR		BIT(20)
+	#define IRQ_GPIO_TIMEOUT_CLR			BIT(21)
+	#define IRQ_URGENT_CLR				BIT(23)
+#define SBRC_IRQ_STATUS					0x00000080
+	#define IRQ_W_INCOMPLETE_STA			BIT(0)
+	#define IRQ_GPU_RENDER_FAULT_STA		BIT(1)
+	#define IRQ_GPU_N_SBRC_RW_CLASH_STA		BIT(2)
+	#define IRQ_W_OVER_TH_STA			BIT(3)
+	#define IRQ_GPU_FRAME_SKIP_DONE_STA		BIT(4)
+	#define IRQ_GPIO_TIMEOUT_STA			BIT(5)
+	#define IRQ_URGENT_STA				BIT(7)
+#define SBRC_URGENT_TH_VAL				0x00000084
+	#define SBRC_WRITE_OVER_READ_VAL		GENMASK(14, 0)
+#define SBRC_MON					0x0000008c
+	#define ALL_BYPASS_MODE_STA			BIT(0)
+	#define CFG_BYPASS_MODE_STA			BIT(1)
+	#define EXT_BYPASS_MODE_STA			BIT(2)
+	#define SBRC_URGENT_STA				BIT(3)
+#define SBRC_URGENT_ENABLE				0x00000094
+	#define SBRC_URGENT_EN				BIT(0)
+
+#endif /*__SBRC_REG_H__*/

@@ -1,0 +1,8 @@
+#
+# MTK related configurations
+#
+
+config MTK_MET_DRIVER
+	bool "Support for Mediatek MET Driver"
+	default n
+

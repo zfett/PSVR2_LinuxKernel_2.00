@@ -1,0 +1,1076 @@
+/*
+ * Copyright (c) 2019 MediaTek Inc.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+/ {
+	model = "MediaTek MT3612 Evaluation Board";
+	compatible = "mediatek,mt3612-evb", "mediatek,mt3612";
+	interrupt-parent = <&sysirq>;
+	#address-cells = <2>;
+	#size-cells = <2>;
+
+	aliases {
+		serial0 = &uart0;
+		spi0 = &spi0;
+		spi1 = &spi1;
+		spi2 = &spi2;
+		spi3 = &spi3;
+		spi4 = &spi4;
+		spi5 = &spi5;
+		spi6 = &spi6;
+		spi7 = &spi7;
+		spi8 = &spi8;
+		spi9 = &spi9;
+	};
+
+	chosen {
+		bootargs = "console=ttyS0,921600n1 \
+root=/dev/ram auto_detect_partition init=/init \
+earlycon=mtk8250,0x11020000,921600n8 loglevel=4 \
+mtdparts= ";
+		stdout-path = "serial0";
+		linux,initrd-start = <0x48000000>;
+		linux,initrd-end = <0x50000000>;
+		lk,timestamp = <0x00000000>;
+		linux,bootmode = "normal";
+	};
+
+	mmc_fixed_3v3: fixedregulator@0 {
+		compatible = "regulator-fixed";
+		regulator-name = "mmc_power";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		enable-active-high;
+		regulator-always-on;
+	};
+
+	mmc_fixed_1v8_io: fixedregulator@1 {
+		compatible = "regulator-fixed";
+		regulator-name = "mmc_io";
+		regulator-min-microvolt = <1800000>;
+		regulator-max-microvolt = <1800000>;
+		enable-active-high;
+		regulator-always-on;
+	};
+};
+
+&pmicw_p2p {
+	status = "okay";
+};
+
+&nor_flash {
+	status = "disable";
+	pinctrl-names = "default";
+	pinctrl-0 = <&nor_pins>;
+	flash@0 {
+		compatible = "jedec,spi-nor";
+		reg = <0>;
+	};
+};
+
+&mmc0 {
+	pinctrl-names = "default", "state_uhs";
+	pinctrl-0 = <&mmc0_pins_default>;
+	pinctrl-1 = <&mmc0_pins_uhs>;
+	bus-width = <8>;
+	max-frequency = <50000000>;
+	no-sd;
+	no-sdio;
+	cap-mmc-hw-reset;
+	cap-mmc-highspeed;
+	r_smpl = <0>;
+	vmmc-supply = <&mmc_fixed_3v3>;
+	vqmmc-supply = <&mmc_fixed_1v8_io>;
+	non-removable;
+};
+
+&pio {
+	mmc0_pins_default: mmc0default {
+		pins_cmd_dat {
+			pinmux = <MT3612_PIN_100_GPIO100__FUNC_MMC_DAT0>,
+				 <MT3612_PIN_101_GPIO101__FUNC_EMMC_DAT1>,
+				 <MT3612_PIN_102_GPIO102__FUNC_EMMC_DAT2>,
+				 <MT3612_PIN_103_GPIO103__FUNC_EMMC_DAT3>,
+				 <MT3612_PIN_104_GPIO104__FUNC_EMMC_DAT4>,
+				 <MT3612_PIN_105_GPIO105__FUNC_EMMC_DAT5>,
+				 <MT3612_PIN_106_GPIO106__FUNC_EMMC_DAT6>,
+				 <MT3612_PIN_107_GPIO107__FUNC_EMMC_DAT7>,
+				 <MT3612_PIN_99_GPIO99__FUNC_EMMC_CMD>;
+			input-enable;
+			drive-strength = <MTK_DRIVE_2mA>;
+			bias-pull-up = <MTK_PUPD_SET_R1R0_01>;
+		};
+
+		pins_clk {
+			pinmux = <MT3612_PIN_97_GPIO97__FUNC_EMMC_CLK>;
+			drive-strength = <MTK_DRIVE_2mA>;
+			bias-pull-down = <MTK_PUPD_SET_R1R0_10>;
+		};
+
+		pins_rst {
+			pinmux = <MT3612_PIN_108_GPIO108__FUNC_EMMC_RST>;
+			bias-pull-up;
+		};
+	};
+
+	mmc0_pins_uhs: mmc0@0{
+		pins_cmd_dat {
+			pinmux = <MT3612_PIN_100_GPIO100__FUNC_MMC_DAT0>,
+				 <MT3612_PIN_101_GPIO101__FUNC_EMMC_DAT1>,
+				 <MT3612_PIN_102_GPIO102__FUNC_EMMC_DAT2>,
+				 <MT3612_PIN_103_GPIO103__FUNC_EMMC_DAT3>,
+				 <MT3612_PIN_104_GPIO104__FUNC_EMMC_DAT4>,
+				 <MT3612_PIN_105_GPIO105__FUNC_EMMC_DAT5>,
+				 <MT3612_PIN_106_GPIO106__FUNC_EMMC_DAT6>,
+				 <MT3612_PIN_107_GPIO107__FUNC_EMMC_DAT7>,
+				 <MT3612_PIN_99_GPIO99__FUNC_EMMC_CMD>;
+			input-enable;
+			drive-strength = <MTK_DRIVE_2mA>;
+			bias-pull-up = <MTK_PUPD_SET_R1R0_01>;
+		};
+
+		pins_clk {
+			pinmux = <MT3612_PIN_97_GPIO97__FUNC_EMMC_CLK>;
+			drive-strength = <MTK_DRIVE_2mA>;
+			bias-pull-down = <MTK_PUPD_SET_R1R0_10>;
+		};
+
+		pins_ds {
+			pinmux = <MT3612_PIN_98_GPIO98__FUNC_EMMC_DS>;
+			drive-strength = <MTK_DRIVE_2mA>;
+			bias-pull-down = <MTK_PUPD_SET_R1R0_10>;
+		};
+
+		pins_rst {
+			pinmux = <MT3612_PIN_108_GPIO108__FUNC_EMMC_RST>;
+			bias-pull-up;
+		};
+	};
+
+	audio_pins_default: audiodefault {
+		pins_cmd_dat0 {
+			pinmux = <MT3612_PIN_31_GPIO31__FUNC_I2S_MCK_I2S_OUT>,
+				<MT3612_PIN_32_GPIO32__FUNC_I2S_LRCK_I2S_OUT>,
+				<MT3612_PIN_33_GPIO33__FUNC_I2S_BCK_I2S_OUT>,
+				<MT3612_PIN_33_GPIO34__FUNC_I2S_DO0_I2S_OUT>,
+				<MT3612_PIN_35_GPIO35__FUNC_I2S_DI0_I2S_IN>,
+				<MT3612_PIN_36_GPIO36__FUNC_I2S_DI1_I2S_IN>;
+		};
+	};
+
+	audio_pins_i2s_default: audioi2sdefault {
+		pins_cmd_dat0 {
+			pinmux = <MT3612_PIN_31_GPIO31__FUNC_I2S_MCK_I2S_OUT>,
+				<MT3612_PIN_32_GPIO32__FUNC_I2S_LRCK_I2S_OUT>,
+				<MT3612_PIN_33_GPIO33__FUNC_I2S_BCK_I2S_OUT>,
+				<MT3612_PIN_33_GPIO34__FUNC_I2S_DO0_I2S_OUT>,
+				<MT3612_PIN_35_GPIO35__FUNC_I2S_DI0_I2S_IN>,
+				<MT3612_PIN_36_GPIO36__FUNC_I2S_DI1_I2S_IN>;
+		};
+	};
+
+	audio_pins_tdm_default: audiotdmdefault {
+		pins_cmd_dat0 {
+			pinmux = <MT3612_PIN_31_GPIO31__FUNC_I2S_MCK_TDM_OUT>,
+				<MT3612_PIN_32_GPIO32__FUNC_I2S_LRCK_TDM_OUT>,
+				<MT3612_PIN_33_GPIO33__FUNC_I2S_BCK_TDM_OUT>,
+				<MT3612_PIN_33_GPIO34__FUNC_I2S_DO0_TDM_OUT>,
+				<MT3612_PIN_35_GPIO35__FUNC_I2S_DI0_TDM_IN>;
+		};
+	};
+
+	i2c0_pins: i2c0default {
+		pins_bus {
+			pinmux = <MT3612_PIN_38_GPIO38__FUNC_I2C0_SDA>,
+				 <MT3612_PIN_39_GPIO39__FUNC_I2C0_SCL>;
+			drive-strength = <MTK_DRIVING_SET_D1D0_11>;
+			bias-disable;
+		};
+	};
+
+	i2c1_pins: i2c1default {
+		pins_bus {
+			pinmux = <MT3612_PIN_40_GPIO40__FUNC_I2C1_SDA>,
+				 <MT3612_PIN_41_GPIO41__FUNC_I2C1_SCL>;
+			drive-strength = <MTK_DRIVING_SET_D1D0_11>;
+			bias-disable;
+		};
+	};
+
+	i2c2_pins: i2c2default {
+		pins_bus {
+			pinmux = <MT3612_PIN_42_GPIO42__FUNC_I2C2_SDA>,
+				 <MT3612_PIN_43_GPIO43__FUNC_I2C2_SCL>;
+			drive-strength = <MTK_DRIVING_SET_D1D0_11>;
+			bias-disable;
+		};
+	};
+
+	i2c3_pins: i2c3default {
+		pins_bus {
+			pinmux = <MT3612_PIN_90_GPIO90__FUNC_I2C3_SDA>,
+				 <MT3612_PIN_89_GPIO89__FUNC_I2C3_SCL>;
+			drive-strength = <MTK_DRIVING_SET_D1D0_11>;
+			bias-disable;
+		};
+	};
+
+	i2c4_pins: i2c4default {
+		pins_bus {
+			pinmux = <MT3612_PIN_9_GPIO9__FUNC_I2C4_SDA>,
+				 <MT3612_PIN_8_GPIO8__FUNC_I2C4_SCL>;
+			drive-strength = <MTK_DRIVING_SET_D1D0_11>;
+			bias-disable;
+		};
+	};
+
+	i2c5_pins: i2c5default {
+		pins_bus {
+			pinmux = <MT3612_PIN_13_GPIO13__FUNC_I2C5_SDA>,
+				 <MT3612_PIN_12_GPIO12__FUNC_I2C5_SCL>;
+			drive-strength = <MTK_DRIVING_SET_D1D0_11>;
+			bias-disable;
+		};
+	};
+
+	i2c6_pins: i2c6default {
+		pins_bus {
+			pinmux = <MT3612_PIN_17_GPIO17__FUNC_I2C6_SDA>,
+				 <MT3612_PIN_16_GPIO16__FUNC_I2C6_SCL>;
+			drive-strength = <MTK_DRIVING_SET_D1D0_11>;
+			bias-disable;
+		};
+	};
+
+	i2c7_pins: i2c7default {
+		pins_bus {
+			pinmux = <MT3612_PIN_94_GPIO94__FUNC_I2C7_SDA>,
+				 <MT3612_PIN_93_GPIO93__FUNC_I2C7_SCL>;
+			drive-strength = <MTK_DRIVING_SET_D1D0_11>;
+			bias-disable;
+		};
+	};
+
+	i2c8_pins: i2c8default {
+		pins_bus {
+			pinmux = <MT3612_PIN_96_GPIO96__FUNC_I2C8_SDA>,
+				 <MT3612_PIN_95_GPIO95__FUNC_I2C8_SCL>;
+			drive-strength = <MTK_DRIVING_SET_D1D0_11>;
+			bias-disable;
+		};
+	};
+
+	i2c9_pins: i2c9default {
+		pins_bus {
+			pinmux = <MT3612_PIN_129_GPIO129__FUNC_I2C9_SDA>,
+				 <MT3612_PIN_128_GPIO128__FUNC_I2C9_SCL>;
+			drive-strength = <MTK_DRIVING_SET_D1D0_11>;
+			bias-disable;
+		};
+	};
+
+	i2c10_pins: i2c10default {
+		pins_bus {
+			pinmux = <MT3612_PIN_133_GPIO133__FUNC_I2C10_SDA>,
+				 <MT3612_PIN_132_GPIO132__FUNC_I2C10_SCL>;
+			drive-strength = <MTK_DRIVING_SET_D1D0_11>;
+			bias-disable;
+		};
+	};
+
+	i2c11_pins: i2c11default {
+		pins_bus {
+			pinmux = <MT3612_PIN_48_GPIO48__FUNC_I2CG0_SDA>,
+				 <MT3612_PIN_49_GPIO49__FUNC_I2CG0_SCL>;
+			drive-strength = <MTK_DRIVING_SET_D1D0_11>;
+			bias-disable;
+		};
+	};
+
+	i2c12_pins: i2c12default {
+		pins_bus {
+			pinmux = <MT3612_PIN_76_GPIO76__FUNC_I2CG1_SDA>,
+				 <MT3612_PIN_77_GPIO77__FUNC_I2CG1_SCL>;
+			drive-strength = <MTK_DRIVING_SET_D1D0_11>;
+			bias-disable;
+		};
+	};
+
+	i2c13_pins: i2c13default {
+		pins_bus {
+			pinmux = <MT3612_PIN_54_GPIO54__FUNC_I2CS0_SDA>,
+				 <MT3612_PIN_55_GPIO55__FUNC_I2CS0_SCL>;
+			drive-strength = <MTK_DRIVING_SET_D1D0_11>;
+			bias-disable;
+		};
+	};
+
+	i2c14_pins: i2c14default {
+		pins_bus {
+			pinmux = <MT3612_PIN_56_GPIO56__FUNC_I2CS1_SDA>,
+				 <MT3612_PIN_57_GPIO57__FUNC_I2CS1_SCL>;
+			drive-strength = <MTK_DRIVING_SET_D1D0_11>;
+			bias-disable;
+		};
+	};
+
+	i2c15_pins: i2c15default {
+		pins_bus {
+			pinmux = <MT3612_PIN_65_GPIO65__FUNC_I2CS2_SDA>,
+				 <MT3612_PIN_66_GPIO66__FUNC_I2CS2_SCL>;
+			drive-strength = <MTK_DRIVING_SET_D1D0_11>;
+			bias-disable;
+		};
+	};
+
+	i2c16_pins: i2c16default {
+		pins_bus {
+			pinmux = <MT3612_PIN_67_GPIO67__FUNC_I2CS3_SDA>,
+				 <MT3612_PIN_68_GPIO68__FUNC_I2CS3_SCL>;
+			drive-strength = <MTK_DRIVING_SET_D1D0_11>;
+			bias-disable;
+		};
+	};
+
+	nor_pins: nordefault {
+		pins_bus {
+			pinmux = <MT3612_PIN_137_GPIO137__FUNC_SF_CS>,
+				 <MT3612_PIN_138_GPIO138__FUNC_SF_CK>,
+				 <MT3612_PIN_139_GPIO139__FUNC_SF_D0>,
+				 <MT3612_PIN_140_GPIO140__FUNC_SF_D1>,
+				 <MT3612_PIN_141_GPIO141__FUNC_SF_D2>,
+				 <MT3612_PIN_142_GPIO142__FUNC_SF_D3>;
+		};
+	};
+
+	spi_pins_0: spi0 {
+		pins_spi {
+			pinmux = <MT3612_PIN_20_GPIO20__FUNC_SPI_M0_CK>,
+				 <MT3612_PIN_21_GPIO21__FUNC_SPI_M0_CS>,
+				 <MT3612_PIN_22_GPIO22__FUNC_SPI_M0_MOSI>,
+				 <MT3612_PIN_23_GPIO23__FUNC_SPI_M0_MISO>;
+			bias-disable;
+		};
+	};
+
+	spi_pins_1: spi1 {
+		pins_spi {
+			pinmux = <MT3612_PIN_138_GPIO138__FUNC_SPI_M1_CK>,
+				 <MT3612_PIN_137_GPIO137__FUNC_SPI_M1_CS>,
+				 <MT3612_PIN_139_GPIO139__FUNC_SPI_M1_MOSI>,
+				 <MT3612_PIN_140_GPIO140__FUNC_SPI_M1_MISO>;
+			bias-disable;
+		};
+	};
+
+	spi_pins_2: spi2 {
+		pins_spi {
+			pinmux = <MT3612_PIN_87_GPIO87__FUNC_SPI_M2_CK>,
+				 <MT3612_PIN_88_GPIO88__FUNC_SPI_M2_CS>,
+				 <MT3612_PIN_89_GPIO89__FUNC_SPI_M2_MOSI>,
+				 <MT3612_PIN_90_GPIO90__FUNC_SPI_M2_MISO>;
+			bias-disable;
+		};
+	};
+
+	spi_pins_3: spi3 {
+		pins_spi {
+			pinmux = <MT3612_PIN_6_GPIO6__FUNC_SPI_M3_CK>,
+				 <MT3612_PIN_7_GPIO7__FUNC_SPI_M3_CS>,
+				 <MT3612_PIN_8_GPIO8__FUNC_SPI_M3_MOSI>,
+				 <MT3612_PIN_9_GPIO9__FUNC_SPI_M3_MISO>;
+			bias-disable;
+		};
+	};
+
+	spi_pins_4: spi4 {
+		pins_spi {
+			pinmux = <MT3612_PIN_10_GPIO10__FUNC_SPI_M4_CK>,
+				 <MT3612_PIN_11_GPIO11__FUNC_SPI_M4_CS>,
+				 <MT3612_PIN_12_GPIO12__FUNC_SPI_M4_MOSI>,
+				 <MT3612_PIN_13_GPIO13__FUNC_SPI_M4_MISO>;
+			bias-disable;
+		};
+	};
+
+	spi_pins_5: spi5 {
+		pins_spi {
+			pinmux = <MT3612_PIN_14_GPIO14__FUNC_SPI_M5_CK>,
+				 <MT3612_PIN_15_GPIO15__FUNC_SPI_M5_CS>,
+				 <MT3612_PIN_16_GPIO16__FUNC_SPI_M5_MOSI>,
+				 <MT3612_PIN_17_GPIO17__FUNC_SPI_M5_MISO>;
+			bias-disable;
+		};
+	};
+
+	spi_pins_6: spi6 {
+		pins_spi {
+			pinmux = <MT3612_PIN_91_GPIO91__FUNC_SPI_M6_CK>,
+				 <MT3612_PIN_92_GPIO92__FUNC_SPI_M6_CS>,
+				 <MT3612_PIN_93_GPIO93__FUNC_SPI_M6_MOSI>,
+				 <MT3612_PIN_94_GPIO94__FUNC_SPI_M6_MISO>;
+			bias-disable;
+		};
+	};
+
+	spi_pins_7: spi7 {
+		pins_spi {
+			pinmux = <MT3612_PIN_18_GPIO18__FUNC_SPI_M7_CK>,
+				 <MT3612_PIN_19_GPIO19__FUNC_SPI_M7_CS>,
+				 <MT3612_PIN_95_GPIO95__FUNC_SPI_M7_MOSI>,
+				 <MT3612_PIN_96_GPIO96__FUNC_SPI_M7_MISO>;
+			bias-disable;
+		};
+	};
+
+	spi_pins_8: spi8 {
+		pins_spi {
+			pinmux = <MT3612_PIN_126_GPIO126__FUNC_SPI_M8_CK>,
+				 <MT3612_PIN_127_GPIO127__FUNC_SPI_M8_CS>,
+				 <MT3612_PIN_128_GPIO128__FUNC_SPI_M8_MOSI>,
+				 <MT3612_PIN_129_GPIO129__FUNC_SPI_M8_MISO>;
+			bias-disable;
+		};
+	};
+
+	spi_pins_9: spi9 {
+		pins_spi {
+			pinmux = <MT3612_PIN_130_GPIO130__FUNC_SPI_M9_CK>,
+				 <MT3612_PIN_131_GPIO131__FUNC_SPI_M9_CS>,
+				 <MT3612_PIN_132_GPIO132__FUNC_SPI_M9_MOSI>,
+				 <MT3612_PIN_133_GPIO133__FUNC_SPI_M9_MISO>;
+			bias-disable;
+		};
+	};
+};
+
+&uart0 {
+	status = "okay";
+};
+
+&i2c0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c0_pins>;
+	clock-frequency = <400000>;
+	clock-inter-div = <2>;
+	i2c-timings = /bits/ 16 <0x18B2 0x2 0x3838 0x0>;
+	status = "okay";
+};
+
+&i2c1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c1_pins>;
+	clock-frequency = <100000>;
+	clock-inter-div = <10>;
+	i2c-timings = /bits/ 16 <0x0 0x0 0x3030 0x0>;
+	status = "okay";
+};
+
+&i2c2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c2_pins>;
+	clock-frequency = <100000>;
+	clock-inter-div = <10>;
+	i2c-timings = /bits/ 16 <0x0 0x0 0x3030 0x0>;
+	status = "okay";
+};
+
+&i2c3 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c3_pins>;
+	status = "disabled";
+};
+
+&i2c4 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c4_pins>;
+	status = "disabled";
+};
+
+&i2c5 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c5_pins>;
+	status = "disabled";
+};
+
+&i2c6 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c6_pins>;
+	status = "disabled";
+};
+
+&i2c7 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c7_pins>;
+	status = "disabled";
+};
+
+&i2c8 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c8_pins>;
+	status = "disabled";
+};
+
+&i2c9 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c9_pins>;
+	status = "disabled";
+};
+
+&i2c10 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c10_pins>;
+	status = "disabled";
+};
+
+&i2c11 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c11_pins>;
+	clock-frequency = <400000>;
+	clock-inter-div = <2>;
+	i2c-timings = /bits/ 16 <0x18B2 0x2 0x3838 0x0>;
+	status = "okay";
+};
+
+&i2c12 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c12_pins>;
+	clock-frequency = <400000>;
+	clock-inter-div = <2>;
+	i2c-timings = /bits/ 16 <0x18B2 0x2 0x3838 0x0>;
+	status = "okay";
+};
+
+&i2c13 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c13_pins>;
+	clock-frequency = <400000>;
+	clock-inter-div = <2>;
+	i2c-timings = /bits/ 16 <0x18B2 0x2 0x3838 0x0>;
+	status = "okay";
+};
+
+&i2c14 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c14_pins>;
+	clock-frequency = <400000>;
+	clock-inter-div = <2>;
+	i2c-timings = /bits/ 16 <0x18B2 0x2 0x3838 0x0>;
+	status = "okay";
+};
+
+&i2c15 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c15_pins>;
+	clock-frequency = <400000>;
+	clock-inter-div = <2>;
+	i2c-timings = /bits/ 16 <0x18B2 0x2 0x3838 0x0>;
+	status = "okay";
+};
+
+&i2c16 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c16_pins>;
+	clock-frequency = <400000>;
+	clock-inter-div = <2>;
+	i2c-timings = /bits/ 16 <0x18B2 0x2 0x3838 0x0>;
+	status = "okay";
+};
+
+&camera_hw {
+	status = "okay";
+};
+
+&spi0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&spi_pins_0>;
+	status = "disabled";
+
+	spidev0: spi@0 {
+		compatible = "linux,spidev";
+		reg = <0>;
+		spi-max-frequency = <1000000>;
+	};
+};
+
+&spi1 {
+	pinctrl-names = "default";
+	/* pinctrl-0 = <&spi_pins_1>; */
+	status = "disabled";
+
+	spidev1: spi@0 {
+		compatible = "linux,spidev";
+		reg = <0>;
+		spi-max-frequency = <1000000>;
+	};
+};
+
+&spi2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&spi_pins_2>;
+	status = "disabled";
+
+	spidev2: spi@0 {
+		compatible = "linux,spidev";
+		reg = <0>;
+		spi-max-frequency = <1000000>;
+	};
+};
+
+&spi3 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&spi_pins_3>;
+	status = "disabled";
+
+	spidev3: spi@0 {
+		compatible = "linux,spidev";
+		reg = <0>;
+		spi-max-frequency = <1000000>;
+	};
+};
+
+&spi4 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&spi_pins_4>;
+	status = "disabled";
+
+	spidev4: spi@0 {
+		compatible = "linux,spidev";
+		reg = <0>;
+		spi-max-frequency = <1000000>;
+	};
+};
+
+&spi5 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&spi_pins_5>;
+	status = "disabled";
+
+	spidev5: spi@0 {
+		compatible = "linux,spidev";
+		reg = <0>;
+		spi-max-frequency = <1000000>;
+	};
+};
+
+&spi6 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&spi_pins_6>;
+	status = "disabled";
+
+	spidev6: spi@0 {
+		compatible = "linux,spidev";
+		reg = <0>;
+		spi-max-frequency = <1000000>;
+	};
+};
+
+&spi7 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&spi_pins_7>;
+	status = "disabled";
+
+	spidev7: spi@0 {
+		compatible = "linux,spidev";
+		reg = <0>;
+		spi-max-frequency = <1000000>;
+	};
+};
+
+&spi8 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&spi_pins_8>;
+	status = "disabled";
+
+	spidev8: spi@0 {
+		compatible = "linux,spidev";
+		reg = <0>;
+		spi-max-frequency = <1000000>;
+	};
+};
+
+&spi9 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&spi_pins_9>;
+	status = "disabled";
+
+	spidev9: spi@0 {
+		compatible = "linux,spidev";
+		reg = <0>;
+		spi-max-frequency = <1000000>;
+	};
+};
+&sound {
+	pinctrl-names = "default", "i2s", "tdm";
+	pinctrl-0 = <&audio_pins_default>;
+	pinctrl-1 = <&audio_pins_i2s_default>;
+	pinctrl-2 = <&audio_pins_tdm_default>;
+	status = "okay";
+};
+
+&afe {
+	status = "okay";
+};
+
+&cs42448 {
+	status = "okay";
+};
+&scp {
+	status = "okay";
+};
+
+&p2s_0 {
+	status = "okay";
+};
+
+&mfg_pm0 {
+	status = "okay";
+};
+
+&mfg_pm1 {
+	status = "okay";
+};
+
+&mfg_pm2 {
+	status = "okay";
+};
+
+&mfg_pm3 {
+	status = "okay";
+};
+
+&mfg {
+	vgpu11-supply = <&mt3615_vgpu11_reg>;
+	vgpu12-supply = <&mt3615_vgpu12_reg>;
+	vsram_gpu-supply = <&mt3615_vsram_gpu_reg>;
+	status = "okay";
+};
+
+&iommu {
+	status = "okay";
+};
+
+&ivpcore0 {
+	status = "okay";
+};
+
+&ivpcore1 {
+	status = "okay";
+};
+
+&ivpcore2 {
+	status = "okay";
+};
+
+&ivp {
+	vivp-supply = <&mt3615_vpu_reg>;
+	vsram-supply = <&mt3615_vsram_vpu_reg>;
+	status = "okay";
+};
+
+&mdp_rdma {
+	status = "okay";
+};
+
+&pvric_rdma {
+	status = "okay";
+};
+
+&disp_rdma {
+	status = "okay";
+};
+
+&disp_wdma0 {
+	status = "okay";
+};
+
+&disp_wdma1 {
+	status = "okay";
+};
+
+&disp_wdma2 {
+	status = "okay";
+};
+
+&disp_wdma3 {
+	status = "okay";
+};
+
+&disp_crop0 {
+	status = "okay";
+};
+
+&disp_crop1 {
+	status = "okay";
+};
+
+&disp_crop2 {
+	status = "okay";
+};
+
+&disp_crop3 {
+	status = "okay";
+};
+
+&disp_padding0 {
+	status = "okay";
+};
+
+&disp_padding1 {
+	status = "okay";
+};
+
+&disp_padding2 {
+	status = "okay";
+};
+
+&mdp_rsz0 {
+	status = "okay";
+};
+
+&mdp_rsz1 {
+	status = "okay";
+};
+
+&mdp_rsz2 {
+	status = "okay";
+};
+
+&mdp_rsz3 {
+	status = "okay";
+};
+
+&gce0 {
+	status = "okay";
+};
+
+&gce4 {
+	status = "okay";
+};
+
+&gce5 {
+	status = "okay";
+};
+
+&u3phy2 {
+	status = "okay";
+};
+
+&usb3dg {
+	dr_mode = "peripheral";
+	maximum-speed = "super-speed";
+	status = "okay";
+};
+
+&dprx {
+	status = "okay";
+};
+
+&dprxphy {
+	status = "okay";
+};
+
+&lhc {
+	status = "okay";
+};
+
+&mmsyscfg {
+	status = "okay";
+};
+
+&slicer {
+	status = "okay";
+};
+
+&mutex_core {
+	status = "okay";
+};
+
+&mutex_gaze {
+	status = "okay";
+};
+
+&mutex_common {
+	status = "okay";
+};
+
+&pwm {
+	status = "okay";
+};
+
+&timestamp {
+	status = "okay";
+};
+
+&fe {
+	status = "okay";
+};
+
+&fm {
+	status = "okay";
+};
+
+&common_wdma0 {
+	status = "okay";
+};
+
+&common_wdma1 {
+	status = "okay";
+};
+
+&common_wdma2 {
+	status = "okay";
+};
+
+&gaze_wdma0 {
+	status = "okay";
+};
+
+&rbfc_rdma {
+	status = "okay";
+};
+
+&rbfc_wpe0 {
+	status = "okay";
+};
+
+&rbfc_wpe1 {
+	status = "okay";
+};
+
+&dsc {
+	status = "okay";
+};
+
+&mipi_tx {
+	status = "okay";
+};
+
+&dsi {
+	status = "okay";
+};
+
+&ddds {
+	status = "okay";
+};
+
+&frmtrk {
+	status = "okay";
+};
+
+&mmsys_cmmn_top {
+	status = "okay";
+};
+
+&mmsys_gaze_top {
+	status = "okay";
+};
+
+&warpa0 {
+	status = "okay";
+};
+
+&warpa1 {
+	status = "okay";
+};
+
+&mtkisp0 {
+	status = "okay";
+};
+
+&mtkisp1 {
+	status = "okay";
+};
+
+&mtkisp2 {
+	status = "okay";
+};
+
+&mtkisp3 {
+	status = "okay";
+};
+
+&mtkisp4 {
+	status = "okay";
+};
+
+&mtkisp5 {
+	status = "okay";
+};
+
+&camgce {
+	status = "okay";
+};
+
+&cammem_side0 {
+	status = "okay";
+};
+
+&cammem_side1 {
+	status = "okay";
+};
+
+&cammem_gaze0 {
+	status = "okay";
+};
+
+&cammem_gaze1 {
+	status = "okay";
+};
+
+&sysram0_smi_common {
+	status = "okay";
+};
+
+&sysram1_smi_common {
+	status = "okay";
+};
+
+&sysram2_smi_common_u0 {
+	status = "okay";
+};
+
+&sysram2_smi_common_u1 {
+	status = "okay";
+};
+
+&sysram2_smi_common_u2 {
+	status = "okay";
+};
+
+&sysram2_smi_common_u3 {
+	status = "okay";
+};
+
+&sysram2_infra_smi_common {
+	status = "okay";
+};
+
+&sysram2_vpu_smi_common {
+	status = "okay";
+};
+
+&mm_sysram0 {
+	status = "okay";
+};
+
+&mm_sysram1 {
+	status = "okay";
+};
+
+&mm_sysram2 {
+	status = "okay";
+};
+
+&emi_ctrl {
+	status = "okay";
+};

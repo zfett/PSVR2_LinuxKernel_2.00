@@ -1,0 +1,8 @@
+config MTK_MUTEX
+	tristate "MediaTek MUTEX Support"
+	depends on ARCH_MEDIATEK || COMPILE_TEST
+	select MTK_INFRACFG
+	help
+	  Say yes here to add support for the MediaTek MUTEX driver.
+	  The MUTEX is used to provide SOF/EOF sources to all hardware
+	  modules in display pipeline.

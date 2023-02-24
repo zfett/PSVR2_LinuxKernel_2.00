@@ -1,0 +1,34 @@
+#
+# For a description of the syntax of this configuration file,
+# see Documentation/kbuild/kconfig-language.txt.
+#
+mainmenu "Linux/$ARCH $KERNELVERSION Kernel Configuration"
+
+config SRCARCH
+	string
+	option env="SRCARCH"
+
+choice
+	prompt "Choose Mediatek Machine define"
+	depends on ARCH_MEDIATEK
+	help
+	  This option allows to select a Mediatek Machine config.
+
+config MACH_FPGA
+	bool "MACH_FPGA"
+	help
+	  Use this option for FPGA verification.
+
+config MACH_MT3612_EMU
+	bool "MACH_MT3612_EMU"
+	help
+	  Use this option for MT3612 emulator.
+
+config MACH_MT3612_A0
+	bool "MACH_MT3612_A0"
+	help
+	  Use this option for MT3612 A0.
+
+endchoice
+
+source "arch/$SRCARCH/Kconfig"

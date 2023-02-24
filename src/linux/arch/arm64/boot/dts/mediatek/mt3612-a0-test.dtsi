@@ -1,0 +1,474 @@
+/*
+ * Copyright (c) 2018 MediaTek Inc.
+ * Author: Yung-Chi Chen <yung-chi.chen@mediatek.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+/ {
+	clk_freq_meter: clk_freq_meter {
+		compatible = "mediatek,mt3612-freq-meter";
+	};
+
+	soc {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		compatible = "simple-bus";
+		ranges;
+
+		cinematic_0: cinematic_path@0 {
+			compatible = "mediatek,mt3612-cinematic-test";
+			path = <0>;
+			mediatek,cp2s = <&p2s_0>;
+			mediatek,wdma = <&disp_wdma0>;
+			mediatek,mutex = <&mutex_core>;
+			mediatek,resizer = <&mdp_rsz0>;
+			mediatek,slicer = <&slicer>;
+			mediatek,crop = <&disp_crop0>;
+			mediatek,mmsys_core_top = <&mmsyscfg>;
+			mboxes = <&gce0 22 2000 CMDQ_THR_PRIO_1>;
+	       };
+
+		emi: emi@10230000 {
+			compatible = "mediatek,mt3612-emi";
+			reg = <0 0x10230000 0 0x460>;
+			mediatek,mutex=<&mutex_core
+							&mutex_common>;
+			mediatek,dsi=<&dsi>;
+			mboxes =
+			<&gce4 31 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_HIGHEST>,
+			<&gce5 31 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_HIGHEST>;
+			gce-subsys = <GCE4_SUBSYS_1023XXXX>,
+				     <GCE5_SUBSYS_1023XXXX>;
+			gce-event = <CMDQ_EVENT_CAM_VSYNC_EMI_SOF>,
+				    <CMDQ_EVENT_CAM_VSYNC_DSI0_VACTL_EVENT>,
+				    <CMDQ_EVENT_MMSYS_COMMON_MUTEX_TD_EVENT_1>
+				    /*<CMDQ_EVENT_CAM_VSYNC_EMI_EOF>*/;
+			status = "disabled";
+		};
+
+		cinematic_1: cinematic_path@1 {
+			compatible = "mediatek,mt3612-cinematic-test";
+			path = <1>;
+			mediatek,cp2s = <&p2s_0>;
+			mediatek,wdma = <&disp_wdma1>;
+			mediatek,mutex = <&mutex_core>;
+			mediatek,resizer = <&mdp_rsz1>;
+			mediatek,slicer = <&slicer>;
+			mediatek,crop = <&disp_crop1>;
+			mediatek,mmsys_core_top = <&mmsyscfg>;
+			mboxes = <&gce0 23 2000 CMDQ_THR_PRIO_1>;
+	       };
+
+		cinematic_2: cinematic_path@2 {
+			compatible = "mediatek,mt3612-cinematic-test";
+			path = <2>;
+			mediatek,wdma = <&disp_wdma2>;
+			mediatek,mutex = <&mutex_core>;
+			mediatek,slicer = <&slicer>;
+			mediatek,crop = <&disp_crop2>;
+			mediatek,mmsys_core_top = <&mmsyscfg>;
+	       };
+
+		cinematic_3: cinematic_path@3 {
+			compatible = "mediatek,mt3612-cinematic-test";
+			path = <3>;
+			mediatek,wdma = <&disp_wdma3>;
+			mediatek,mutex = <&mutex_core>;
+			mediatek,slicer = <&slicer>;
+			mediatek,crop = <&disp_crop3>;
+			mediatek,mmsys_core_top = <&mmsyscfg>;
+	       };
+
+		cinematic_ctrl: cinematic_ctrl {
+			compatible = "mediatek,mt3612-cinematic-ctrl";
+			mediatek,cinematic_path = <&cinematic_0
+						   &cinematic_1
+						   &cinematic_2
+						   &cinematic_3>;
+			mediatek,disp = <&display_pipe>;
+			mediatek,rbfc = <&rbfc_rdma>;
+			mediatek,sbrc = <&sbrc>;
+			mediatek,sysram = <&mm_sysram2>;
+			gce-subsys = <SUBSYS_1402XXXX>;
+			mboxes = <&gce0 10 3000 CMDQ_THR_PRIO_LOWEST>,
+			       <&gce0 11 3000 CMDQ_THR_PRIO_LOWEST>,
+			       <&gce0 12 3000 CMDQ_THR_PRIO_LOWEST>,
+			       <&gce0 13 3000 CMDQ_THR_PRIO_LOWEST>,
+			       <&gce0 14 3000 CMDQ_THR_PRIO_LOWEST>,
+			       <&gce0 15 3000 CMDQ_THR_PRIO_LOWEST>,
+			       <&gce0 16 3000 CMDQ_THR_PRIO_LOWEST>,
+			       <&gce0 17 3000 CMDQ_THR_PRIO_LOWEST>,
+			       <&gce0 18 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST>,
+			       <&gce0 19 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST>,
+			       <&gce0 20 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST>,
+			       <&gce0 21 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST>;
+			gce-events =
+				<CMDQ_EVENT_MMSYS_CORE_DISP_WDMA0_FRAME_DONE
+			CMDQ_EVENT_MMSYS_CORE_DISP_WDMA1_FRAME_DONE
+			CMDQ_EVENT_MMSYS_CORE_DISP_WDMA2_FRAME_DONE
+			CMDQ_EVENT_MMSYS_CORE_DISP_WDMA3_FRAME_DONE
+			CMDQ_EVENT_MMSYS_CORE_DISP_WDMA0_TARGET_LINE_DONE
+			CMDQ_EVENT_MMSYS_CORE_DISP_WDMA1_TARGET_LINE_DONE
+			CMDQ_EVENT_MMSYS_CORE_DISP_WDMA2_TARGET_LINE_DONE
+			CMDQ_EVENT_MMSYS_CORE_DISP_WDMA3_TARGET_LINE_DONE
+			CMDQ_EVENT_MMSYS_CORE_MDP_RDMA0_RBFC_REN_R_INCOMPLETE_EVENT
+			CMDQ_EVENT_MMSYS_CORE_MDP_RDMA1_RBFC_REN_R_INCOMPLETE_EVENT
+			CMDQ_EVENT_MMSYS_CORE_MDP_RDMA2_RBFC_REN_R_INCOMPLETE_EVENT
+			CMDQ_EVENT_MMSYS_CORE_MDP_RDMA3_RBFC_REN_R_INCOMPLETE_EVENT
+			CMDQ_EVENT_MMSYS_CORE_SBRC_GCE_GPU_CURRENT_FRAME_SKIP_DONE
+			CMDQ_EVENT_MMSYS_CORE_AH_EVENT_PIN_8
+			CMDQ_EVENT_MMSYS_CORE_DSI0_FRAME_DONE
+			CMDQ_EVENT_MMSYS_CORE_DSI1_FRAME_DONE
+			CMDQ_EVENT_MMSYS_CORE_TD_EVENT_0
+			CMDQ_EVENT_MMSYS_CORE_TD_EVENT_4
+			CMDQ_EVENT_MMSYS_CORE_TD_EVENT_5
+			CMDQ_EVENT_MMSYS_CORE_SOF_FOR_23_DISP_WDMA0
+			CMDQ_EVENT_MMSYS_CORE_SOF_FOR_24_DISP_WDMA1
+			CMDQ_EVENT_MMSYS_CORE_SOF_FOR_25_DISP_WDMA2
+			CMDQ_EVENT_MMSYS_CORE_SOF_FOR_26_DISP_WDMA3
+			CMDQ_EVENT_MMSYS_CORE_EOF_FOR_19_CROP0
+			CMDQ_EVENT_MMSYS_CORE_SBRC_GCE_W_INCOMPLETE>;
+	       };
+
+		fm_dev_x: fm_dev_x {
+			compatible = "mediatek,mt3612-fm-dev";
+			mediatek,mmsys_common_top = <&mmsys_cmmn_top>;
+			mediatek,sysram = <&mm_sysram2>;
+			mediatek,fm = <&fm>;
+			mboxes =
+				<&gce4 14 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				 &gce4 15 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				 &gce4 16 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				 &gce4 17 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				 &gce4 18 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				 &gce4 19 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				 &gce4 20 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				 &gce4 21 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				 &gce4 22 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				 &gce4 23 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				 &gce4 24 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				 &gce4 25 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST>;
+			gce-events =
+				<CMDQ_EVENT_MMSYS_COMMON_FRAME_DONE_4_FE
+				 CMDQ_EVENT_MMSYS_COMMON_FRAME_DONE_5_WDMA_0
+				 CMDQ_EVENT_MMSYS_COMMON_FRAME_DONE_6_WDMA_1
+				 CMDQ_EVENT_MMSYS_COMMON_FRAME_DONE_7_WDMA_2
+				 CMDQ_EVENT_MMSYS_COMMON_FRAME_DONE_8_FM
+				 CMDQ_EVENT_VPU_0_IRQ
+				 CMDQ_EVENT_VPU_1_IRQ
+				 CMDQ_EVENT_VPU_2_IRQ
+				 CMDQ_EVENT_MMSYS_COMMON_SOF_3_WPE_1
+				 CMDQ_EVENT_MMSYS_COMMON_FRAME_DONE_3_WPE_1
+				 CMDQ_EVENT_MMSYS_COMMON_SOF_4_FE
+				 CMDQ_EVENT_IMG_SIDE0_CAM0_IMG3O_W_RBFC_W_INCOMPLETE_EVENT
+				 CMDQ_EVENT_IMG_SIDE0_CAM1_IMG3O_W_RBFC_W_INCOMPLETE_EVENT
+				 CMDQ_EVENT_IMG_SIDE1_CAM0_IMG3O_W_RBFC_W_INCOMPLETE_EVENT
+				 CMDQ_EVENT_IMG_SIDE1_CAM1_IMG3O_W_RBFC_W_INCOMPLETE_EVENT
+				 CMDQ_EVENT_MMSYS_COMMON_RBFC_REN_WPE_1_RBFC_R_INCOMPLETE_EVENT
+				 CMDQ_EVENT_CAM_SIDE0_CAM0_BE_REACH_LIM
+				 CMDQ_EVENT_CAM_SIDE0_CAM1_BE_REACH_LIM
+				 CMDQ_EVENT_CAM_SIDE1_CAM0_BE_REACH_LIM
+				 CMDQ_EVENT_CAM_SIDE1_CAM1_BE_REACH_LIM>;
+		};
+
+		warpa_fe_x: warpa_fe_x {
+			compatible = "mediatek,mt3612-warpa-fe";
+			mediatek,mmsys_common_top = <&mmsys_cmmn_top>;
+			mediatek,mmsys_core_top = <&mmsyscfg>;
+			mediatek,mutex = <&mutex_common>;
+			mediatek,sysram = <&mm_sysram2>;
+			mediatek,rbfc = <&rbfc_wpe1>;
+			mediatek,warpa = <&warpa1>;
+			mediatek,fe = <&fe>;
+			mediatek,wdma = <&common_wdma0
+				&common_wdma1
+				&common_wdma2>;
+			mediatek,padding = <&disp_padding0
+				&disp_padding1
+				&disp_padding2>;
+			mediatek,resizer = <&mdp_rsz2
+				&mdp_rsz3>;
+			mboxes =
+				<&gce4 26 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				 &gce4 27 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				 &gce4 28 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				 &gce4 29 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				 &gce4 30 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST>;
+			gce-events =
+				<CMDQ_EVENT_CAM_SIDE0_CAM0_IR_P1_SOF
+				 CMDQ_EVENT_CAM_SIDE0_CAM0_IR_FRAME_DONE
+				 CMDQ_EVENT_IMG_SIDE0_CAM0_P2_SOF
+				 CMDQ_EVENT_IMG_SIDE0_CAM0_P2_DONE
+				 CMDQ_EVENT_MMSYS_COMMON_FRAME_DONE_4_FE
+				 CMDQ_EVENT_VPU_0_IRQ
+				 CMDQ_EVENT_VPU_1_IRQ
+				 CMDQ_EVENT_VPU_2_IRQ
+				 CMDQ_EVENT_MMSYS_COMMON_MUTEX_TD_EVENT_0>;
+		};
+
+		fe_fm_test: fe_fm_test {
+			compatible = "mediatek,mt3612-fe-fm-test";
+			mediatek,fm-dev = <&fm_dev_x>;
+			mediatek,warpa-fe = <&warpa_fe_x>;
+		};
+
+		mm_gaze: mm_gaze {
+			compatible = "mediatek,mt3612-mm-gaze-dev";
+			mediatek,mmsys_gaze_top = <&mmsys_gaze_top>;
+			mediatek,mmsys_core_top = <&mmsyscfg>;
+			mediatek,mutex = <&mutex_gaze>;
+			mediatek,sysram = <&mm_sysram1>;
+			mediatek,rbfc = <&rbfc_wpe0>;
+			mediatek,warpa = <&warpa0>;
+			mediatek,wdma = <&gaze_wdma0>;
+			mboxes =
+				<&gce4 9 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				 &gce4 10 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				 &gce4 11 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				 &gce4 12 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				 &gce4 13 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				 &gce4 0 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST>;
+		};
+
+		display_pipe: display_pipe {
+			compatible = "mediatek,mt3612-display";
+			mediatek,mmsyscfg = <&mmsyscfg>;
+			mediatek,mutex = <&mutex_core>;
+			mediatek,dsi = <&dsi>;
+			mediatek,dsc = <&dsc>;
+			mediatek,wdma0 = <&disp_wdma0>;
+			mediatek,wdma1 = <&disp_wdma1>;
+			mediatek,wdma2 = <&disp_wdma2>;
+			mediatek,wdma3 = <&disp_wdma3>;
+			mediatek,mdp_rdma = <&mdp_rdma>;
+			mediatek,pvric_rdma = <&pvric_rdma>;
+			mediatek,disp_rdma = <&disp_rdma>;
+			mediatek,rbfc = <&rbfc_rdma>;
+			mediatek,slcr = <&slicer>;
+			mediatek,timestamp = <&timestamp>;
+			mediatek,lhc = <&lhc>;
+			mediatek,gce0 = <&gce0>;
+			mediatek,dprx = <&dprx>;
+			mediatek,ddds = <&ddds>;
+			mediatek,frmtrk = <&frmtrk>;
+			disp_partition_nr = <DISPLAY_PARTITION_NR>;
+			disp_wrap_nr = <DISPLAY_WRAP_NR>;
+			disp_core_per_wrap = <DISPLAY_CORE_PER_WRAP>;
+			mboxes = <&gce0 0 2000 CMDQ_THR_PRIO_LOWEST>,
+				<&gce0 1 2000 CMDQ_THR_PRIO_LOWEST>,
+				<&gce0 2 2000 CMDQ_THR_PRIO_LOWEST>,
+				<&gce0 3 2000 CMDQ_THR_PRIO_LOWEST>,
+				<&gce0 4 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST>,
+				/**
+				 * Following 10 gce threads are used for
+				 * camera sync test.
+				 */
+				<&gce0 5 2000 CMDQ_THR_PRIO_LOWEST>,
+				<&gce0 6 2000 CMDQ_THR_PRIO_LOWEST>,
+				<&gce0 7 2000 CMDQ_THR_PRIO_LOWEST>,
+				<&gce0 8 2000 CMDQ_THR_PRIO_LOWEST>,
+				<&gce0 9 2000 CMDQ_THR_PRIO_LOWEST>,
+				<&gce0 25 2000 CMDQ_THR_PRIO_LOWEST>,
+				<&gce0 26 2000 CMDQ_THR_PRIO_LOWEST>,
+				<&gce0 27 2000 CMDQ_THR_PRIO_LOWEST>,
+				<&gce0 28 2000 CMDQ_THR_PRIO_LOWEST>,
+				<&gce0 29 2000 CMDQ_THR_PRIO_LOWEST>;
+			status = "okay";
+		};
+
+		gce_verify: gce_verify{
+			compatible = "mediatek,mt3612_gce_verify";
+			mediatek,mutex = <&mutex_core>;
+			mboxes = <&gce0 30 1000 CMDQ_THR_PRIO_LOWEST
+				&gce4 1 1000 CMDQ_THR_PRIO_LOWEST
+				&gce5 30 1000 CMDQ_THR_PRIO_LOWEST
+				&gce0 31 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				&gce4 2 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				&gce5 31 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST>;
+		};
+
+	  latency_verify: latency_verify{
+			compatible = "mediatek,mt3612_latency_verify";
+			mediatek,fm-dev = <&fm_dev_x>;
+			mediatek,dsi = <&dsi>;
+			mediatek,slcr = <&slicer>;
+			mediatek,mdp_rdma = <&mdp_rdma>;
+			mediatek,pvric_rdma = <&pvric_rdma>;
+			mediatek,wdma = <&disp_wdma0>;
+			mediatek,disp = <&display_pipe>;
+			mboxes =
+			<
+				&gce4 1 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				&gce4 2 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				&gce4 3 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				&gce4 4 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				&gce4 5 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				&gce4 6 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				&gce4 7 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				&gce4 8 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				&gce0 24 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				&gce0 30 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+				&gce0 31 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_LOWEST
+			>;
+			gce-events =
+			<	CMDQ_EVENT_MMSYS_CORE_SOF_FOR_1_SLICER
+				CMDQ_EVENT_MMSYS_CORE_SOF_FOR_33_DSI0
+				CMDQ_EVENT_IMG_SIDE0_CAM0_P2_SOF
+				CMDQ_EVENT_CAM_SIDE0_CAM0_BE_FRAME_DONE>;
+		};
+
+		uart2: serial@11040000 {
+			compatible = "mediatek,mt3611-uart";
+			reg = <0 0x11040000 0 0x400>;
+			interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&pericfg PERISYS_UART2_SEL>,
+					<&pericfg PERISYS_UART2_CK_PDN>;
+			clock-names = "baud", "uart-pericfg-clk";
+			status = "okay";
+		};
+
+
+		uart3: serial@11050000 {
+			compatible = "mediatek,mt3611-uart";
+			reg = <0 0x11050000 0 0x400>;
+			interrupts = <GIC_SPI 104 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&pericfg PERISYS_UART2_SEL>,
+					<&pericfg PERISYS_UART3_CK_PDN>;
+			clock-names = "baud", "uart-pericfg-clk";
+			status = "okay";
+		};
+
+		uart4: serial@11060000 {
+			compatible = "mediatek,mt3611-uart";
+			reg = <0 0x11060000 0 0x400>;
+			interrupts = <GIC_SPI 105 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&pericfg PERISYS_UART4_SEL>,
+					<&pericfg PERISYS_UART4_CK_PDN>;
+			clock-names = "baud", "uart-pericfg-clk";
+			status = "okay";
+		};
+
+		uart5: serial@11180000 {
+			compatible = "mediatek,mt3611-uart";
+			reg = <0 0x11180000 0 0x400>;
+			interrupts = <GIC_SPI 106 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&pericfg PERISYS_UART5_SEL>,
+					<&pericfg PERISYS_UART5_CK_PDN>;
+			clock-names = "baud", "uart-pericfg-clk";
+			status = "disabled";
+		};
+
+		uart6: serial@11390000 {
+			compatible = "mediatek,mt3611-uart";
+			reg = <0 0x11390000 0 0x400>;
+			interrupts = <GIC_SPI 107 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&pericfg PERISYS_UART6_SEL>,
+					<&pericfg PERISYS_UART6_CK_PDN>;
+			clock-names = "baud", "uart-pericfg-clk";
+			status = "okay";
+		};
+
+		uart7: serial@113a0000 {
+			compatible = "mediatek,mt3611-uart";
+			reg = <0 0x113a0000 0 0x400>;
+			interrupts = <GIC_SPI 108 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&pericfg PERISYS_UART7_SEL>,
+					<&pericfg PERISYS_UART7_CK_PDN>;
+			clock-names = "baud", "uart-pericfg-clk";
+			status = "okay";
+		};
+
+		uart8: serial@113b0000 {
+			compatible = "mediatek,mt3611-uart";
+			reg = <0 0x113b0000 0 0x400>;
+			interrupts = <GIC_SPI 109 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&pericfg PERISYS_UART8_SEL>,
+					<&pericfg PERISYS_UART8_CK_PDN>;
+			clock-names = "baud", "uart-pericfg-clk";
+			status = "okay";
+		};
+
+		uart9: serial@113c0000 {
+			compatible = "mediatek,mt3611-uart";
+			reg = <0 0x113c0000 0 0x400>;
+			interrupts = <GIC_SPI 110 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&pericfg PERISYS_UART9_SEL>,
+					<&pericfg PERISYS_UART9_CK_PDN>;
+			clock-names = "baud", "uart-pericfg-clk";
+			status = "okay";
+		};
+
+		adcdbg: adcdbg@10370000 {
+			compatible = "mediatek,mt3612-auxadc-dbg";
+			mediatek,topckgen = <&topckgen>;
+			mediatek,pericfg = <&pericfg>;
+			reg = <0 0x10370000 0 0x1000>,
+					<0 0x10000000 0 0x200>;
+			interrupts = <GIC_SPI 213 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&infracfg INFRACFG_AO_AUXADC_CG>;
+			clock-names = "main";
+			#io-channel-cells = <1>;
+			io-channels = <&adcdbg 0>, <&adcdbg 1>, <&adcdbg 2>;
+			io-channel-names = "dbg-channel0",
+					"dbg-channel1",
+					"dbg-channel2";
+			status = "okay";
+		};
+
+		lpddr: lpddr@10330000 {
+			compatible = "mediatek,mt3612-lpddr", "syscon";
+			reg = <0 0x10330000 0 0x1000>;
+		};
+	};
+};
+
+
+&pio {
+	uart5_pins: uart5default {
+		pins_uart {
+			pinmux = <MT3612_PIN_14_GPIO14__FUNC_UART5_TX>,
+				 <MT3612_PIN_15_GPIO15__FUNC_UART5_RX>;
+			bias-disable;
+		};
+	};
+};
+
+&emi {
+	status = "okay";
+};
+
+&spi0 {
+	status = "disabled";
+	spidev0: spi@0 {
+		compatible = "linux,spidev";
+		reg = <0>;
+		spi-max-frequency = <1000000>;
+	};
+};
+
+&uart1 {
+	dmas = <&apdma 14>, <&apdma 15>;
+	dma-names = "tx", "rx";
+	status = "okay";
+};
+
+&uart5 {
+	dmas = <&apdma 33>, <&apdma 34>;
+	dma-names = "tx", "rx";
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart5_pins>;
+	status = "okay";
+};
+
+&i2c0 {
+	dmas = <&apdma 0>;
+	status = "okay";
+};

@@ -1,0 +1,17 @@
+MediaTek PMIC Wrapper P2P Driver
+
+This document describes the binding for the MediaTek PMIC wrapper P2P.
+
+Required properties in pwrap device node.
+- compatible:
+	"mediatek,mt3612-pmicw-p2p" for MT3612 SoCs
+- reg: Must contain an entry for each entry in reg-names.
+
+Optional properities:
+
+Example:
+		pmicw_p2p: pmicw_p2p@109CA000 {
+			compatible = "mediatek,mt3612-pmicw-p2p";
+			reg = <0 0x109CA000 0 0x0200>;
+			status = "disabled";
+		};

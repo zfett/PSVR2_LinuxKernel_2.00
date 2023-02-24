@@ -1,0 +1,4 @@
+config MTK_XTS_SMC
+	tristate "MediaTek xts smc driver"
+	help
+	  Handle xts smc function

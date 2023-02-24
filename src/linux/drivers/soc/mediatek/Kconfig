@@ -1,0 +1,79 @@
+#
+# MediaTek SoC drivers
+#
+config MTK_CMDQ
+	bool "MediaTek CMDQ Support"
+	depends on ARM64 && ( ARCH_MEDIATEK || COMPILE_TEST )
+	select MTK_CMDQ_MBOX
+	select MTK_INFRACFG
+	help
+	  Say yes here to add support for the MediaTek Command Queue (CMDQ)
+	  driver. The CMDQ is used to help read/write registers with critical
+	  time limitation, such as updating display configuration during the
+	  vblank.
+
+config MTK_INFRACFG
+	bool "MediaTek INFRACFG Support"
+	depends on ARCH_MEDIATEK || COMPILE_TEST
+	select REGMAP
+	help
+	  Say yes here to add support for the MediaTek INFRACFG controller. The
+	  INFRACFG controller contains various infrastructure registers not
+	  directly associated to any device.
+
+config MTK_PMIC_WRAP
+	tristate "MediaTek PMIC Wrapper Support"
+	depends on ARCH_MEDIATEK
+	depends on RESET_CONTROLLER
+	select REGMAP
+	help
+	  Say yes here to add support for MediaTek PMIC Wrapper found
+	  on different MediaTek SoCs. The PMIC wrapper is a proprietary
+	  hardware to connect the PMIC.
+
+config MTK_PMIC_WRAP_MT36XX
+	tristate "MediaTek MT36XX PMIC Wrapper Support"
+	depends on ARCH_MEDIATEK
+	depends on RESET_CONTROLLER
+	select REGMAP
+	help
+	  Say yes here to add support for MediaTek MT36XX PMIC
+	  Wrapper found on different MediaTek SoCs. The PMIC
+	  wrapper is a proprietary hardware to connect the
+	  PMIC.
+
+config MTK_SCPSYS
+	bool "MediaTek SCPSYS Support"
+	depends on ARCH_MEDIATEK || COMPILE_TEST
+	default MACH_MT3612_A0
+	select REGMAP
+	select MTK_INFRACFG
+	select PM_GENERIC_DOMAINS if PM
+	help
+	  Say yes here to add support for the MediaTek SCPSYS
+	  power domain driver.
+	  This config will enable pm framework for SOC power control.
+	  MTK_SCPSYS is used for MT3612 SOC only.
+
+config MTK_PMICW_P2P
+	tristate "MediaTek PMIC Wrapper P2P Support"
+	depends on ARCH_MEDIATEK
+	select REGMAP
+	help
+	  Say yes here to add support for MediaTek PMIC Wrapper P2P
+	  on different MediaTek SoCs.
+
+config MTK_DEBUG
+	bool "MediaTek device driver debugging"
+	default n
+	help
+	  MediaTek device driver debugging
+	  This is an option for use by developers; most people should
+	  say N here. This enables pr_debug/dev_dbg for MediaTek
+	  device driver debugging.
+
+config MTK_DEBUGFS
+	tristate "MediaTek Debugfs Support"
+	depends on DEBUG_FS
+	help
+	  Say yes here to add support for MediaTek Debugfs

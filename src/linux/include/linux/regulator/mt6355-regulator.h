@@ -1,0 +1,81 @@
+/*
+ * Copyright (c) 2017 MediaTek Inc.
+ * Author: Andrew-sh.Cheng, Mediatek
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+#ifndef __LINUX_REGULATOR_MT6355_H
+#define __LINUX_REGULATOR_MT6355_H
+
+enum {
+	MT6355_ID_VDRAM1 = 0,
+	MT6355_ID_VDRAM2,
+	MT6355_ID_VCORE,
+	MT6355_ID_VPROC11,
+	MT6355_ID_VPROC12,
+	MT6355_ID_VGPU,
+	MT6355_ID_VMODEM,
+	MT6355_ID_VPA,
+	MT6355_ID_VS1,
+	MT6355_ID_VS2,
+
+	MT6355_ID_VFE28 = 10,
+	MT6355_ID_VTCXO24,
+	MT6355_ID_VXO22,
+	MT6355_ID_VXO18,
+	MT6355_ID_VRF18_1,
+	MT6355_ID_VRF18_2,
+	MT6355_ID_VRF12,
+	MT6355_ID_VCN33_BT,
+	MT6355_ID_VCN33_WIFI,
+	MT6355_ID_VCN28,
+	MT6355_ID_VCN18,
+	MT6355_ID_VCAMA1,
+	MT6355_ID_VCAMA2,
+	MT6355_ID_VCAMIO,
+	MT6355_ID_VCAMD1,
+	MT6355_ID_VCAMD2,
+	MT6355_ID_VA10,
+	MT6355_ID_VA12,
+	MT6355_ID_VA18,
+	MT6355_ID_VSRAM_PROC,
+	MT6355_ID_VSRAM_GPU,
+	MT6355_ID_VSRAM_MD,
+	MT6355_ID_VSRAM_CORE,
+	MT6355_ID_VSIM1,
+	MT6355_ID_VSIM2,
+	MT6355_ID_VLDO28,
+	MT6355_ID_VMIPI,
+	MT6355_ID_VIO28,
+	MT6355_ID_VMC,
+	MT6355_ID_VMCH,
+	MT6355_ID_VEMC,
+	MT6355_ID_VUFS18,
+	MT6355_ID_VUSB33,
+	MT6355_ID_VBIF28,
+	MT6355_ID_VIO18,
+	MT6355_ID_VGP,
+	MT6355_ID_VGP2,
+	/* RO LDO
+	 * MT6355_ID_VDIG18,
+	 * MT6355_ID_VRTC,
+	 */
+
+	MT6355_ID_RG_MAX,
+};
+
+#define MT6355_MAX_REGULATOR	MT6355_ID_RG_MAX
+#ifdef ANDREW
+#define MT6397_REGULATOR_ID97	0x97
+#define MT6397_REGULATOR_ID91	0x91
+
+#endif
+#endif /* __LINUX_REGULATOR_MT6355_H */

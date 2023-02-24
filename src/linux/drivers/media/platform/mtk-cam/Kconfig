@@ -1,0 +1,48 @@
+#
+# Mediatek camera platform drivers.
+#
+
+config VIDEO_MEDIATEK_ISP
+	tristate "Mediatek Image Signal Processor Driver"
+	help
+	  MTK Linux driver for ISP.
+	  ISP is used to process image data from raw file
+	  or sensor image data to YUV data through a variety
+	  of image processing procedures.
+
+config VIDEO_MEDIATEK_CCU
+	tristate "Mediatek Camera Control Unit Driver"
+	help
+	  MTK Linux driver for CCU.
+	  CCU is a dedicated control unit to execute AE and AWB
+	  algorithm for performance requirement.
+
+config VIDEO_MEDIATEK_GCE
+	tristate "Mediatek Global Command Engine Driver"
+	select MTK_CMDQ
+	help
+	  MTK Linux driver for ISP GCE
+	  ISP is one of Global command Engine clients which
+	  need GCE to achieve some flow control tasks.
+	  This driver support for ISP driver manipulates GCE commands.
+
+config VIDEO_MEDIATEK_CAMERA_MEMORY
+	tristate "Mediatek Camera Memory Driver"
+	help
+	  MTK memory driver for camera.
+	  Driver support for ISP and its related driver to
+	  to access dram or sram, such as allocating memory buffer
+	  for storing processed image data.
+
+config VIDEO_MEDIATEK_IMGSENSOR_V2
+	tristate "Mediatek Image Sensor Driver v2"
+	help
+	  MTK Linux driver for camera sensor v2.
+	  This driver is used to configure MediaTek sensor module.
+	  It include sensor power-on/off, scenario contorl.
+
+config VIDEO_MEDIATEK_ISP_TINY
+	bool "Minimize MTK ISP driver function"
+	default n
+	help
+	  minimize the camera related ioctl.

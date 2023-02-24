@@ -1,0 +1,50 @@
+MediaTek SCPSYS-BRINGUP
+===============
+
+The System Control Processor System (SCPSYS) has several power management
+related tasks in the system. The tasks include thermal measurement, dynamic
+voltage frequency scaling (DVFS), interrupt filter and lowlevel sleep control.
+The System Power Manager (SPM) inside the SCPSYS is for the MTCMOS power
+domain control.
+
+The driver implements for bringup stage to turn on all power domain and the Generic PM domain bindings described in
+power/power_domain.txt. It provides the power domains defined in
+include/dt-bindings/power/mt8173-power.h ,mt2701-power.h,mt3611-power.h, and mt3612-power.h.
+
+Required properties:
+- compatible: Should be one of:
+	- "mediatek,scpsys-bring-up0"
+	- "mediatek,scpsys-bring-up1"
+	- "mediatek,scpsys-bring-up2"
+	- "mediatek,scpsys-bring-up3"
+	- "mediatek,scpsys-bring-up4"
+	- "mediatek,scpsys-bring-up5"
+	- "mediatek,scpsys-bring-up6"
+	- "mediatek,scpsys-bring-up7"
+	- "mediatek,scpsys-bring-up8"
+	- "mediatek,scpsys-bring-up9"
+	- "mediatek,scpsys-bring-up10"
+	- "mediatek,scpsys-bring-up11"
+	- "mediatek,scpsys-bring-up12"
+	- "mediatek,scpsys-bring-up13"
+	- "mediatek,scpsys-bring-up14"
+	- "mediatek,scpsys-bring-up15"
+	- "mediatek,scpsys-bring-up16"
+	- "mediatek,scpsys-bring-up17"
+	- "mediatek,scpsys-bring-up18"
+	- "mediatek,scpsys-bring-up19"
+	- "mediatek,scpsys-bring-up20"
+	- "mediatek,scpsys-bring-up21"
+
+
+Example:
+
+	bring-up-pd-vpu0 {
+		compatible = "mediatek,scpsys-bring-up0";
+		power-domains = <&scpsys MT3611_POWER_DOMAIN_VPU0>;
+	};
+	bring-up-pd-vpu1 {
+		compatible = "mediatek,scpsys-bring-up";
+		power-domains = <&scpsys MT3611_POWER_DOMAIN_VPU1>;
+	};
+

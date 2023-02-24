@@ -1,0 +1,1129 @@
+/*
+ * Copyright (c) 2018 MediaTek Inc.
+ * Author: Yung-Chi Chen <yung-chi.chen@mediatek.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+#include <dt-bindings/gce/mt3612-gce.h>
+#include <dt-bindings/memory/mt3612-larb-port.h>
+
+/ {
+
+	aliases {
+		mutex0 = &mutex_core;
+		mutex1 = &mutex_gaze;
+		mutex2 = &mutex_common;
+		rdma0 = &mdp_rdma;
+		rdma1 = &pvric_rdma;
+		rdma2 = &disp_rdma;
+		fake0 = &dispfake0;
+		fake1 = &dispfake1;
+	};
+
+	soc {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		compatible = "simple-bus";
+		ranges;
+
+		gce0: gce@10280000 {
+			compatible = "mediatek,mt3612-gce";
+			reg = <0 0x10280000 0 0x10000>;
+			interrupts = <GIC_SPI 197 IRQ_TYPE_LEVEL_LOW>;
+			#mbox-cells = <3>;
+			status = "disabled";
+		};
+
+		gce4: gce@10310000 {
+			compatible = "mediatek,mt3612-gce";
+			reg = <0 0x10310000 0 0x10000>;
+			interrupts = <GIC_SPI 205 IRQ_TYPE_LEVEL_LOW>;
+			#mbox-cells = <3>;
+			status = "disabled";
+		};
+
+		gce5: gce@102c0000 {
+			compatible = "mediatek,mt3612-gce";
+			reg = <0 0x102c0000 0 0x10000>;
+			interrupts = <GIC_SPI 218 IRQ_TYPE_LEVEL_LOW>;
+			#mbox-cells = <3>;
+			status = "disabled";
+		};
+
+		mmsyscfg: mmsyscfg@14000000 {
+			compatible = "mediatek,mt3612-mmsyscfg";
+			reg = <0 0x14000000 0 0x1000>;
+			hw-number = <1>;
+			gce-subsys = <SUBSYS_1400XXXX>;
+			interrupts = <GIC_SPI 490 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 491 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 492 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 493 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 494 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 495 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 496 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 497 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 498 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 499 IRQ_TYPE_LEVEL_LOW>;
+			status = "disabled";
+		};
+
+		mutex_core: mutex@14001000 {
+			compatible = "mediatek,mt3612-mutex";
+			reg = <0 0x14001000 0 0x1000>;
+			hw-number = <1>;
+			delay-res = <8>;
+			delay-sof = <33>;
+			mm-clock = <6>;
+			mutex-clock = <6000000>;
+			gce-subsys = <SUBSYS_1400XXXX>;
+			interrupts = <GIC_SPI 444 IRQ_TYPE_LEVEL_LOW>;
+			status = "disabled";
+		};
+
+		p2s_0: p2s@14003000 {
+			compatible = "mediatek,mt3612-p2s";
+			gce-subsys = <SUBSYS_1400XXXX>;
+			reg = <0 0x14003000 0 0x1000>;
+			status = "disabled";
+			clocks = <&mmsys_core MMSYS_CORE_P2S0>;
+			clock-names = "mmsys_core_p2s0";
+			power-domains = <&scpsys MT3612_POWER_DOMAIN_MM_CORE>;
+		};
+
+		mdp_rdma: rdma@14004000 {
+			compatible = "mediatek,mt3612-rdma",
+					"mediatek,mt3612-mdp-rdma";
+			rdma-type = <0>;
+			hw-number = <1>;
+			reg = <0 0x14004000 0 0x1000>,
+				<0 0x14005000 0 0x1000>,
+				<0 0x14006000 0 0x1000>,
+				<0 0x14007000 0 0x1000>;
+			interrupts = <GIC_SPI 445 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 446 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 447 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 448 IRQ_TYPE_LEVEL_LOW>;
+			gce-subsys = <SUBSYS_1400XXXX>,
+					<SUBSYS_1400XXXX>,
+					<SUBSYS_1400XXXX>,
+					<SUBSYS_1400XXXX>;
+			mediatek,larb = <&larb0 &larb1>;
+			mediatek,s_larb = <&larb15 &larb16>;
+			status = "disabled";
+		};
+
+		pvric_rdma: rdma@14008000 {
+			compatible = "mediatek,mt3612-rdma",
+					"mediatek,mt3612-pvric-rdma";
+			rdma-type = <1>;
+			hw-number = <1>;
+			reg = <0 0x14008000 0 0x1000>,
+				<0 0x14009000 0 0x1000>,
+				<0 0x1400A000 0 0x1000>,
+				<0 0x1400B000 0 0x1000>;
+			interrupts = <GIC_SPI 482 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 483 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 484 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 485 IRQ_TYPE_LEVEL_LOW>;
+			gce-subsys = <SUBSYS_1400XXXX>,
+					<SUBSYS_1400XXXX>,
+					<SUBSYS_1400XXXX>,
+					<SUBSYS_1400XXXX>;
+			mediatek,larb = <&larb0 &larb1>;
+			mediatek,s_larb = <&larb15 &larb16>;
+			status = "disabled";
+		};
+
+		disp_rdma: rdma@1400c000 {
+			compatible = "mediatek,mt3612-rdma",
+					"mediatek,mt3612-disp-rdma";
+			rdma-type = <2>;
+			hw-number = <1>;
+			reg = <0 0x1400c000 0 0x1000>,
+				<0 0x1400d000 0 0x1000>,
+				<0 0x1400e000 0 0x1000>,
+				<0 0x1400f000 0 0x1000>;
+			interrupts = <GIC_SPI 449 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 450 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 451 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 452 IRQ_TYPE_LEVEL_LOW>;
+			gce-subsys = <SUBSYS_1400XXXX>,
+					<SUBSYS_1400XXXX>,
+					<SUBSYS_1400XXXX>,
+					<SUBSYS_1400XXXX>;
+			status = "disabled";
+		};
+
+		disp_wdma0: dispwdma@14018000 {
+			compatible = "mediatek,mt3612-disp_wdma0-pvric";
+			reg = <0 0x14018000 0 0x1000>;
+			interrupts = <GIC_SPI 457 IRQ_TYPE_LEVEL_LOW>;
+			gce-subsys = <SUBSYS_1401XXXX>;
+			mediatek,larbs = <&larb0>;
+			/*iommus = <&iommu M4U_PORT_WDMA0_EXT>,*/
+				 /*<&iommu M4U_PORT_WDMA0_R_EXT>;*/
+			status = "disabled";
+			clocks = <&mmsys_core MMSYS_CORE_DISP_WDMA0>;
+			clock-names = "mmsys_core_disp_wdma0";
+			power-domains = <&scpsys MT3612_POWER_DOMAIN_MM_CORE>;
+		};
+
+		disp_wdma1: dispwdma@14019000 {
+			compatible = "mediatek,mt3612-disp_wdma1";
+			reg = <0 0x14019000 0 0x1000>;
+			interrupts = <GIC_SPI 458 IRQ_TYPE_LEVEL_LOW>;
+			gce-subsys = <SUBSYS_1401XXXX>;
+			mediatek,larbs = <&larb0>;
+			/*iommus = <&iommu M4U_PORT_WDMA1_EXT>;*/
+			status = "disabled";
+			clocks = <&mmsys_core MMSYS_CORE_DISP_WDMA1>;
+			clock-names = "mmsys_core_disp_wdma1";
+			power-domains = <&scpsys MT3612_POWER_DOMAIN_MM_CORE>;
+		};
+
+		disp_wdma2: dispwdma@1401A000 {
+			compatible = "mediatek,mt3612-disp_wdma2";
+			reg = <0 0x1401A000 0 0x1000>;
+			interrupts = <GIC_SPI 459 IRQ_TYPE_LEVEL_LOW>;
+			gce-subsys = <SUBSYS_1401XXXX>;
+			mediatek,larbs = <&larb1>;
+			/*iommus = <&iommu M4U_PORT_WDMA2_EXT>;*/
+			status = "disabled";
+			clocks = <&mmsys_core MMSYS_CORE_DISP_WDMA2>;
+			clock-names = "mmsys_core_disp_wdma2";
+			power-domains = <&scpsys MT3612_POWER_DOMAIN_MM_CORE>;
+		};
+
+		disp_wdma3: dispwdma@1401B000 {
+			compatible = "mediatek,mt3612-disp_wdma3";
+			reg = <0 0x1401B000 0 0x1000>;
+			interrupts = <GIC_SPI 460 IRQ_TYPE_LEVEL_LOW>;
+			gce-subsys = <SUBSYS_1401XXXX>;
+			mediatek,larbs = <&larb1>;
+			/*iommus = <&iommu M4U_PORT_WDMA3_EXT>;*/
+			status = "disabled";
+			clocks = <&mmsys_core MMSYS_CORE_DISP_WDMA3>;
+			clock-names = "mmsys_core_disp_wdma3";
+			power-domains = <&scpsys MT3612_POWER_DOMAIN_MM_CORE>;
+		};
+
+		mdp_rsz0: mdp_rsz0@1401C000 {
+			compatible = "mediatek,mt3612-resizer";
+			dev-name = "rsz0";
+			hw-number = <1>;
+			reg = <0 0x1401C000 0 0x1000>;
+			gce-subsys = <SUBSYS_1401XXXX>;
+			interrupts = <GIC_SPI 473 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&mmsys_core MMSYS_CORE_RSZ0>;
+			clock-names = "RSZ";
+			power-domains = <&scpsys MT3612_POWER_DOMAIN_MM_CORE>;
+			status = "disabled";
+		};
+
+		mdp_rsz1: mdp_rsz1@1401D000 {
+			compatible = "mediatek,mt3612-resizer";
+			dev-name = "rsz1";
+			hw-number = <1>;
+			reg = <0 0x1401D000 0 0x1000>;
+			gce-subsys = <SUBSYS_1401XXXX>;
+			interrupts = <GIC_SPI 474 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&mmsys_core MMSYS_CORE_RSZ1>;
+			clock-names = "RSZ";
+			power-domains = <&scpsys MT3612_POWER_DOMAIN_MM_CORE>;
+			status = "disabled";
+		};
+
+		mdp_rsz2: mdp_rsz2@14506000 {
+			compatible = "mediatek,mt3612-resizer";
+			dev-name = "rsz2";
+			hw-number = <1>;
+			reg = <0 0x14506000 0 0x1000>;
+			gce-subsys = <SUBSYS_1450XXXX>;
+			interrupts = <GIC_SPI 506 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&mmsys_com MMSYS_CMM_RSZ_0>;
+			clock-names = "RSZ";
+			power-domains = <&scpsys MT3612_POWER_DOMAIN_MM_COM>;
+			status = "disabled";
+		};
+
+		mdp_rsz3: mdp_rsz3@14507000 {
+			compatible = "mediatek,mt3612-resizer";
+			dev-name = "rsz3";
+			hw-number = <1>;
+			reg = <0 0x14507000 0 0x1000>;
+			gce-subsys = <SUBSYS_1450XXXX>;
+			interrupts = <GIC_SPI 507 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&mmsys_com MMSYS_CMM_RSZ_1>;
+			clock-names = "RSZ";
+			power-domains = <&scpsys MT3612_POWER_DOMAIN_MM_COM>;
+			status = "disabled";
+		};
+
+		mutex_gaze: mutex@14406000 {
+			compatible = "mediatek,mt3612-mutex";
+			reg = <0 0x14406000 0 0x1000>;
+			hw-number = <1>;
+			delay-res = <8>;
+			delay-sof = <97>;
+			mm-clock = <6>;
+			mutex-clock = <6000000>;
+			gce-subsys = <SUBSYS_1440XXXX>;
+			interrupts = <GIC_SPI 518 IRQ_TYPE_LEVEL_LOW>;
+			status = "disabled";
+		};
+
+		common_wdma0: dispwdma@14508000 {
+			compatible = "mediatek,mt3612-common_wdma0";
+			reg = <0 0x14508000 0 0x1000>;
+			interrupts = <GIC_SPI 504 IRQ_TYPE_LEVEL_LOW>;
+			gce-subsys = <SUBSYS_1450XXXX>;
+			mediatek,larbs = <&larb2>;
+			iommus = <&iommu M4U_PORT_WDMA_LARB2>;
+			status = "disabled";
+			clocks = <&mmsys_com MMSYS_CMM_WDMA_0>;
+			clock-names = "mmsys_cmm_wdma_0";
+			power-domains = <&scpsys MT3612_POWER_DOMAIN_MM_COM>;
+		};
+
+		common_wdma1: dispwdma@14509000 {
+			compatible = "mediatek,mt3612-common_wdma1";
+			reg = <0 0x14509000 0 0x1000>;
+			interrupts = <GIC_SPI 514 IRQ_TYPE_LEVEL_LOW>;
+			gce-subsys = <SUBSYS_1450XXXX>;
+			mediatek,larbs = <&larb2>;
+			iommus = <&iommu M4U_PORT_PADDING_WDMA_0>;
+			status = "disabled";
+			clocks = <&mmsys_com MMSYS_CMM_WDMA_1>;
+			clock-names = "mmsys_cmm_wdma_1";
+			power-domains = <&scpsys MT3612_POWER_DOMAIN_MM_COM>;
+		};
+
+		common_wdma2: dispwdma@1450A000 {
+			compatible = "mediatek,mt3612-common_wdma2";
+			reg = <0 0x1450A000 0 0x1000>;
+			interrupts = <GIC_SPI 515 IRQ_TYPE_LEVEL_LOW>;
+			gce-subsys = <SUBSYS_1450XXXX>;
+			mediatek,larbs = <&larb2>;
+			iommus = <&iommu M4U_PORT_PADDING_WDMA_1>;
+			status = "disabled";
+			clocks = <&mmsys_com MMSYS_CMM_WDMA_2>;
+			clock-names = "mmsys_cmm_wdma_2";
+			power-domains = <&scpsys MT3612_POWER_DOMAIN_MM_COM>;
+		};
+
+		gaze_wdma0: dispwdma@14402000 {
+			compatible = "mediatek,mt3612-gaze_wdma0";
+			reg = <0 0x14402000 0 0x1000>;
+			interrupts = <GIC_SPI 517 IRQ_TYPE_LEVEL_LOW>;
+			gce-subsys = <SUBSYS_1440XXXX>;
+			mediatek,larbs = <&larb4>;
+			iommus = <&iommu M4U_PORT_WDMA_LARB4>;
+			status = "disabled";
+			clocks = <&mmsys_gaze MMSYS_GAZE_WDMA_GAZE>;
+			clock-names = "mmsys_gaze_wdma_gaze";
+			power-domains = <&scpsys MT3612_POWER_DOMAIN_MM_GAZE>;
+		};
+
+		disp_crop0: dispcrop@14014000 {
+			compatible = "mediatek,mt3612-crop";
+			reg = <0 0x14014000 0 0x1000>;
+			gce-subsys = <SUBSYS_1401XXXX>;
+			status = "disabled";
+			clocks = <&mmsys_core MMSYS_CORE_CROP0>;
+			power-domains = <&scpsys MT3612_POWER_DOMAIN_MM_CORE>;
+		};
+
+		disp_crop1: dispcrop@14015000 {
+			compatible = "mediatek,mt3612-crop";
+			reg = <0 0x14015000 0 0x1000>;
+			gce-subsys = <SUBSYS_1401XXXX>;
+			status = "disabled";
+			clocks = <&mmsys_core MMSYS_CORE_CROP1>;
+			power-domains = <&scpsys MT3612_POWER_DOMAIN_MM_CORE>;
+		};
+
+		disp_crop2: dispcrop@14016000 {
+			compatible = "mediatek,mt3612-crop";
+			reg = <0 0x14016000 0 0x1000>;
+			gce-subsys = <SUBSYS_1401XXXX>;
+			status = "disabled";
+			clocks = <&mmsys_core MMSYS_CORE_CROP2>;
+			power-domains = <&scpsys MT3612_POWER_DOMAIN_MM_CORE>;
+		};
+
+		disp_crop3: dispcrop@14017000 {
+			compatible = "mediatek,mt3612-crop";
+			reg = <0 0x14017000 0 0x1000>;
+			gce-subsys = <SUBSYS_1401XXXX>;
+			status = "disabled";
+			clocks = <&mmsys_core MMSYS_CORE_CROP3>;
+			power-domains = <&scpsys MT3612_POWER_DOMAIN_MM_CORE>;
+		};
+
+		disp_padding0: disppadding@14501000 {
+			compatible = "mediatek,mt3612-padding";
+			reg = <0 0x14501000 0 0x1000>;
+			gce-subsys = <SUBSYS_1450XXXX>;
+			interrupts = <GIC_SPI 500 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&mmsys_com MMSYS_CMM_PADDING0>;
+			clock-names = "PADDING";
+			power-domains = <&scpsys MT3612_POWER_DOMAIN_MM_COM>;
+			status = "disabled";
+		};
+
+		disp_padding1: disppadding@14502000 {
+			compatible = "mediatek,mt3612-padding";
+			reg = <0 0x14502000 0 0x1000>;
+			gce-subsys = <SUBSYS_1450XXXX>;
+			interrupts = <GIC_SPI 501 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&mmsys_com MMSYS_CMM_PADDING1>;
+			clock-names = "PADDING";
+			power-domains = <&scpsys MT3612_POWER_DOMAIN_MM_COM>;
+			status = "disabled";
+		};
+
+		disp_padding2: disppadding@14503000 {
+			compatible = "mediatek,mt3612-padding";
+			reg = <0 0x14503000 0 0x1000>;
+			gce-subsys = <SUBSYS_1450XXXX>;
+			interrupts = <GIC_SPI 502 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&mmsys_com MMSYS_CMM_PADDING2>;
+			clock-names = "PADDING";
+			power-domains = <&scpsys MT3612_POWER_DOMAIN_MM_COM>;
+			status = "disabled";
+		};
+
+		rbfc_wpe1: rbfc@1450c000 {
+			compatible = "mediatek,mt3612-rbfc";
+			reg = <0 0x1450c000 0 0x1000>;
+			hw-number = <1>;
+			status = "disabled";
+			clocks = <&mmsys_com MMSYS_CMM_RBFC_REN_WPE1>;
+			clock-names = "clk0";
+			gce-subsys = <SUBSYS_1450XXXX>;
+			power-domains = <&scpsys MT3612_POWER_DOMAIN_MM_COM>;
+		};
+
+		rbfc_wpe0: rbfc@14403000 {
+			compatible = "mediatek,mt3612-rbfc";
+			reg = <0 0x14403000 0 0x1000>;
+			hw-number = <1>;
+			status = "disabled";
+			clocks = <&mmsys_gaze MMSYS_GAZE_RBFC_REN_WPE0>;
+			clock-names = "clk0";
+			gce-subsys = <SUBSYS_1440XXXX>;
+			power-domains = <&scpsys MT3612_POWER_DOMAIN_MM_GAZE>;
+		};
+
+		fe: fe@14504000 {
+			compatible = "mediatek,mt3612-fe-fpga";
+			reg = <0 0x14504000 0 0x1000>;
+			mediatek,larbs = <&larb2>;
+			iommus = <&iommu M4U_PORT_FE>;
+			gce-subsys = <SUBSYS_1450XXXX>;
+			status = "disabled";
+			clocks = <&mmsys_com MMSYS_CMM_MDP_FE>;
+			clock-names = "mmsys_cmm_mdp_fe";
+			power-domains = <&scpsys MT3612_POWER_DOMAIN_MM_COM>;
+		};
+
+		fm: fm@1450B000 {
+			compatible = "mediatek,mt3612-fm-fpga";
+			reg = <0 0x1450B000 0 0x1000>;
+			interrupts = <GIC_SPI 505 IRQ_TYPE_LEVEL_LOW>;
+			mediatek,larbs = <&larb3>;
+			iommus = <&iommu M4U_PORT_FM0_IMG>,
+					<&iommu M4U_PORT_FM0_FD>,
+					<&iommu M4U_PORT_FM0_FP>,
+					<&iommu M4U_PORT_FM0_FM0>,
+					<&iommu M4U_PORT_FM0_FM0_ZNCC>;
+			gce-subsys = <SUBSYS_1450XXXX>;
+			status = "disabled";
+			clocks = <&mmsys_com MMSYS_CMM_MDP_FM>;
+			clock-names = "mmsys_cmm_mdp_fm";
+			power-domains = <&scpsys MT3612_POWER_DOMAIN_MM_COM>;
+		};
+
+		mutex_common: mutex@14512000 {
+			compatible = "mediatek,mt3612-mutex";
+			reg = <0 0x14512000 0 0x1000>;
+			hw-number = <1>;
+			delay-res = <8>;
+			delay-sof = <161>;
+			mm-clock = <6>;
+			mutex-clock = <6000000>;
+			gce-subsys = <SUBSYS_1451XXXX>;
+			interrupts = <GIC_SPI 508 IRQ_TYPE_LEVEL_LOW>;
+			status = "disabled";
+		};
+
+		timestamp: timestamp@102d3000 {
+			compatible = "mediatek,mt3612-timestamp";
+			reg = <0 0x102d3000 0 0x1000>;
+			status = "disabled";
+		};
+		sbrc: sbrc@1402c000 {
+			compatible = "mediatek,mt3612-sbrc";
+			reg = <0 0x1402c000 0 0x1000>;
+			interrupts = <GIC_SPI 481 IRQ_TYPE_LEVEL_LOW>;
+			gce-subsys = <SUBSYS_1402XXXX>;
+			status = "disabled";
+			clocks = <&mmsys_core MMSYS_CORE_SBRC>;
+			clock-names = "mmsys_core_sbrc";
+			power-domains = <&scpsys MT3612_POWER_DOMAIN_MM_CORE>;
+		};
+
+		warpa1: warpa@14505000 {
+			compatible = "mediatek,mt3612-warpa";
+			reg = <0 0x14505000 0 0x1000>;
+			interrupts = <GIC_SPI 503 IRQ_TYPE_LEVEL_LOW>;
+			gce-subsys = <SUBSYS_1450XXXX>;
+			mediatek,larb = <&larb2>;
+			iommus = <&iommu M4U_PORT_WPE_VR_RDMA_0>,
+				<&iommu M4U_PORT_WPE_VR_RDMA_1>,
+				<&iommu M4U_PORT_WPE_VR_WDMA>;
+			power-domains = <&scpsys MT3612_POWER_DOMAIN_MM_COM>;
+			clocks = <&mmsys_com MMSYS_CMM_MDP_WPE_1_tx>,
+					<&mmsys_com MMSYS_CMM_MDP_WPE_1_1_tx>,
+					<&mmsys_com MMSYS_CMM_MDP_WPE_1_2_tx>,
+					<&mmsys_com MMSYS_CMM_MDP_WPE_1>;
+			clock-names = "clk_warpa_1_tx",
+				      "clk_warpa_1_1_tx",
+				      "clk_warpa_1_2_tx",
+				      "clk_warpa_1";
+			status = "disabled";
+		};
+
+		warpa0: warpa@14401000 {
+			compatible = "mediatek,mt3612-warpa";
+			reg = <0 0x14401000 0 0x1000>;
+			interrupts = <GIC_SPI 516 IRQ_TYPE_LEVEL_LOW>;
+			gce-subsys = <SUBSYS_1440XXXX>;
+			mediatek,larb = <&larb4>;
+			iommus = <&iommu M4U_PORT_WPE_GAZE_RDMA_0>,
+				<&iommu M4U_PORT_WPE_GAZE_RDMA_1>,
+				<&iommu M4U_PORT_WPE_GAZE_WDMA>;
+			power-domains = <&scpsys MT3612_POWER_DOMAIN_MM_GAZE>;
+			clocks = <&mmsys_gaze MMSYS_GAZE_WPE_0_tx>,
+					<&mmsys_gaze MMSYS_GAZE_WPE_0>;
+			clock-names = "clk_warpa_0_tx",
+				      "clk_warpa_0";
+			status = "disabled";
+		};
+
+		mmsys_cmmn_top: mmsys_cmmn_top@14500000 {
+			compatible = "mediatek,mt3612-mmsys-common-top";
+			reg = <0 0x14500000 0 0x1000>;
+			power-domains = <&scpsys MT3612_POWER_DOMAIN_MM_COM>;
+			status = "disabled";
+		};
+
+		mmsys_gaze_top: mmsys_gaze_top@14400000 {
+			compatible = "mediatek,mt3612-mmsys-gaze-top";
+			reg = <0 0x14400000 0 0x1000>;
+			power-domains = <&scpsys MT3612_POWER_DOMAIN_MM_COM>;
+			status = "disabled";
+		};
+
+		rbfc_rdma: rbfc@14028000 {
+			compatible = "mediatek,mt3612-rdma-rbfc";
+			reg = <0 0x14028000 0 0x1000>,
+			      <0 0x14029000 0 0x1000>,
+			      <0 0x1402A000 0 0x1000>,
+			      <0 0x1402B000 0 0x1000>;
+			hw-number = <4>;
+			clocks = <&mmsys_core MMSYS_CORE_RBFC0>,
+				 <&mmsys_core MMSYS_CORE_RBFC1>,
+				 <&mmsys_core MMSYS_CORE_RBFC2>,
+				 <&mmsys_core MMSYS_CORE_RBFC3>;
+			clock-names = "clk0",
+				      "clk1",
+				      "clk2",
+				      "clk3";
+			gce-subsys = <SUBSYS_1402XXXX>;
+			power-domains = <&scpsys MT3612_POWER_DOMAIN_MM_CORE>;
+			status = "disabled";
+		};
+
+		iommu: iommu@102b0000 {
+			compatible = "mediatek,mt3612-m4u";
+			reg = <0 0x102b0000 0 0x1000>;
+			interrupts = <GIC_SPI 209 IRQ_TYPE_LEVEL_LOW>;
+			mediatek,larbs = <&larb0 &larb1 &larb2 &larb3
+					  &larb4 &larb5 &larb6 &larb7
+					  &larb8 &larb9 &larb10>;
+			#iommu-cells = <1>;
+			mediatek,vpu-reserve = <1>;
+			status = "disabled";
+		};
+
+		smi_common: smi@102b3000 {
+			compatible = "mediatek,mt3612-smi-common";
+			reg = <0 0x102b3000 0 0x1000>;
+			clocks = <&clk26m>, <&clk26m>;
+			clock-names = "apb", "smi";
+		};
+
+		larb0: larb@14024000 {
+			compatible = "mediatek,mt3612-smi-larb";
+			reg = <0 0x14024000 0 0x1000>;
+			mediatek,smi = <&smi_common>;
+			mediatek,larb-id = <0>;
+			clocks = <&clk26m>, <&clk26m>;
+			clock-names = "apb", "smi";
+		};
+
+		larb1: larb@14025000 {
+			compatible = "mediatek,mt3612-smi-larb";
+			reg = <0 0x14025000 0 0x1000>;
+			mediatek,smi = <&smi_common>;
+			mediatek,larb-id = <1>;
+			clocks = <&clk26m>, <&clk26m>;
+			clock-names = "apb", "smi";
+		};
+
+		larb2: larb@1450e000 {
+			compatible = "mediatek,mt3612-smi-larb";
+			reg = <0 0x1450e000 0 0x1000>;
+			mediatek,smi = <&smi_common>;
+			mediatek,larb-id = <2>;
+			clocks = <&clk26m>, <&clk26m>;
+			clock-names = "apb", "smi";
+		};
+
+		larb3: larb@14510000 {
+			compatible = "mediatek,mt3612-smi-larb";
+			reg = <0 0x14510000 0 0x1000>;
+			mediatek,smi = <&smi_common>;
+			mediatek,larb-id = <3>;
+			clocks = <&clk26m>, <&clk26m>;
+			clock-names = "apb", "smi";
+		};
+
+		larb4: larb@14405000 {
+			compatible = "mediatek,mt3612-smi-larb";
+			reg = <0 0x14405000 0 0x1000>;
+			mediatek,smi = <&smi_common>;
+			mediatek,larb-id = <4>;
+			clocks = <&clk26m>, <&clk26m>;
+			clock-names = "apb", "smi";
+		};
+
+		larb5: larb@18001000 {
+			compatible = "mediatek,mt3612-smi-larb";
+			reg = <0 0x18001000 0 0x1000>;
+			mediatek,smi = <&smi_common>;
+			mediatek,larb-id = <5>;
+			clocks = <&clk26m>, <&clk26m>;
+			clock-names = "apb", "smi";
+		};
+
+
+		larb6: larb@23001000 {
+			compatible = "mediatek,mt3612-smi-larb";
+			reg = <0 0x23001000 0 0x1000>;
+			mediatek,smi = <&smi_common>;
+			mediatek,larb-id = <6>;
+			clocks = <&clk26m>, <&clk26m>;
+			clock-names = "apb", "smi";
+		};
+
+		larb7: larb@15001000 {
+			compatible = "mediatek,mt3612-smi-larb";
+			reg = <0 0x15001000 0 0x1000>;
+			mediatek,smi = <&smi_common>;
+			mediatek,larb-id = <7>;
+			clocks = <&clk26m>, <&clk26m>;
+			clock-names = "apb", "smi";
+		};
+
+		larb8: larb@21001000 {
+			compatible = "mediatek,mt3612-smi-larb";
+			reg = <0 0x21001000 0 0x1000>;
+			mediatek,smi = <&smi_common>;
+			mediatek,larb-id = <8>;
+			clocks = <&clk26m>, <&clk26m>;
+			clock-names = "apb", "smi";
+		};
+
+		larb9: larb@22001000 {
+			compatible = "mediatek,mt3612-smi-larb";
+			reg = <0 0x22001000 0 0x1000>;
+			mediatek,smi = <&smi_common>;
+			mediatek,larb-id = <9>;
+			clocks = <&clk26m>, <&clk26m>;
+			clock-names = "apb", "smi";
+		};
+
+		larb10: larb@17001000 {
+			compatible = "mediatek,mt3612-smi-larb";
+			reg = <0 0x17001000 0 0x1000>;
+			mediatek,smi = <&smi_common>;
+			mediatek,larb-id = <10>;
+			clocks = <&clk26m>, <&clk26m>;
+			clock-names = "apb", "smi";
+		};
+
+		larb15: larb@14026000 {
+			compatible = "mediatek,mt3612-smi-larb";
+			reg = <0 0x14026000 0 0x1000>;
+			mediatek,smi = <&smi_common>;
+			mediatek,larb-id = <15>;
+			clocks = <&clk26m>, <&clk26m>;
+			clock-names = "apb", "smi";
+		};
+
+		larb16: larb@14027000 {
+			compatible = "mediatek,mt3612-smi-larb";
+			reg = <0 0x14027000 0 0x1000>;
+			mediatek,smi = <&smi_common>;
+			mediatek,larb-id = <16>;
+			clocks = <&clk26m>, <&clk26m>;
+			clock-names = "apb", "smi";
+		};
+
+		larb20: larb@1450d000 {
+			compatible = "mediatek,mt3612-smi-larb";
+			reg = <0 0x1450d000 0 0x1000>;
+			mediatek,smi = <&smi_common>;
+			mediatek,larb-id = <20>;
+			clocks = <&clk26m>, <&clk26m>;
+			clock-names = "apb", "smi";
+		};
+
+		larb21: larb@1450f000 {
+			compatible = "mediatek,mt3612-smi-larb";
+			reg = <0 0x1450f000 0 0x1000>;
+			mediatek,smi = <&smi_common>;
+			mediatek,larb-id = <21>;
+			clocks = <&clk26m>, <&clk26m>;
+			clock-names = "apb", "smi";
+		};
+
+		larb22: larb@14404000 {
+			compatible = "mediatek,mt3612-smi-larb";
+			reg = <0 0x14404000 0 0x1000>;
+			mediatek,smi = <&smi_common>;
+			mediatek,larb-id = <22>;
+			clocks = <&clk26m>, <&clk26m>;
+			clock-names = "apb", "smi";
+		};
+
+		larb23: larb@18002000 {
+			compatible = "mediatek,mt3612-smi-larb";
+			reg = <0 0x18002000 0 0x1000>;
+			mediatek,smi = <&smi_common>;
+			mediatek,larb-id = <23>;
+			clocks = <&clk26m>, <&clk26m>;
+			clock-names = "apb", "smi";
+		};
+
+		larb24: larb@23002000 {
+			compatible = "mediatek,mt3612-smi-larb";
+			reg = <0 0x23002000 0 0x1000>;
+			mediatek,smi = <&smi_common>;
+			mediatek,larb-id = <24>;
+			clocks = <&clk26m>, <&clk26m>;
+			clock-names = "apb", "smi";
+		};
+
+		larb25: larb@15007000 {
+			compatible = "mediatek,mt3612-smi-larb";
+			reg = <0 0x15007000 0 0x1000>;
+			mediatek,smi = <&smi_common>;
+			mediatek,larb-id = <25>;
+			clocks = <&clk26m>, <&clk26m>;
+			clock-names = "apb", "smi";
+		};
+
+		larb26: larb@21007000 {
+			compatible = "mediatek,mt3612-smi-larb";
+			reg = <0 0x21007000 0 0x1000>;
+			mediatek,smi = <&smi_common>;
+			mediatek,larb-id = <26>;
+			clocks = <&clk26m>, <&clk26m>;
+			clock-names = "apb", "smi";
+		};
+
+		larb27: larb@22002000 {
+			compatible = "mediatek,mt3612-smi-larb";
+			reg = <0 0x22002000 0 0x1000>;
+			mediatek,smi = <&smi_common>;
+			mediatek,larb-id = <27>;
+			clocks = <&clk26m>, <&clk26m>;
+			clock-names = "apb", "smi";
+		};
+
+		larb28: larb@17002000 {
+			compatible = "mediatek,mt3612-smi-larb";
+			reg = <0 0x17002000 0 0x1000>;
+			mediatek,smi = <&smi_common>;
+			mediatek,larb-id = <28>;
+			clocks = <&clk26m>, <&clk26m>;
+			clock-names = "apb", "smi";
+		};
+
+		larb29: larb@15005000 {
+			compatible = "mediatek,mt3612-smi-larb";
+			reg = <0 0x15005000 0 0x1000>;
+			mediatek,smi = <&smi_common>;
+			mediatek,larb-id = <29>;
+			clocks = <&clk26m>, <&clk26m>;
+			clock-names = "apb", "smi";
+		};
+
+		larb30: larb@21005000 {
+			compatible = "mediatek,mt3612-smi-larb";
+			reg = <0 0x21005000 0 0x1000>;
+			mediatek,smi = <&smi_common>;
+			mediatek,larb-id = <30>;
+			clocks = <&clk26m>, <&clk26m>;
+			clock-names = "apb", "smi";
+		};
+
+		sysram0_smi_common: smi@10320000 {
+			reg = <0 0x10320000 0 0x1000>;
+			status = "disabled";
+		};
+
+		sysram1_smi_common: smi@10321000 {
+			reg = <0 0x10321000 0 0x1000>;
+			status = "disabled";
+		};
+
+		sysram2_smi_common_u0: smi@10322000 {
+			reg = <0 0x10322000 0 0x1000>;
+			status = "disabled";
+		};
+
+		sysram2_smi_common_u1: smi@10323000 {
+			reg = <0 0x10323000 0 0x1000>;
+			status = "disabled";
+		};
+
+		sysram2_smi_common_u2: smi@10324000 {
+			reg = <0 0x10324000 0 0x1000>;
+			status = "disabled";
+		};
+
+		sysram2_smi_common_u3: smi@10325000 {
+			reg = <0 0x10325000 0 0x1000>;
+			status = "disabled";
+		};
+
+		sysram2_infra_smi_common: smi@10326000 {
+			reg = <0 0x10326000 0 0x1000>;
+			status = "disabled";
+		};
+
+		sysram2_vpu_smi_common: smi@10327000 {
+			reg = <0 0x10327000 0 0x1000>;
+			status = "dsiabled";
+		};
+
+		mm_sysram0: mm_sysram0 {
+			compatible = "mediatek,mt3612-mm_sysram";
+			dev-id = <0>;
+			reg = <0 0x10320000 0 0x1000>;
+			size = <0x8000>;
+			mediatek,smi = <&sysram0_smi_common>;
+			status = "disabled";
+		};
+
+		mm_sysram1: mm_sysram1 {
+			compatible = "mediatek,mt3612-mm_sysram";
+			dev-id = <1>;
+			reg = <0 0x10321000 0 0x1000>;
+			size = <0x60000>;
+			mediatek,smi = <&sysram1_smi_common>;
+			status = "disabled";
+		};
+
+		mm_sysram2: mm_sysram2 {
+			compatible = "mediatek,mt3612-mm_sysram";
+			dev-id = <2>;
+			reg = <0 0x10322000 0 0x1000>;
+			size = <0x600000>;
+			mediatek,smi =	<&sysram2_smi_common_u0>,
+					<&sysram2_smi_common_u1>,
+					<&sysram2_smi_common_u2>,
+					<&sysram2_smi_common_u3>,
+					<&sysram2_infra_smi_common>,
+					<&sysram2_vpu_smi_common>;
+			status = "disabled";
+		};
+
+		mfg_pm0: mfg_pm0 {
+			compatible = "mediatek,mt3612-mfg-pm0";
+			power-domains =  <&scpsys MT3612_POWER_DOMAIN_MFG0>;
+			status = "disabled";
+		};
+
+		mfg_pm1: mfg_pm1 {
+			compatible = "mediatek,mt3612-mfg-pm1";
+			power-domains =  <&scpsys MT3612_POWER_DOMAIN_MFG1>;
+			status = "disabled";
+		};
+
+		mfg_pm2: mfg_pm2 {
+			compatible = "mediatek,mt3612-mfg-pm2";
+			power-domains =  <&scpsys MT3612_POWER_DOMAIN_MFG2>;
+			status = "disabled";
+		};
+
+		mfg: rgx@13000000 {
+			compatible = "mediatek,mt3612-rgx";
+			reg = <0 0x13000000 0 0x80000>,
+			      <0 0x1300e000 0 0x1000>,
+			      <0 0x13fbf000 0 0x1000>;
+			interrupts = <GIC_SPI 652 IRQ_TYPE_LEVEL_LOW>;
+			interrupt-names = "RGX";
+			clock-frequency = <400000000>;
+			status = "disabled";
+			clocks =<&topckgen CLK_TOP_MFG_SEL>,
+				<&topckgen CLK_TOP_GPUPLL_CK>,
+				<&topckgen TOPCKGEN_MFG_CG>;
+			clock-names = "mfg_clk_sel",
+				      "mfg_clk",
+				      "mfg_cg";
+			power-domains = <&scpsys MT3612_POWER_DOMAIN_MFG3>;
+			operating-points = <
+					300000 600000
+					400000 650000
+					570000 700000
+					665000 750000
+					750000 800000
+					815000 850000
+					870000 900000
+			>;
+		};
+
+	};
+
+		dsc: dsc@1401e000 {
+			compatible = "mediatek,mt3611-dsc";
+			hw-number = <1>;
+			reg = <0 0x1401e000 0 0x1000>,
+				<0 0x1401f000 0 0x1000>;
+			gce-subsys = <SUBSYS_1401XXXX>,
+					<SUBSYS_1401XXXX>;
+			status = "disabled";
+		};
+
+		dsi: dsi@14020000 {
+			compatible = "mediatek,mt3611-dsi";
+			reg = <0 0x14020000 0 0x1000>,
+				<0 0x14021000 0 0x1000>,
+				<0 0x14022000 0 0x1000>,
+				<0 0x14023000 0 0x1000>;
+			interrupts = <GIC_SPI 498 IRQ_TYPE_LEVEL_LOW>,
+				<GIC_SPI 499 IRQ_TYPE_LEVEL_LOW>,
+				<GIC_SPI 500 IRQ_TYPE_LEVEL_LOW>,
+				<GIC_SPI 501 IRQ_TYPE_LEVEL_LOW>;
+			fpga-mode = <1>;
+			hw-number = <1>;
+			dsi-lanes = <4>;
+			mediatek,mmsyscfg = <&mmsyscfg>;
+			panel-sel = <0>; /* 0: 35595; 1: 35695b; 2: sie1440 */
+			phys = <&mipi_tx>;
+			phy-names = "dphy";
+			gce-subsys = <SUBSYS_1402XXXX>;
+/*
+ *			power-domains = <&scpsys MT3611_POWER_DOMAIN_MM_DSI>;
+ */
+			status = "disabled";
+		};
+
+		mipi_tx: mipi-dphy@11fc0000 {
+			compatible = "mediatek,mt3611-mipi-tx";
+			fpga-mode = <1>;
+			hw-number = <1>;
+			phy-type = <0>;  /* 0: d-phy; 1: c-phy */
+			lane-swap = <0>; /* 0: normal (2 0 ck 1 3) */
+					 /* 1: reverse (3 1 ck 0 2) */
+					 /* 2: pn swap (2 0 ck 1 3) */
+					 /* 3: d0/d1 swap (2 1 ck 0 3) */
+			ssc-enable = <0>; /* 0: ssc off; 1: ssc on */
+			reg = <0 0x11d50000 0 0x1000>,
+				<0 0x11d60000 0 0x1000>,
+				<0 0x11c30000 0 0x1000>,
+				<0 0x11c40000 0 0x1000>;
+			#phy-cells = <0>;
+/*			nvmem-cells = <&phy_dsi>; */
+			nvmem-cell-names = "phy-calibration";
+			status = "disabled";
+		};
+
+		ddds: ddds@102d2000 {
+			compatible = "mediatek,mt3611-ddds";
+			reg = <0 0x102d2000 0 0x1000>;
+/*
+ *				clocks = <&topckgen TOPCKGEN_DDDS_CG>,
+ *					 <&topckgen CLK_TOP_DDDS_SYS_SEL>,
+ *					 <&topckgen CLK_TOP_UNIVPLL_D2>,
+ *					 <&topckgen TOPCKGEN_DDDS_VSP_CG>,
+ *					 <&topckgen CLK_TOP_DDDS_VSP_SEL>,
+ *					 <&topckgen CLK_TOP_DDDS1_VPS_CK>,
+ *					 <&topckgen TOPCKGEN_DSI_REF_CG>,
+ *					 <&topckgen CLK_TOP_DSI_REF_SEL>,
+ *					 <&clk26m>,
+ *					 <&topckgen CLK_TOP_DSI_REF_PLL_CK>,
+ *					 <&topckgen CLK_TOP_DSI_REF_PLL_SEL>;
+ *				clock-names = "sys-clk",
+ *					      "sys-sel",
+ *					      "univpll-d2-clk",
+ *					      "fb-clk",
+ *					      "fb-sel",
+ *					      "ddds-vsp-clk",
+ *					      "dsi-ref-clk",
+ *					      "dsi-ref-sel",
+ *					      "dsi-ref-clk26m",
+ *					      "dsi-ref-pll-ck",
+ *					      "dsi-ref-pll-sel";
+ */
+			status = "disabled";
+		};
+
+		lhc: lhc@14010000 {
+			compatible = "mediatek,mt3612-lhc";
+			hw-number = <1>;
+			interrupts = <GIC_SPI 477 IRQ_TYPE_LEVEL_LOW>,
+				     <GIC_SPI 478 IRQ_TYPE_LEVEL_LOW>,
+				     <GIC_SPI 479 IRQ_TYPE_LEVEL_LOW>,
+				     <GIC_SPI 480 IRQ_TYPE_LEVEL_LOW>;
+			reg = <0 0x14010000 0 0x1000>,
+			      <0 0x14011000 0 0x1000>,
+			      <0 0x14012000 0 0x1000>,
+			      <0 0x14013000 0 0x1000>;
+			gce-subsys = <SUBSYS_1401XXXX>,
+				     <SUBSYS_1401XXXX>,
+				     <SUBSYS_1401XXXX>,
+				     <SUBSYS_1401XXXX>;
+			status = "disabled";
+		};
+
+		slicer: slcr@14002000 {
+			compatible = "mediatek,mt3612-slcr";
+			reg = <0 0x14002000 0 0x1000>;
+			gce-subsys = <SUBSYS_1400XXXX>;
+			clocks =
+				<&topckgen CLK_TOP_SLICER_VID_SEL>,
+				<&topckgen CLK_TOP_SLICER_DSC_SEL>,
+				<&topckgen CLK_TOP_CLK26M_CK>,
+				<&topckgen CLK_TOP_DPRX_O_VIDEO_CK>,
+				<&topckgen CLK_TOP_DPRX_O_DSC_CK>,
+				<&topckgen CLK_TOP_UNIVPLL_D2>,
+				<&mmsys_core MMSYS_CORE_SLCR0>,
+				<&mmsys_core MMSYS_CORE_SLCR1>,
+				<&mmsys_core MMSYS_CORE_SLCR2>,
+				<&mmsys_core MMSYS_CORE_SLCR3>,
+				<&mmsys_core MMSYS_CORE_SLICER_MM>,
+				<&mmsys_core MMSYS_CORE_SLICER_VID>,
+				<&mmsys_core MMSYS_CORE_SLICER_DSC>;
+			clock-names =
+				"slcr_vid_sel",
+				"slcr_dsc_sel",
+				"clk26m_ck",
+				"dprx_vid_ck",
+				"dprx_dsc_ck",
+				"univpll_d2",
+				"slcr0",
+				"slcr1",
+				"slcr2",
+				"slcr3",
+				"slcr_mm",
+				"slcr_vid",
+				"slcr_dsc";
+			power-domains = <&scpsys MT3612_POWER_DOMAIN_MM_CORE>;
+			status = "disabled";
+		};
+		camera_hw: camera_hw {
+			compatible = "mediatek,camera_hw";
+			fpga-mode = <1>;
+			status = "disabled";
+		};
+		dispsys: 14050000 {
+			compatible = "mediatek,mtxxxx-dispsys";
+			reg = <0 0x14050000 0 0x1000>;
+			#clock-cells = <1>;
+		};
+
+		dispmutex: 14040000 {
+			compatible = "mediatek,mtxxxx-disp-mutex";
+			reg = <0 0x14040000 0 0x1000>;
+			#clock-cells = <1>;
+		};
+
+		dispfake0: 14041000 {
+			compatible = "mediatek,mtxxxx-disp-fake";
+			reg = <0 0x14041000 0 0x1000>;
+			#clock-cells = <1>;
+		};
+
+		dispfake1: 14042000 {
+			compatible = "mediatek,mtxxxx-disp-fake";
+			reg = <0 0x14042000 0 0x1000>;
+			#clock-cells = <1>;
+		};
+
+		ivpcore0: ivpcore@20100000 {
+			compatible = "mediatek,mt3612-ivp-core";
+			reg = <0 0x20290000 0 0x01000>;
+
+			interrupts = <GIC_SPI 653 IRQ_TYPE_LEVEL_LOW>;
+			interrupt-names = "COREA";
+			gce-subsys = <GCE4_SUBSYS_2029XXXX>;
+			status = "disabled";
+		};
+
+		ivpcore1: ivpcore@20300000 {
+			compatible = "mediatek,mt3612-ivp-core";
+			reg = <0 0x20490000 0 0x01000>;
+
+			interrupts = <GIC_SPI 654 IRQ_TYPE_LEVEL_LOW>;
+			interrupt-names = "COREB";
+			gce-subsys = <GCE4_SUBSYS_2049XXXX>;
+			status = "disabled";
+		};
+
+		ivpcore2: ivpcore@20500000 {
+			compatible = "mediatek,mt3612-ivp-core";
+			reg = <0 0x20690000 0 0x01000>;
+
+			interrupts = <GIC_SPI 655 IRQ_TYPE_LEVEL_LOW>;
+			interrupt-names = "COREC";
+			gce-subsys = <GCE4_SUBSYS_2069XXXX>;
+			status = "disabled";
+		};
+
+		ivp: ivp@20020000 {
+			compatible = "mediatek,mt3612-ivp";
+			board_name = "mt3612";
+			sub_hw_nr = <1>;
+			reg = <0 0x20020000 0 0x1000>,
+			      <0 0x20000000 0 0x1000>;
+			operating-points = <
+				100000 600000
+				312000 700000
+				504000 800000
+				604000 800000
+				640000 900000
+				756000 900000
+			>;
+
+			mediatek,ivpcore = <&ivpcore0>, <&ivpcore1>;
+			mediatek,larb = <&larb0>;
+			iommus = <&iommu M4U_PORT_VPU_IOMMU_READ>,
+				<&iommu M4U_PORT_VPU_IOMMU_WRITE>;
+			status = "disabled";
+		};
+};

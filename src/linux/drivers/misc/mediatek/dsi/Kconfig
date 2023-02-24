@@ -1,0 +1,23 @@
+config MTK_DDDS
+	tristate "MediaTek ddds driver"
+	help
+	  MediaTek Linux Driver for DDDS.
+	  This driver is used to config MediaTek ddds hardware module.
+	  DDDS can generate a reference clock to mipi_tx pll.
+	  This reference clock will tracking HDMI/DP input hsync.
+
+config MTK_DSI
+	tristate "MediaTek dsi driver"
+	help
+	  MediaTek Linux Driver for DSI.
+	  This driver is used to configure MediaTek dsi hardware module.
+	  It include frame size, video & physical timing,
+	  data format and lane setting.
+
+config MTK_FRMTRK
+	tristate "MediaTek frmtrk driver"
+	help
+	  MediaTek Linux Driver for FRMTRK.
+	  This driver is used to configure MediaTek frmtrk hardware module.
+	  It includes frame tracking target line, locking window size,
+	  and enable/disable cross vsync function.

@@ -1,0 +1,396 @@
+/*
+ * Copyright (c) 2015 MediaTek Inc.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+/**
+ * @file mtk_dsc_reg.h
+ * Register definition header of mtk_dsc.c
+ */
+
+#ifndef __U_DISP_DSC_WRAP0_REGS_H__
+#define __U_DISP_DSC_WRAP0_REGS_H__
+
+/* ----------------- Register Definitions ------------------- */
+#define DISP_DSC_CON					0x00000000
+	#define DSC_EN					BIT(0)
+	#define DSC_DUAL_INOUT				BIT(2)
+	#define DSC_IN_SRC_SEL				BIT(3)
+	#define DSC_BYPASS				BIT(4)
+	#define DSC_RELAY				BIT(5)
+	#define DSC_SW_RESET				BIT(8)
+	#define STALL_CLK_GATE_EN			BIT(9)
+#define DISP_DSC_INTEN					0x00000004
+	#define DSC_DONE_INTEN				BIT(0)
+	#define DSC_ERR_INTEN				BIT(1)
+	#define ZERO_FIFO_ERR_INTEN			BIT(2)
+	#define ABNORMAL_EOF_INTEN			BIT(3)
+	#define UNMUTE_INTEN				BIT(4)
+	#define MUTE_INTEN				BIT(5)
+#define DISP_DSC_INTSTA					0x00000008
+	#define DSC_DONE_INTSTA				BIT(0)
+	#define DSC_ERR_INTSTA				BIT(1)
+	#define ZERO_FIFO_ERR_INTSTA			BIT(2)
+	#define ABNORMAL_EOF_INTSTA			BIT(3)
+	#define UNMUTE_INTSTA				BIT(4)
+	#define MUTE_INTSTA				BIT(5)
+#define DISP_DSC_INTACK					0x0000000c
+	#define DSC_DONE_INTACK				BIT(0)
+	#define DSC_ERR_INTACK				BIT(1)
+	#define ZERO_FIFO_ERR_INTACK			BIT(2)
+	#define ABNORMAL_EOF_INTACK			BIT(3)
+	#define UNMUTE_INTACK				BIT(4)
+	#define MUTE_INTACK				BIT(5)
+#define DISP_DSC_STA					0x00000010
+	#define DSC_BUSY				BIT(0)
+	#define ENC_BUSY				BIT(1)
+	#define GIN_BUSY				BIT(2)
+	#define ZERO_FIFO_STA				GENMASK(7, 4)
+	#define HW_MUTE_CONTROL				BIT(11)
+	#define MUTE_TO_SOUT				BIT(12)
+#define DISP_DSC_PIC_W					0x00000018
+	#define PIC_WIDTH				GENMASK(15, 0)
+	#define PIC_GROUP_WIDTH_M1			GENMASK(31, 16)
+#define DISP_DSC_PIC_H					0x0000001c
+	#define PIC_HEIGHT_M1				GENMASK(15, 0)
+	#define PIC_HEIGHT_EXT_M1			GENMASK(31, 16)
+#define DISP_DSC_SLICE_W				0x00000020
+	#define SLICE_WIDTH				GENMASK(15, 0)
+	#define SLICE_GROUP_WIDTH_M1			GENMASK(31, 16)
+#define DISP_DSC_SLICE_H				0x00000024
+	#define SLICE_HEIGHT_M1				GENMASK(15, 0)
+	#define SLICE_NUM_M1				GENMASK(29, 16)
+	#define SLICE_WIDTH_MOD3			GENMASK(31, 30)
+#define DISP_DSC_CHUNK_SIZE				0x00000028
+	#define CHUNK_SIZE				GENMASK(15, 0)
+#define DISP_DSC_BUF_SIZE				0x0000002c
+	#define BUF_SIZE				GENMASK(23, 0)
+#define DISP_DSC_MODE					0x00000030
+	#define SLICE_MODE				BIT(0)
+	#define RGB_SWAP				BIT(2)
+	#define INIT_DELAY_HEIGHT			GENMASK(11, 8)
+	#define OBUF_STR_IF_BUF_FULL			BIT(16)
+#define DISP_DSC_CFG					0x00000034
+	#define DSC_CFG					GENMASK(15, 0)
+#define DISP_DSC_PAD					0x00000038
+	#define PAD_NUM					GENMASK(2, 0)
+#define DISP_DSC_DBG_CON				0x00000060
+	#define CKSM_CAL_EN				BIT(9)
+#define DISP_DSC_CKSM_MON0				0x00000064
+	#define CKSM_ENC_S1_OUT				GENMASK(15, 0)
+	#define CKSM_ENC_S2_OUT				GENMASK(31, 16)
+#define DISP_DSC_CKSM_MON1				0x00000068
+	#define CKSM_TOP_OUT				GENMASK(15, 0)
+#define DISP_DSC_MUTE_CON				0x0000006c
+	#define DSC_MUTE_VALUE				GENMASK(29, 0)
+	#define SW_MUTE_CONTROL				BIT(30)
+	#define HW_MUTE_ENABLE				BIT(31)
+#define DISP_DSC_OBUF					0x00000070
+	#define OBUF_SIZE				GENMASK(11, 0)
+	#define OBUF_SW					BIT(31)
+#define DISP_DSC_PPS0					0x00000080
+	#define UP_LINE_BUF_DEPTH			GENMASK(3, 0)
+	#define BIT_PER_CHANNEL				GENMASK(7, 4)
+	#define BIT_PER_PIXEL				GENMASK(17, 8)
+	#define RCT_ON					BIT(18)
+	#define BP_ENABLE				BIT(19)
+#define DISP_DSC_PPS1					0x00000084
+	#define INITIAL_XMIT_DELAY			GENMASK(15, 0)
+	#define INITIAL_DEC_DELAY			GENMASK(31, 16)
+#define DISP_DSC_PPS2					0x00000088
+	#define INITIAL_SCALE_VALUE			GENMASK(15, 0)
+	#define SCALE_INCREMENT_INTERVAL		GENMASK(31, 16)
+#define DISP_DSC_PPS3					0x0000008c
+	#define SCALE_DECREMENT_INTERVAL		GENMASK(15, 0)
+	#define FIRST_LINE_BPG_OFFSET			GENMASK(31, 16)
+#define DISP_DSC_PPS4					0x00000090
+	#define NFL_BPG_OFFSET				GENMASK(15, 0)
+	#define SLICE_BPG_OFFSET			GENMASK(31, 16)
+#define DISP_DSC_PPS5					0x00000094
+	#define INITIAL_OFFSET				GENMASK(15, 0)
+	#define FINAL_OFFSET				GENMASK(31, 16)
+#define DISP_DSC_PPS6					0x00000098
+	#define FLATNESS_MIN_QP				GENMASK(4, 0)
+	#define FLATNESS_MAX_QP				GENMASK(12, 8)
+	#define RC_MODEL_SIZE				GENMASK(31, 16)
+#define DISP_DSC_PPS7					0x0000009c
+	#define RC_EDGE_FACTOR				GENMASK(7, 0)
+	#define RC_QUANT_INCR_LIMIT0			GENMASK(12, 8)
+	#define RC_QUANT_INCR_LIMIT1			GENMASK(20, 16)
+	#define RC_TGT_OFFSET_HI			GENMASK(27, 24)
+	#define RC_TGT_OFFSET_LO			GENMASK(31, 28)
+#define DISP_DSC_PPS8					0x000000a0
+	#define RC_BUF_THR0				GENMASK(7, 0)
+	#define RC_BUF_THR1				GENMASK(15, 8)
+	#define RC_BUF_THR2				GENMASK(23, 16)
+	#define RC_BUF_THR3				GENMASK(31, 24)
+#define DISP_DSC_PPS9					0x000000a4
+	#define RC_BUF_THR4				GENMASK(7, 0)
+	#define RC_BUF_THR5				GENMASK(15, 8)
+	#define RC_BUF_THR6				GENMASK(23, 16)
+	#define RC_BUF_THR7				GENMASK(31, 24)
+#define DISP_DSC_PPS10					0x000000a8
+	#define RC_BUF_THR8				GENMASK(7, 0)
+	#define RC_BUF_THR9				GENMASK(15, 8)
+	#define RC_BUF_THR10				GENMASK(23, 16)
+	#define RC_BUF_THR11				GENMASK(31, 24)
+#define DISP_DSC_PPS11					0x000000ac
+	#define RC_BUF_THR12				GENMASK(7, 0)
+	#define RC_BUF_THR13				GENMASK(15, 8)
+#define DISP_DSC_PPS12					0x000000b0
+	#define RANGE_MIN_QP0				GENMASK(4, 0)
+	#define RANGE_MAX_QP0				GENMASK(9, 5)
+	#define RANGE_BPG_OFFSET0			GENMASK(15, 10)
+	#define RANGE_MIN_QP1				GENMASK(20, 16)
+	#define RANGE_MAX_QP1				GENMASK(25, 21)
+	#define RANGE_BPG_OFFSET1			GENMASK(31, 26)
+#define DISP_DSC_PPS13					0x000000b4
+	#define RANGE_MIN_QP2				GENMASK(4, 0)
+	#define RANGE_MAX_QP2				GENMASK(9, 5)
+	#define RANGE_BPG_OFFSET2			GENMASK(15, 10)
+	#define RANGE_MIN_QP3				GENMASK(20, 16)
+	#define RANGE_MAX_QP3				GENMASK(25, 21)
+	#define RANGE_BPG_OFFSET3			GENMASK(31, 26)
+#define DISP_DSC_PPS14					0x000000b8
+	#define RANGE_MIN_QP4				GENMASK(4, 0)
+	#define RANGE_MAX_QP4				GENMASK(9, 5)
+	#define RANGE_BPG_OFFSET4			GENMASK(15, 10)
+	#define RANGE_MIN_QP5				GENMASK(20, 16)
+	#define RANGE_MAX_QP5				GENMASK(25, 21)
+	#define RANGE_BPG_OFFSET5			GENMASK(31, 26)
+#define DISP_DSC_PPS15					0x000000bc
+	#define RANGE_MIN_QP6				GENMASK(4, 0)
+	#define RANGE_MAX_QP6				GENMASK(9, 5)
+	#define RANGE_BPG_OFFSET6			GENMASK(15, 10)
+	#define RANGE_MIN_QP7				GENMASK(20, 16)
+	#define RANGE_MAX_QP7				GENMASK(25, 21)
+	#define RANGE_BPG_OFFSET7			GENMASK(31, 26)
+#define DISP_DSC_PPS16					0x000000c0
+	#define RANGE_MIN_QP8				GENMASK(4, 0)
+	#define RANGE_MAX_QP8				GENMASK(9, 5)
+	#define RANGE_BPG_OFFSET8			GENMASK(15, 10)
+	#define RANGE_MIN_QP9				GENMASK(20, 16)
+	#define RANGE_MAX_QP9				GENMASK(25, 21)
+	#define RANGE_BPG_OFFSET9			GENMASK(31, 26)
+#define DISP_DSC_PPS17					0x000000c4
+	#define RANGE_MIN_QP10				GENMASK(4, 0)
+	#define RANGE_MAX_QP10				GENMASK(9, 5)
+	#define RANGE_BPG_OFFSET10			GENMASK(15, 10)
+	#define RANGE_MIN_QP11				GENMASK(20, 16)
+	#define RANGE_MAX_QP11				GENMASK(25, 21)
+	#define RANGE_BPG_OFFSET11			GENMASK(31, 26)
+#define DISP_DSC_PPS18					0x000000c8
+	#define RANGE_MIN_QP12				GENMASK(4, 0)
+	#define RANGE_MAX_QP12				GENMASK(9, 5)
+	#define RANGE_BPG_OFFSET12			GENMASK(15, 10)
+	#define RANGE_MIN_QP13				GENMASK(20, 16)
+	#define RANGE_MAX_QP13				GENMASK(25, 21)
+	#define RANGE_BPG_OFFSET13			GENMASK(31, 26)
+#define DISP_DSC_PPS19					0x000000cc
+	#define RANGE_MIN_QP14				GENMASK(4, 0)
+	#define RANGE_MAX_QP14				GENMASK(9, 5)
+	#define RANGE_BPG_OFFSET14			GENMASK(15, 10)
+#define DISP_DSC_SHADOW					0x00000200
+	#define FORCE_COMMIT				BIT(0)
+	#define BYPASS_SHADOW				BIT(1)
+	#define READ_WORKING				BIT(2)
+	#define MUTE_HIGH_TO_LOW_SYNC_SOF		BIT(3)
+	#define MUTE_LOW_TO_HIGH_SYNC_SOF		BIT(4)
+	#define DSC_VERSION_MINOR			GENMASK(8, 5)
+	#define RELAY_FIFO_MODE_OFF			BIT(9)
+#define DISP_DSC1_CON					0x00000400
+	#define DSC_EN					BIT(0)
+	#define DSC_DUAL_INOUT				BIT(2)
+	#define DSC_IN_SRC_SEL				BIT(3)
+	#define DSC_BYPASS				BIT(4)
+	#define DSC_RELAY				BIT(5)
+	#define DSC_SW_RESET				BIT(8)
+	#define STALL_CLK_GATE_EN			BIT(9)
+#define DISP_DSC1_INTEN					0x00000404
+	#define DSC_DONE_INTEN				BIT(0)
+	#define DSC_ERR_INTEN				BIT(1)
+	#define ZERO_FIFO_ERR_INTEN			BIT(2)
+	#define ABNORMAL_EOF_INTEN			BIT(3)
+	#define UNMUTE_INTEN				BIT(4)
+	#define MUTE_INTEN				BIT(5)
+#define DISP_DSC1_INTSTA				0x00000408
+	#define DSC_DONE_INTSTA				BIT(0)
+	#define DSC_ERR_INTSTA				BIT(1)
+	#define ZERO_FIFO_ERR_INTSTA			BIT(2)
+	#define ABNORMAL_EOF_INTSTA			BIT(3)
+	#define UNMUTE_INTSTA				BIT(4)
+	#define MUTE_INTSTA				BIT(5)
+#define DISP_DSC1_INTACK				0x0000040c
+	#define DSC_DONE_INTACK				BIT(0)
+	#define DSC_ERR_INTACK				BIT(1)
+	#define ZERO_FIFO_ERR_INTACK			BIT(2)
+	#define ABNORMAL_EOF_INTACK			BIT(3)
+	#define UNMUTE_INTACK				BIT(4)
+	#define MUTE_INTACK				BIT(5)
+#define DISP_DSC1_STA					0x00000410
+	#define DSC_BUSY				BIT(0)
+	#define ENC_BUSY				BIT(1)
+	#define GIN_BUSY				BIT(2)
+	#define ZERO_FIFO_STA				GENMASK(7, 4)
+	#define HW_MUTE_CONTROL				BIT(11)
+	#define MUTE_TO_SOUT				BIT(12)
+#define DISP_DSC1_PIC_W					0x00000418
+	#define PIC_WIDTH				GENMASK(15, 0)
+	#define PIC_GROUP_WIDTH_M1			GENMASK(31, 16)
+#define DISP_DSC1_PIC_H					0x0000041c
+	#define PIC_HEIGHT_M1				GENMASK(15, 0)
+	#define PIC_HEIGHT_EXT_M1			GENMASK(31, 16)
+#define DISP_DSC1_SLICE_W				0x00000420
+	#define SLICE_WIDTH				GENMASK(15, 0)
+	#define SLICE_GROUP_WIDTH_M1			GENMASK(31, 16)
+#define DISP_DSC1_SLICE_H				0x00000424
+	#define SLICE_HEIGHT_M1				GENMASK(15, 0)
+	#define SLICE_NUM_M1				GENMASK(29, 16)
+	#define SLICE_WIDTH_MOD3			GENMASK(31, 30)
+#define DISP_DSC1_CHUNK_SIZE				0x00000428
+	#define CHUNK_SIZE				GENMASK(15, 0)
+#define DISP_DSC1_BUF_SIZE				0x0000042c
+	#define BUF_SIZE				GENMASK(23, 0)
+#define DISP_DSC1_MODE					0x00000430
+	#define SLICE_MODE				BIT(0)
+	#define RGB_SWAP				BIT(2)
+	#define INIT_DELAY_HEIGHT			GENMASK(11, 8)
+	#define OBUF_STR_IF_BUF_FULL			BIT(16)
+#define DISP_DSC1_CFG					0x00000434
+	#define DSC_CFG					GENMASK(15, 0)
+#define DISP_DSC1_PAD					0x00000438
+	#define PAD_NUM					GENMASK(2, 0)
+#define DISP_DSC1_DBG_CON				0x00000460
+	#define CKSM_CAL_EN				BIT(9)
+#define DISP_DSC1_CKSM_MON0				0x00000464
+	#define CKSM_ENC_S1_OUT				GENMASK(15, 0)
+	#define CKSM_ENC_S2_OUT				GENMASK(31, 16)
+#define DISP_DSC1_CKSM_MON1				0x00000468
+	#define CKSM_TOP_OUT				GENMASK(15, 0)
+#define DISP_DSC1_MUTE_CON				0x0000046c
+	#define DSC_MUTE_VALUE				GENMASK(29, 0)
+	#define SW_MUTE_CONTROL				BIT(30)
+	#define HW_MUTE_ENABLE				BIT(31)
+#define DISP_DSC1_OBUF					0x00000470
+	#define OBUF_SIZE				GENMASK(11, 0)
+	#define OBUF_SW					BIT(31)
+#define DISP_DSC1_PPS0					0x00000480
+	#define UP_LINE_BUF_DEPTH			GENMASK(3, 0)
+	#define BIT_PER_CHANNEL				GENMASK(7, 4)
+	#define BIT_PER_PIXEL				GENMASK(17, 8)
+	#define RCT_ON					BIT(18)
+	#define BP_ENABLE				BIT(19)
+#define DISP_DSC1_PPS1					0x00000484
+	#define INITIAL_XMIT_DELAY			GENMASK(15, 0)
+	#define INITIAL_DEC_DELAY			GENMASK(31, 16)
+#define DISP_DSC1_PPS2					0x00000488
+	#define INITIAL_SCALE_VALUE			GENMASK(15, 0)
+	#define SCALE_INCREMENT_INTERVAL		GENMASK(31, 16)
+#define DISP_DSC1_PPS3					0x0000048c
+	#define SCALE_DECREMENT_INTERVAL		GENMASK(15, 0)
+	#define FIRST_LINE_BPG_OFFSET			GENMASK(31, 16)
+#define DISP_DSC1_PPS4					0x00000490
+	#define NFL_BPG_OFFSET				GENMASK(15, 0)
+	#define SLICE_BPG_OFFSET			GENMASK(31, 16)
+#define DISP_DSC1_PPS5					0x00000494
+	#define INITIAL_OFFSET				GENMASK(15, 0)
+	#define FINAL_OFFSET				GENMASK(31, 16)
+#define DISP_DSC1_PPS6					0x00000498
+	#define FLATNESS_MIN_QP				GENMASK(4, 0)
+	#define FLATNESS_MAX_QP				GENMASK(12, 8)
+	#define RC_MODEL_SIZE				GENMASK(31, 16)
+#define DISP_DSC1_PPS7					0x0000049c
+	#define RC_EDGE_FACTOR				GENMASK(7, 0)
+	#define RC_QUANT_INCR_LIMIT0			GENMASK(12, 8)
+	#define RC_QUANT_INCR_LIMIT1			GENMASK(20, 16)
+	#define RC_TGT_OFFSET_HI			GENMASK(27, 24)
+	#define RC_TGT_OFFSET_LO			GENMASK(31, 28)
+#define DISP_DSC1_PPS8					0x000004a0
+	#define RC_BUF_THR0				GENMASK(7, 0)
+	#define RC_BUF_THR1				GENMASK(15, 8)
+	#define RC_BUF_THR2				GENMASK(23, 16)
+	#define RC_BUF_THR3				GENMASK(31, 24)
+#define DISP_DSC1_PPS9					0x000004a4
+	#define RC_BUF_THR4				GENMASK(7, 0)
+	#define RC_BUF_THR5				GENMASK(15, 8)
+	#define RC_BUF_THR6				GENMASK(23, 16)
+	#define RC_BUF_THR7				GENMASK(31, 24)
+#define DISP_DSC1_PPS10					0x000004a8
+	#define RC_BUF_THR8				GENMASK(7, 0)
+	#define RC_BUF_THR9				GENMASK(15, 8)
+	#define RC_BUF_THR10				GENMASK(23, 16)
+	#define RC_BUF_THR11				GENMASK(31, 24)
+#define DISP_DSC1_PPS11					0x000004ac
+	#define RC_BUF_THR12				GENMASK(7, 0)
+	#define RC_BUF_THR13				GENMASK(15, 8)
+#define DISP_DSC1_PPS12					0x000004b0
+	#define RANGE_MIN_QP0				GENMASK(4, 0)
+	#define RANGE_MAX_QP0				GENMASK(9, 5)
+	#define RANGE_BPG_OFFSET0			GENMASK(15, 10)
+	#define RANGE_MIN_QP1				GENMASK(20, 16)
+	#define RANGE_MAX_QP1				GENMASK(25, 21)
+	#define RANGE_BPG_OFFSET1			GENMASK(31, 26)
+#define DISP_DSC1_PPS13					0x000004b4
+	#define RANGE_MIN_QP2				GENMASK(4, 0)
+	#define RANGE_MAX_QP2				GENMASK(9, 5)
+	#define RANGE_BPG_OFFSET2			GENMASK(15, 10)
+	#define RANGE_MIN_QP3				GENMASK(20, 16)
+	#define RANGE_MAX_QP3				GENMASK(25, 21)
+	#define RANGE_BPG_OFFSET3			GENMASK(31, 26)
+#define DISP_DSC1_PPS14					0x000004b8
+	#define RANGE_MIN_QP4				GENMASK(4, 0)
+	#define RANGE_MAX_QP4				GENMASK(9, 5)
+	#define RANGE_BPG_OFFSET4			GENMASK(15, 10)
+	#define RANGE_MIN_QP5				GENMASK(20, 16)
+	#define RANGE_MAX_QP5				GENMASK(25, 21)
+	#define RANGE_BPG_OFFSET5			GENMASK(31, 26)
+#define DISP_DSC1_PPS15					0x000004bc
+	#define RANGE_MIN_QP6				GENMASK(4, 0)
+	#define RANGE_MAX_QP6				GENMASK(9, 5)
+	#define RANGE_BPG_OFFSET6			GENMASK(15, 10)
+	#define RANGE_MIN_QP7				GENMASK(20, 16)
+	#define RANGE_MAX_QP7				GENMASK(25, 21)
+	#define RANGE_BPG_OFFSET7			GENMASK(31, 26)
+#define DISP_DSC1_PPS16					0x000004c0
+	#define RANGE_MIN_QP8				GENMASK(4, 0)
+	#define RANGE_MAX_QP8				GENMASK(9, 5)
+	#define RANGE_BPG_OFFSET8			GENMASK(15, 10)
+	#define RANGE_MIN_QP9				GENMASK(20, 16)
+	#define RANGE_MAX_QP9				GENMASK(25, 21)
+	#define RANGE_BPG_OFFSET9			GENMASK(31, 26)
+#define DISP_DSC1_PPS17					0x000004c4
+	#define RANGE_MIN_QP10				GENMASK(4, 0)
+	#define RANGE_MAX_QP10				GENMASK(9, 5)
+	#define RANGE_BPG_OFFSET10			GENMASK(15, 10)
+	#define RANGE_MIN_QP11				GENMASK(20, 16)
+	#define RANGE_MAX_QP11				GENMASK(25, 21)
+	#define RANGE_BPG_OFFSET11			GENMASK(31, 26)
+#define DISP_DSC1_PPS18					0x000004c8
+	#define RANGE_MIN_QP12				GENMASK(4, 0)
+	#define RANGE_MAX_QP12				GENMASK(9, 5)
+	#define RANGE_BPG_OFFSET12			GENMASK(15, 10)
+	#define RANGE_MIN_QP13				GENMASK(20, 16)
+	#define RANGE_MAX_QP13				GENMASK(25, 21)
+	#define RANGE_BPG_OFFSET13			GENMASK(31, 26)
+#define DISP_DSC1_PPS19					0x000004cc
+	#define RANGE_MIN_QP14				GENMASK(4, 0)
+	#define RANGE_MAX_QP14				GENMASK(9, 5)
+	#define RANGE_BPG_OFFSET14			GENMASK(15, 10)
+#define DISP_DSC1_SHADOW				0x00000600
+	#define FORCE_COMMIT				BIT(0)
+	#define BYPASS_SHADOW				BIT(1)
+	#define READ_WORKING				BIT(2)
+	#define MUTE_HIGH_TO_LOW_SYNC_SOF		BIT(3)
+	#define MUTE_LOW_TO_HIGH_SYNC_SOF		BIT(4)
+	#define RELAY_FIFO_MODE_OFF			BIT(9)
+
+
+#endif /*__U_DISP_DSC_WRAP0_REGS_H__*/

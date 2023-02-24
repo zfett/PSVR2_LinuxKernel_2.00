@@ -1,0 +1,7 @@
+config MTK_DSC
+	tristate "MediaTek dsc driver"
+	help
+	  MediaTek Linux Driver for DSC.
+	  This driver is used to configure MediaTek DSC hardware module.
+	  It includes stream format, frame size, data compression
+	  and DSC core number setting.

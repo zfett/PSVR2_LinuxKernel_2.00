@@ -1,0 +1,7 @@
+config MTK_RBFC
+	tristate "Mediatek RBFC driver"
+	help
+	  Ring buffer control hardware. Enable for low latency
+	  requirement when platform support. The driver provide
+	  rbfc hw control for other multimedia drivers which include
+	  rbfc in their data path.

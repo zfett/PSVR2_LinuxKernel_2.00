@@ -1,0 +1,7 @@
+config MTK_SBRC
+	tristate "MediaTek SBRC driver"
+	depends on !MACH_MT3612EP
+	help
+	  Strip Buffer Rendering Control hardware. It is proposed to
+	  maintain the fullness and emptiness of strip buffers between
+	  GPU (GPIO) and Ring Buffer Controller (RBFC_REN to RDMA).

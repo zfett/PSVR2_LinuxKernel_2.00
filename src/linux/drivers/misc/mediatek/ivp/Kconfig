@@ -1,0 +1,39 @@
+config MTK_IVP
+	tristate "Mediatek IVP driver"
+	select DMA_SHARED_BUFFER
+	select FRAME_VECTOR
+	help
+	  Support image processing using IVP hardware.
+	  Open this config to use ivp hardware.
+	  CONFIG_MTK_IVP defines
+	  the ivp driver should be built in or not.
+
+config MTK_IVP_DVFS
+	bool "Mediatek IVP driver dvfs"
+	select PM_OPP
+	select PM_DEVFREQ
+	select DEVFREQ_GOV_SIMPLE_ONDEMAND
+	select DEVFREQ_GOV_USERSPACE
+	help
+	  Support IVP dvfs (Dynamic Voltage/Frequency Scaling).
+	  Open this config to enable dvfs in IVP.
+	  CONFIG_MTK_IVP_DVFS defines
+	  if the ivp_dvfs driver should be opened or not.
+
+config MTK_IVP_LOAD_ALGO_FROM_USER
+	bool "Mediatek IVP driver load algo from user"
+	default y
+	help
+	  Support IVP load algo from user.
+	  Opend this config to enable loading algo from user space buffer.
+	  CONFIG_MTK_IVP_LOAD_ALGO_FROM_USER defines
+	  the ivp algo can be loaded from user space buffer or not.
+
+config MTK_IVP_DEBUG_LOG
+	bool "Mediatek IVP driver debug log"
+	default n
+	help
+	  Support IVP debug log.
+	  Opend this config to enable record some debug information.
+	  CONFIG_MTK_IVP_DEBUG_LOG defines
+	  the ivp kernel driver will be recorded some log information or not.

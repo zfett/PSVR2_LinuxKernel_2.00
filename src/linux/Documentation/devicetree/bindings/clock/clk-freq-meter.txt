@@ -1,0 +1,17 @@
+MediaTek CLK-FREQ-METER
+===============
+
+The driver implements to use cksys frequency meter hardware to measure clock.
+It provides the software API defined in
+include/soc/mediatek/mtk_freq_meter.h
+
+Required properties:
+- compatible: Should be one of:
+	- "mediatek,mt3612-freq-meter"
+
+Example:
+
+	clk_freq_meter {
+		compatible = "mediatek,mt3612-freq-meter";
+	}
+

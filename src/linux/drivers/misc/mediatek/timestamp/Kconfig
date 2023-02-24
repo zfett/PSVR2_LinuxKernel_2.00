@@ -1,0 +1,5 @@
+config MTK_TIMESTAMP
+	tristate "MediaTek timestamp driver"
+	depends on !MACH_MT3612EP
+	help
+	  Provide timestamp of sources such as DSI and I2S.

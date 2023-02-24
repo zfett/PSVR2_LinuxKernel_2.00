@@ -1,0 +1,38 @@
+MediaTek Clock driver
+===============
+
+The driver implements for clock framework in soc.
+It provides the clock node defined in
+include/dt-bindings/clock/mt3612-clk.h, mt3612-ep-clk.h.
+
+Required properties:
+- compatible: Should be one of:
+	- "mediatek,mt3612-apmixedsys"
+	- "mediatek,mt3612-topckgen"
+	- "mediatek,mt3612-infracfg"
+	- "mediatek,mt3612-pericfg"
+	- "mediatek,mt3612-mmsys-core"
+	- "mediatek,mt3612-mmsys-gaze"
+	- "mediatek,mt3612-mmsys-cmm"
+	- "mediatek,mt3612-vpusys-vcore"
+	- "mediatek,mt3612-vpusys-conn"
+	- "mediatek,mt3612-vpusys-core0"
+	- "mediatek,mt3612-vpusys-core1"
+	- "mediatek,mt3612-vpusys-core2"
+	- "mediatek,mt3612-audio-top"
+	- "mediatek,mt3612-camsys-gz0"
+	- "mediatek,mt3612-camsys-gz1"
+	- "mediatek,mt3612-imgsys-gz0"
+	- "mediatek,mt3612-imgsys-gz1"
+	- "mediatek,mt3612-camsys-side0"
+	- "mediatek,mt3612-camsys-side1"
+	- "mediatek,mt3612-imgsys-side0"
+	- "mediatek,mt3612-imgsys-side1"
+
+Example:
+
+	apmixedsys: clock-controller@10212000 {
+		compatible = "mediatek,mt3612-apmixedsys";
+		reg = <0 0x10212000 0 0x1000>;
+		#clock-cells = <1>;
+	};

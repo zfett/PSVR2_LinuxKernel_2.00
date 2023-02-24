@@ -1,0 +1,185 @@
+/*
+ * Copyright (c) 2018 MediaTek Inc.
+ * Author: Yung-Chi Chen <yung-chi.chen@mediatek.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+/ {
+	reserved-memory {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+
+		cam_rsv_mem: cam_rsv_memory@5A000000 {
+			compatible = "shared-dma-pool";
+			reg = <0 0x5A000000 0 0x2000000>;
+			alignment = <0x1000>;
+			no-map;
+		};
+	};
+
+	cammem_rsv: cammem_rsv {
+		compatible = "mediatek,mt3612-cammem-rsv";
+		memory-region = <&cam_rsv_mem>;
+	};
+
+	soc {
+		uart1: serial@11030000 {
+			compatible = "mediatek,mt3611-uart";
+			reg = <0 0x11030000 0 0x400>;
+			interrupts = <GIC_SPI 102 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&pericfg PERISYS_UART1_SEL>,
+					<&pericfg PERISYS_UART1_CK_PDN>;
+			clock-names = "baud", "uart-pericfg-clk";
+			status = "disabled";
+		};
+
+		cqdma: cqdma@11B30000 {
+			compatible = "mediatek,mt3612-cqdma";
+			#interrupt-cells = <3>;
+			reg = <0 0x11B30000 0 0x1000>;
+			clocks = <&pericfg PERISYS_CQ_DMA_CK_PDN>;
+			clock-names = "cqdmaclk";
+			interrupts = <GIC_SPI 176 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 177 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 178 IRQ_TYPE_LEVEL_LOW>;
+			interrupt-names = "cqdma_ch0",
+						"cqdma_ch1",
+						"cqdma_ch2";
+			#dma-cells = <1>;
+			mediatek,cqdma-ch-num = <3>;
+			status = "disabled";
+		};
+
+		mtkccu0: mtk,ccu0 {
+			compatible = "mediatek,ccu,m";
+			reg = <0 0x18071000 0 0x1000>,
+			      <0 0x18050000 0 0x10000>; /* dmem */
+			interrupts = <GIC_SPI 565 IRQ_TYPE_LEVEL_LOW>;
+
+			ccu_hw_offset = <0x0>;
+			ccu_pmem_base = <0x18060000>;
+			ccu_pmem_size = <0x10000>;
+			ccu_dmem_offset = <0x2480>;
+			ccu_log_base = <0x1800>;
+			ccu_log_size = <0x200>;
+			ccu_hw_dump_size = <0x550>;
+			ccu_isp_l_cam_a_base = <0x18005000>; /*Twin*/
+			ccu_isp_l_cam_b_base = <0x18006000>;
+			ccu_isp_r_cam_a_base = <0x18008000>;
+			ccu_isp_r_cam_b_base = <0x18009000>;
+			ccu_i2c_adap_l_nr = <17>;
+			ccu_i2c_adap_r_nr = <18>;
+			/*status = "disabled";*/
+		};
+
+		mtkccu1: mtk,ccu1 {
+			compatible = "mediatek,ccu,m";
+			reg = <0 0x23071000 0 0x1000>,
+			      <0 0x23050000 0 0x10000>;/* dmem */
+			interrupts = <GIC_SPI 588 IRQ_TYPE_LEVEL_LOW>;
+
+			ccu_hw_offset = <0x0>;
+			ccu_pmem_base = <0x23060000>;
+			ccu_pmem_size = <0x10000>;
+			ccu_dmem_offset = <0x2480>;
+			ccu_log_base = <0x1800>;
+			ccu_log_size = <0x200>;
+			ccu_hw_dump_size = <0x550>;
+			ccu_isp_l_cam_a_base = <0x23005000>; /*Twin*/
+			ccu_isp_l_cam_b_base = <0x23006000>;
+			ccu_isp_r_cam_a_base = <0x23008000>;
+			ccu_isp_r_cam_b_base = <0x23009000>;
+			ccu_i2c_adap_l_nr = <19>;
+			ccu_i2c_adap_r_nr = <20>;
+			/*status = "disabled";*/
+		};
+
+		sbrc: sbrc@1402c000 {
+			compatible = "mediatek,mt3612-sbrc";
+			reg = <0 0x1402c000 0 0x1000>;
+			interrupts = <GIC_SPI 481 IRQ_TYPE_LEVEL_LOW>;
+			gce-subsys = <SUBSYS_1402XXXX>;
+			status = "disabled";
+			clocks = <&mmsys_core MMSYS_CORE_SBRC>;
+			clock-names = "mmsys_core_sbrc";
+			power-domains = <&scpsys MT3612_POWER_DOMAIN_MM_CORE>;
+		};
+	};
+
+	u3phy0: usb-phy@11e30000 {
+		compatible = "mediatek,mt3612-u3phy0";
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+		status = "disabled";
+
+		u2port0: usb-phy@11e30000 {
+			reg = <0 0x11e30000 0 0x0400>;
+			clocks = <&topckgen TOPCKGEN_SSUB_PHY_CK_EN>;
+			clock-names = "ref";
+			#phy-cells = <1>;
+		};
+	};
+
+	usb3h: usbh@11200000 {
+		compatible = "mediatek,mt3612-xhci";
+		reg = <0 0x11200000 0 0x3dff>,
+		      <0 0x11203e00 0 0x0100>;
+		reg-names = "mac", "ippc";
+		interrupts = <GIC_SPI 124 IRQ_TYPE_LEVEL_LOW>;
+		clocks = <&topckgen TOPCKGEN_USBH_SYS_CG>,
+			<&topckgen TOPCKGEN_USBH_XCH_CG>,
+			<&topckgen TOPCKGEN_SSUB_TOP_CK_EN>,
+			<&pericfg PERISYS_USB_CK_PDN>,
+			<&pericfg PERISYS_USB_CK_PDN>;
+		clock-names = "sys_ck",
+			"xhci_ck",
+			"ref_ck",
+			"mcu_ck",
+			"dma_ck";
+		phys = <&u2port0 PHY_TYPE_USB2>;
+		status = "disabled";
+	};
+
+	disp_pwm0: disp_pwm0@11140000 {
+		compatible = "mediatek,mt3612-disp-pwm";
+		reg = <0 0x11140000 0 0x100>;
+			clocks = <&disp_pwm_clk>,
+				<&topckgen TOPCKGEN_DISPPWM_CG>,
+				<&pericfg PERISYS_DISP_PWM0_CK_PDN>;
+		clock-names =   "main", "pwm-clk", "pwm-pericfg-clk";
+	};
+};
+
+&cqdma {
+	status = "okay";
+};
+
+&apdma {
+	status = "okay";
+};
+
+&u3phy0 {
+	status = "okay";
+};
+
+&usb3h {
+	status = "okay";
+};
+
+&disp_pwm0 {
+	status = "okay";
+};
+
+&sbrc {
+	status = "okay";
+};

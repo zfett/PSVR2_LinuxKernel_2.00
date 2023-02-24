@@ -1,0 +1,1 @@
+obj-$(CONFIG_MTK_LATENCY) += mtk_latency_verify.o

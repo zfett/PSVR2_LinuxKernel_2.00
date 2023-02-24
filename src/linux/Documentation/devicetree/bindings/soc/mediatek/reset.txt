@@ -1,0 +1,16 @@
+MediaTek Reset driver
+===============
+
+The driver implements reset driver
+for toprgu (top reset generator unit).
+
+Required properties:
+- compatible: Should be one of:
+	- "mediatek,mt3612-toprgu"
+
+Example:
+
+	toprgu: reset-controller@10211000 {
+		compatible = "mediatek,mt3612-toprgu", "syscon";
+		#reset-cells = <1>;
+	};

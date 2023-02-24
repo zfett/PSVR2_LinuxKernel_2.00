@@ -1,0 +1,381 @@
+/*
+ * Copyright (c) 2018 MediaTek Inc.
+ * Author: Yung-Chi Chen <yung-chi.chen@mediatek.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+/dts-v1/;
+#include "mt3612-fpga-system.dtsi"
+#include "mt3612-fpga-peri.dtsi"
+#include "mt3612-fpga-mm.dtsi"
+#include "mt3612-fpga-camera-i2c.dtsi"
+#include "mt3612-fpga-test.dtsi"
+#include "mt3612-fpga-coresight.dtsi"
+
+/ {
+	model = "MediaTek MT3612 Evaluation Board";
+	compatible = "mediatek,mt3612-evb", "mediatek,mt3612";
+	interrupt-parent = <&sysirq>;
+	#address-cells = <2>;
+	#size-cells = <2>;
+
+	aliases {
+		serial0 = &uart0;
+	};
+
+	chosen {
+/*
+ *		bootargs = "console=ttyS0,921600n1 initcall_debug=1 \
+ *			    loglevel=8 androidboot.selinux=disabled";
+ */
+		bootargs = "console=ttyS0,921600n1 root=/dev/ram \
+			   auto_detect_partition \
+			   earlycon=mtk8250,0x11020000,921600n8 loglevel=8";
+		linux,stdout-path = "serial0";
+		linux,initrd-start = <0x48000000>;
+		linux,initrd-end = <0x4A000000>;
+	};
+
+	/*
+	*sound: sound {
+	*	compatible = "mediatek,mt3612-afe-machine";
+	*	mediatek,platform = <&afe>;
+	*	status = "okay";
+	*};
+	*/
+};
+
+&psci_cfg{
+	compatible	= "arm,SHELL ONLY";
+};
+
+&cpus_cfg{
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	cpu0: cpu@0 {
+		device_type = "cpu";
+		compatible = "arm,cortex-a35";
+		reg = <0x000>;
+		enable-method = "psci";
+	};
+
+};
+
+&cqdma {
+	status = "okay";
+};
+
+&apdma {
+	status = "okay";
+};
+
+&uart_clk{
+	clock-frequency = <6000000>;
+};
+
+
+&arm_timer {
+	clock-frequency = <6000000>;
+};
+
+&nor_flash {
+	status = "okay";
+	flash@0 {
+		compatible = "jedec,spi-nor";
+		reg = <0>;
+	};
+};
+
+&uart0 {
+	clocks = <&uart_clk>;
+	status = "okay";
+};
+
+&i2c0 {
+	status = "okay";
+};
+
+&i2c1 {
+	status = "okay";
+};
+
+&i2c2 {
+	status = "okay";
+};
+
+&i2c3 {
+	status = "okay";
+};
+
+&i2c4 {
+	status = "okay";
+};
+
+&i2c5 {
+	status = "okay";
+};
+
+&i2c6 {
+	status = "okay";
+};
+
+&i2c7 {
+	status = "okay";
+};
+
+&i2c11 {
+	status = "disabled";
+};
+
+&i2c15 {
+	status = "disabled";
+};
+
+&spi0 {
+	status = "okay";
+};
+
+&scp {
+	status = "okay";
+	core_1 = "enable";
+	scp_sramSize = <0x00040000>;	 /* scp_A_sram_size */
+};
+
+&p2s_0 {
+	status = "okay";
+};
+
+&mfg {
+	status = "okay";
+};
+
+&mdp_rdma {
+	status = "okay";
+};
+
+&disp_rdma {
+	status = "okay";
+};
+
+&disp_wdma0 {
+	status = "okay";
+};
+
+&disp_wdma1 {
+	status = "okay";
+};
+
+&disp_wdma2 {
+	status = "okay";
+};
+
+&disp_wdma3 {
+	status = "okay";
+};
+
+&disp_crop0 {
+	status = "okay";
+};
+
+&disp_crop1 {
+	status = "okay";
+};
+
+&disp_crop2 {
+	status = "okay";
+};
+
+&disp_crop3 {
+	status = "okay";
+};
+
+&disp_padding0 {
+	status = "okay";
+};
+
+&disp_padding1 {
+	status = "okay";
+};
+
+&disp_padding2 {
+	status = "okay";
+};
+
+&mdp_rsz0 {
+	status = "okay";
+};
+
+&mdp_rsz1 {
+	status = "okay";
+};
+
+&mdp_rsz2 {
+	status = "okay";
+};
+
+&mdp_rsz3 {
+	status = "okay";
+};
+
+/*
+*&u3phy0 {
+*	status = "okay";
+*};
+*
+*&u3phy2 {
+*	status = "okay";
+*};
+*/
+
+&usb3h {
+	status = "okay";
+};
+
+
+&usb3dg {
+	dr_mode = "peripheral";
+	status = "okay";
+};
+
+
+/*
+*&dprx {
+*	status = "okay";
+*};
+*
+*&dprxphy {
+*	status = "okay";
+*};
+*/
+
+&lhc {
+	status = "okay";
+};
+
+&mmsyscfg {
+	status = "okay";
+};
+
+&slicer {
+	status = "okay";
+};
+
+&mutex_core {
+	status = "okay";
+};
+
+&mutex_gaze {
+	status = "okay";
+};
+
+&mutex_common {
+	status = "okay";
+};
+
+&mmc0 {
+	clk_src = /bits/ 8 <MSDC50_CLKSRC_400MHZ>;
+	bus-width = <8>;
+	max-frequency = <26000000>;
+	cap-mmc-highspeed;
+	msdc-sys-suspend;
+	mmc-ddr-1_8v;
+	mmc-hs200-1_8v;
+	mmc-hs400-1_8v;
+	non-removable;
+	/*
+	 * pinctl = <&mmc0_pins_default>;
+	 * register_setting = <&mmc0_register_setting_default>;
+	 */
+	host_function = /bits/ 8 <MSDC_EMMC>;
+	bootable;
+	status = "okay";
+};
+
+&pwm {
+	status = "okay";
+};
+&disp_pwm0 {
+	status = "okay";
+};
+
+&timestamp {
+	status = "okay";
+};
+
+&sbrc {
+	status = "okay";
+};
+
+&fe {
+	status = "okay";
+};
+
+&fm {
+	status = "okay";
+};
+
+&common_wdma0 {
+	status = "okay";
+};
+
+&common_wdma1 {
+	status = "okay";
+};
+
+&common_wdma2 {
+	status = "okay";
+};
+
+&rbfc_rdma {
+	status = "okay";
+};
+
+&rbfc_wpe0 {
+	status = "okay";
+};
+
+&dsc {
+	status = "okay";
+};
+
+&mipi_tx {
+	reg = <0 0x1402e000 0 0x1000>;
+	status = "okay";
+};
+
+&dsi {
+	status = "okay";
+};
+
+&display_pipe {
+	status = "okay";
+};
+
+&mmsys_cmmn_top {
+	status = "okay";
+};
+
+&warpa0 {
+	status = "okay";
+};
+
+&iommu {
+	status = "okay";
+};
+
+&ivpcore0 {
+	status = "okay";
+};
+
+&ivp {
+	status = "okay";
+};

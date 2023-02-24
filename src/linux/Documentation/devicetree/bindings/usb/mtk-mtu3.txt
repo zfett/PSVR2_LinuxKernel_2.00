@@ -1,0 +1,28 @@
+Mediatek SSUSB mtu3 SOC
+
+The device node for Mediatek USB3.0 device controller
+
+Required properties:
+ - compatible: Must contain one of the following:
+	- "mediatek,mt3611-mtu3"
+	- "mediatek,mt3612-mtu3"
+ - reg : specifies physical base address and size of the registers,
+	the first one for MAC, the second for IPPC
+ - interrupts : interrupt used by the controller
+ - clocks : a list of phandle + clock-specifier pairs, one for each
+	entry in clock-names
+ - clock-names : must contain
+	"sys_ck": for clock of device MAC
+
+
+
+
+Example:
+usb3dg: usbdg@112A0000 {
+			compatible = "mediatek,mt3611-mtu3";
+			reg = <0 0x112A1000 0 0x2dff>,
+			      <0 0x112A3e00 0 0x0100>;
+			interrupts = <GIC_SPI 129 IRQ_TYPE_LEVEL_LOW>;
+			clock-names = "sys_ck", "free_ck";
+			status = "disabled";
+};
